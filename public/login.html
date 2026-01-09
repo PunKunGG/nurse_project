@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Login</title>
+    <link rel="stylesheet" href="assets/css/main.css" />
+  </head>
+  <body>
+    <main class="container">
+      <h1>เข้าสู่ระบบ</h1>
+
+      <div class="card" style="margin-top: 14px">
+        <h3>ล็อกอิน</h3>
+        <input
+          id="li_email"
+          placeholder="อีเมล"
+          style="
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #334155;
+            width: 100%;
+            margin: 6px 0;
+          "
+        />
+        <input
+          id="li_pass"
+          placeholder="รหัสผ่าน"
+          type="password"
+          style="
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #334155;
+            width: 100%;
+            margin: 6px 0;
+          "
+        />
+        <button id="btn_login" class="btn" type="button">เข้าสู่ระบบ</button>
+        <p id="msg_login"><small></small></p>
+
+        <a class="btn btn-ghost" href="register.html"
+          >ยังไม่มีบัญชี? สมัครสมาชิก</a
+        >
+      </div>
+
+      <p style="margin-top: 14px">
+        <a class="btn btn-ghost" href="index.html">กลับหน้าแรก</a>
+      </p>
+
+      <script type="module">
+        import { signUp, signIn } from "./assets/js/auth.js";
+
+        const msu = document.getElementById("msg_signup");
+        const mli = document.getElementById("msg_login");
+
+        document
+          .getElementById("btn_signup")
+          .addEventListener("click", async () => {
+            msu.innerHTML = "<small>กำลังสมัคร…</small>";
+            try {
+              const fullName = document.getElementById("su_name").value.trim();
+              const studentId = document.getElementById("su_sid").value.trim();
+              const email = document.getElementById("su_email").value.trim();
+              const pass = document.getElementById("su_pass").value;
+
+              const r = await signUp(email, pass, fullName, studentId);
+              if (r.needsEmailConfirm) {
+                msu.innerHTML =
+                  "<small>สมัครสำเร็จ! กรุณายืนยันอีเมลก่อน (ถ้าเปิด confirm email)</small>";
+              } else {
+                msu.innerHTML = "<small>สมัครสำเร็จ! ลองล็อกอินได้เลย</small>";
+              }
+            } catch (e) {
+              msu.innerHTML = `<small style="color:#fca5a5;">สมัครไม่สำเร็จ: ${e.message}</small>`;
+            }
+          });
+
+        document
+          .getElementById("btn_login")
+          .addEventListener("click", async () => {
+            mli.innerHTML = "<small>กำลังเข้าสู่ระบบ…</small>";
+            try {
+              const email = document.getElementById("li_email").value.trim();
+              const pass = document.getElementById("li_pass").value;
+
+              await signIn(email, pass);
+              window.location.href = "dashboard.html";
+            } catch (e) {
+              mli.innerHTML = `<small style="color:#fca5a5;">ล็อกอินไม่สำเร็จ: ${e.message}</small>`;
+            }
+          });
+      </script>
+    </main>
+  </body>
+</html>

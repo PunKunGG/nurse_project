@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Post-test</title>
+    <link rel="stylesheet" href="assets/css/main.css" />
+  </head>
+  <body>
+    <main class="container">
+      <h1>Post-test (ตัวอย่าง)</h1>
+      <div class="card">
+        <p>ใส่คะแนนจำลอง (0-100) เพื่อทดสอบระบบ cert</p>
+
+        <label>คะแนน Post-test (%):</label><br />
+        <input
+          id="score"
+          type="number"
+          min="0"
+          max="100"
+          value="80"
+          style="
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #334155;
+            width: 120px;
+          "
+        />
+        <button id="save" class="btn" type="button">บันทึกคะแนน</button>
+
+        <p id="msg"><small>ยังไม่บันทึก</small></p>
+        <a class="btn btn-ghost" href="certificate.html">ไปหน้าเกียรติบัตร</a>
+      </div>
+
+      <script type="module">
+        import { supabase } from "./assets/js/supabaseClient.js";
+        import { getSession } from "./assets/js/auth.js";
+
+        const msg = document.getElementById("msg");
+
+        document.getElementById("save").addEventListener("click", async () => {
+          msg.innerHTML = "<small>กำลังบันทึก…</small>";
+
+          const session = await getSession();
+          if (!session) {
+            window.location.href = "login.html";
+            return;
+          }
+
+          const score = Number(document.getElementById("score").value || 0);
+          const moduleId = "module-1"; // ตอนนี้ fix ไว้ก่อน เดี๋ยวค่อยทำเลือกโมดูล
+          const passed = score >= 80; // ✅ นับเฉพาะ Post-test
+
+          const { error } = await supabase.from("attempts").insert({
+            user_id: session.user.id,
+            module_id: moduleId,
+            test_type: "post",
+            score_percent: score,
+            passed: passed,
+          });
+
+          if (error) {
+            msg.innerHTML = `<small style="color:#fca5a5;">บันทึกไม่สำเร็จ: ${error.message}</small>`;
+            return;
+          }
+
+          msg.innerHTML = `<small>บันทึกแล้ว: ${score}% (${
+            passed ? "ผ่าน" : "ไม่ผ่าน"
+          })</small>`;
+        });
+      </script>
+    </main>
+  </body>
+</html>

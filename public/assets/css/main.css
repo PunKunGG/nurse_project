@@ -1,0 +1,36 @@
+:root {
+  font-family: system-ui, sans-serif;
+}
+body {
+  margin: 0;
+  background: #0f172a;
+  color: #e2e8f0;
+}
+.container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 16px;
+}
+.card {
+  background: #111827;
+  border: 1px solid #1f2937;
+  border-radius: 12px;
+  padding: 16px;
+}
+.btn {
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: #22c55e;
+  color: #052e16;
+  text-decoration: none;
+  font-weight: 600;
+  margin-right: 8px;
+}
+.btn-ghost {
+  background: #334155;
+  color: #e2e8f0;
+}
+small {
+  color: #94a3b8;
+}

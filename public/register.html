@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Register</title>
+    <link rel="stylesheet" href="assets/css/main.css" />
+  </head>
+  <body>
+    <main class="container">
+      <h1>สมัครสมาชิก</h1>
+
+      <div class="card">
+        <form id="form">
+          <label>ชื่อ-สกุล</label>
+          <input
+            id="fullName"
+            required
+            style="
+              padding: 10px;
+              border-radius: 10px;
+              border: 1px solid #334155;
+              width: 100%;
+              margin: 6px 0;
+            "
+          />
+
+          <label>รหัสนักศึกษา</label>
+          <input
+            id="studentId"
+            required
+            placeholder="663380xxx-x"
+            style="
+              padding: 10px;
+              border-radius: 10px;
+              border: 1px solid #334155;
+              width: 100%;
+              margin: 6px 0;
+            "
+          />
+
+          <label>Email</label>
+          <input
+            id="email"
+            type="email"
+            required
+            style="
+              padding: 10px;
+              border-radius: 10px;
+              border: 1px solid #334155;
+              width: 100%;
+              margin: 6px 0;
+            "
+          />
+
+          <label>Password</label>
+          <input
+            id="password"
+            type="password"
+            required
+            minlength="6"
+            style="
+              padding: 10px;
+              border-radius: 10px;
+              border: 1px solid #334155;
+              width: 100%;
+              margin: 6px 0;
+            "
+          />
+
+          <button class="btn" type="submit">สมัครสมาชิก</button>
+        </form>
+
+        <p id="msg"><small></small></p>
+
+        <a class="btn btn-ghost" href="login.html">มีบัญชีแล้ว? เข้าสู่ระบบ</a>
+      </div>
+
+      <script type="module">
+        import { supabase } from "./assets/js/supabaseClient.js";
+
+        const form = document.getElementById("form");
+        const msg = document.getElementById("msg");
+
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          msg.innerHTML = "<small>กำลังสมัคร…</small>";
+
+          const fullName = document.getElementById("fullName").value.trim();
+          const studentId = document.getElementById("studentId").value.trim();
+          const email = document.getElementById("email").value.trim();
+          const password = document.getElementById("password").value;
+
+          const { data, error } = await supabase.auth.signUp({
+            email,
+            password,
+            options: {
+              data: {
+                full_name: fullName,
+                student_id: studentId,
+                role: "student",
+              },
+            },
+          });
+
+          if (error) {
+            msg.innerHTML = `<small style="color:#fca5a5;">สมัครไม่สำเร็จ: ${error.message}</small>`;
+            return;
+          }
+
+          // ถ้าโปรเจกต์เปิด email confirmation: จะต้องยืนยันก่อนล็อกอินได้
+          msg.innerHTML = `<small style="color:#86efac;">สมัครสำเร็จ ✅ ไปหน้าเข้าสู่ระบบได้เลย</small>`;
+          setTimeout(() => (window.location.href = "login.html"), 700);
+        });
+      </script>
+    </main>
+  </body>
+</html>

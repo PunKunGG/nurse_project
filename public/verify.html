@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Verify Certificate</title>
+    <link rel="stylesheet" href="assets/css/main.css" />
+  </head>
+  <body>
+    <main class="container">
+      <h1>ตรวจสอบเกียรติบัตร</h1>
+
+      <div class="card">
+        <label>เลขใบ (Certificate Code)</label><br />
+        <input
+          id="code"
+          placeholder="เช่น 1A2B3C4D"
+          style="
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #334155;
+            width: 260px;
+            margin: 8px 0;
+          "
+        />
+        <button id="btn" class="btn" type="button">ตรวจสอบ</button>
+
+        <p id="out"><small>กรอกเลขใบแล้วกดตรวจสอบ</small></p>
+      </div>
+
+      <script type="module">
+        import { supabase } from "./assets/js/supabaseClient.js";
+
+        const out = document.getElementById("out");
+        const input = document.getElementById("code");
+
+        // รองรับเปิดจาก QR แบบ ?code=XXXX
+        const url = new URL(location.href);
+        const q = url.searchParams.get("code");
+        if (q) input.value = q;
+
+        document.getElementById("btn").addEventListener("click", async () => {
+          const code = input.value.trim().toUpperCase();
+          if (!code) return;
+
+          out.innerHTML = "<small>กำลังตรวจสอบ…</small>";
+
+          const { data, error } = await supabase.rpc("verify_certificate", {
+            p_code: code,
+          });
+
+          if (error) {
+            out.innerHTML = `<small style="color:#fca5a5;">ตรวจสอบไม่สำเร็จ: ${error.message}</small>`;
+            return;
+          }
+
+          if (!data || data.length === 0 || !data[0].valid) {
+            out.innerHTML = `❌ <b>ไม่พบข้อมูลใบนี้</b> (code: ${code})`;
+            return;
+          }
+
+          const c = data[0];
+          const issued = new Date(c.issued_at).toLocaleDateString("th-TH");
+          out.innerHTML = `
+          ✅ <b>ใบนี้เป็นของจริง</b><br>
+          ชื่อ: <b>${c.full_name}</b><br>
+          รหัส: ${c.student_id}<br>
+          Module: ${c.module_id}<br>
+          Post-test: ${c.score_percent}%<br>
+          ออกให้ ณ วันที่: ${issued}<br>
+          <small>Certificate Code: ${c.cert_code}</small>
+        `;
+        });
+
+        // auto verify ถ้ามาจาก QR
+        if (q) document.getElementById("btn").click();
+      </script>
+    </main>
+  </body>
+</html>
