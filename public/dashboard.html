@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="assets/css/main.css" />
+  </head>
+  <body>
+    <main class="container">
+      <h1>Dashboard</h1>
+      <div class="card">
+        <p id="me"><small>กำลังโหลดข้อมูลผู้ใช้…</small></p>
+        <a class="btn" href="posttest.html">ไปทำ Post-test (ทดลอง)</a>
+        <a class="btn btn-ghost" href="certificate.html">ไปหน้า Certificate</a>
+        <button id="btn_logout" class="btn btn-ghost" type="button">
+          ออกจากระบบ
+        </button>
+      </div>
+
+      <script type="module">
+        import { getSession, getMyProfile, signOut } from "./assets/js/auth.js";
+
+        const me = document.getElementById("me");
+        const session = await getSession();
+        if (!session) {
+          window.location.href = "login.html";
+        } else {
+          const profile = await getMyProfile();
+          me.innerHTML = `👤 <b>${profile.full_name}</b> (${profile.student_id}) <small>role: ${profile.role}</small>`;
+        }
+
+        document
+          .getElementById("btn_logout")
+          .addEventListener("click", async () => {
+            await signOut();
+            window.location.href = "index.html";
+          });
+      </script>
+    </main>
+  </body>
+</html>
