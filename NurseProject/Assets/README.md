@@ -44,7 +44,7 @@ MainMenu
 - Attached to Obstable Object 
 - Make Interactable with Object using mouse possible with collider2D
 - Swap Sprite between Fixed and Obstacle Visual
-s
+
 ---
 
 ## Build Notes

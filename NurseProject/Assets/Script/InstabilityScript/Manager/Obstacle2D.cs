@@ -3,61 +3,93 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class Obstacle2D : MonoBehaviour
 {
-    [Header("State")]
-    [SerializeField] private bool isFixed = false;
+    private enum State
+    {
+        Unselected,
+        Selected,
+        Fixed
+    }
+
+    [Header("State (Debug)")]
+    [SerializeField] private State state = State.Unselected;
 
     [Header("References")]
     [SerializeField] private InstabilityManager manager;
 
-    [Header("Knowledge message (short for prototype)")]
+    [Header("Knowledge Message")]
     [TextArea(2, 6)]
     [SerializeField] private string knowledgeMessage;
 
-    [Header("Visual after fix")]
-    [SerializeField] private GameObject fixedVisual; // optional: enable after fix
-    [SerializeField] private GameObject ObstacleVisual; // optional: disable after fix
-
-    private void Reset()
-    {
-        // Ensure collider is a trigger? Not necessary for click.
-        // Keep as normal collider for raycast.
-        GetComponent<Collider2D>().isTrigger = false;
-    }
+    [Header("Visuals")]
+    [SerializeField] private GameObject obstacleVisual; // hazard visual
+    [SerializeField] private GameObject fixedVisual;    // fixed visual
+    [SerializeField] private GameObject outlineVisual;  // outline/highlight (optional)
 
     private void Awake()
     {
-        ApplyVisual();
+        ApplyVisuals();
     }
 
     private void OnMouseDown()
     {
-        Debug.Log($"[Obstacle2D] OnMouseDown fired on: {name}", this);
-        TryFix();
+        HandleClick();
     }
 
-    public void TryFix()
+    private void HandleClick()
     {
-        Debug.Log($"[Obstacle2D] TryFix called on: {name} | isFixed={isFixed}", this);
+        if (state == State.Fixed) return;
 
-        if (isFixed) return;
-        isFixed = true;
+        if (state == State.Unselected)
+        {
+            // First click: show outline only
+            state = State.Selected;
+            ApplyVisuals();
+            return;
+        }
 
-        ApplyVisual();
+        if (state == State.Selected)
+        {
+            // Second click: confirm -> fix
+            Fix();
+        }
+    }
+
+    private void Fix()
+    {
+        state = State.Fixed;
+        ApplyVisuals();
 
         if (manager != null)
         {
-            Debug.Log("[Obstacle2D] Manager exists, calling OnObstacleFixed()", this);
-            manager.OnObstacleFixed(knowledgeMessage);
+            string msg = string.IsNullOrWhiteSpace(knowledgeMessage)
+                ? "[Knowledge message not set]"
+                : knowledgeMessage;
+
+            manager.OnObstacleFixed(msg);
         }
         else
         {
-            Debug.LogWarning("[Obstacle2D] Manager is NULL (visual should still toggle).", this);
+            Debug.LogWarning($"[Obstacle2D] Manager not assigned on {name}", this);
         }
     }
 
-    private void ApplyVisual()
+    private void ApplyVisuals()
     {
-        if (ObstacleVisual != null) ObstacleVisual.SetActive(!isFixed);
+        bool isFixed = (state == State.Fixed);
+        bool isSelected = (state == State.Selected);
+
+        if (obstacleVisual != null) obstacleVisual.SetActive(!isFixed);
         if (fixedVisual != null) fixedVisual.SetActive(isFixed);
+
+        // Outline shows only when selected and not fixed
+        if (outlineVisual != null) outlineVisual.SetActive(isSelected && !isFixed);
+    }
+
+    // Optional: allow manager to clear selection globally (if you want only one selection at a time)
+    public void ClearSelection()
+    {
+        if (state != State.Selected) return;
+        state = State.Unselected;
+        ApplyVisuals();
     }
 }

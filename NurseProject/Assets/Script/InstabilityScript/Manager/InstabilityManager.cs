@@ -1,3 +1,4 @@
+// InstabilityManager.cs
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
@@ -5,70 +6,77 @@ using UnityEngine.SceneManagement;
 public class InstabilityManager : MonoBehaviour
 {
     [Header("Progress")]
-    [SerializeField] private int totalObstacles = 6;
+    [SerializeField] private int totalHazards = 6;
+    [SerializeField] private TMP_Text progressText;
     private int fixedCount = 0;
 
-    [Header("UI")]
-    [SerializeField] private TMP_Text progressText;
-
-    [Header("Knowledge Popup")]
-    [SerializeField] private CanvasGroup knowledgePanel;
-    [SerializeField] private TMP_Text knowledgeText;
-    [SerializeField] private float knowledgeAutoHideSeconds = 2.5f;
+    [Header("Knowledge Popup (Animated)")]
+    [SerializeField] private KnowledgePopupUI knowledgePopup;
 
     [Header("Win UI")]
     [SerializeField] private CanvasGroup winPanel;
     [SerializeField] private TMP_Text winText;
 
-    private float hideAtTime = -1f;
+    [Header("Next Scene (Optional)")]
+    [SerializeField] private string nextSceneName = ""; // e.g. "Immobility"
+
+    private bool pendingWin = false;
 
     private void Awake()
     {
-        SetCanvasGroupVisible(knowledgePanel, false);
-        SetCanvasGroupVisible(winPanel, false);
         UpdateProgressUI();
+
+        SetCanvasGroupVisible(winPanel, false);
     }
 
-    private void Update()
-    {
-        if (knowledgePanel != null && knowledgePanel.alpha > 0f && hideAtTime > 0f && Time.time >= hideAtTime)
-        {
-            SetCanvasGroupVisible(knowledgePanel, false);
-            hideAtTime = -1f;
-        }
-    }
-
+    /// <summary>
+    /// Called by each obstacle when fixed.
+    /// </summary>
     public void OnObstacleFixed(string knowledgeMessage)
     {
-        fixedCount = Mathf.Clamp(fixedCount + 1, 0, totalObstacles);
+        fixedCount = Mathf.Clamp(fixedCount + 1, 0, totalHazards);
         UpdateProgressUI();
 
-        if (!string.IsNullOrWhiteSpace(knowledgeMessage))
-            ShowKnowledge(knowledgeMessage);
+        if (knowledgePopup != null && !string.IsNullOrWhiteSpace(knowledgeMessage))
+            knowledgePopup.Show(knowledgeMessage);
 
-        if (fixedCount >= totalObstacles)
-            Win();
+        if (fixedCount >= totalHazards)
+        {
+    // If a knowledge popup is showing, wait for it to close
+            if (knowledgePopup != null)
+            {
+                pendingWin = true;
+                knowledgePopup.OnClosed += HandleKnowledgeClosedForWin;
+            }
+            else
+            {
+                Win();
+            }
+        }
+
     }
+
+    private void HandleKnowledgeClosedForWin()
+    {
+        // Prevent multiple calls
+        knowledgePopup.OnClosed -= HandleKnowledgeClosedForWin;
+
+        if (!pendingWin) return;
+        pendingWin = false;
+
+        Win();
+    }
+
 
     private void UpdateProgressUI()
     {
         if (progressText != null)
-            progressText.text = $"{fixedCount}/{totalObstacles}";
-    }
-
-    private void ShowKnowledge(string msg)
-    {
-        if (knowledgePanel == null || knowledgeText == null) return;
-
-        knowledgeText.text = msg;
-        SetCanvasGroupVisible(knowledgePanel, true);
-        hideAtTime = Time.time + Mathf.Max(0.5f, knowledgeAutoHideSeconds);
+            progressText.text = $"{fixedCount}/{totalHazards}";
     }
 
     private void Win()
     {
-        // Success wording based on your doc
-        // Keep it short for prototype; you can paste full Thai later.
+        // Keep text consistent with your doc (can paste longer version later).
         if (winText != null)
         {
             winText.text =
@@ -79,9 +87,11 @@ public class InstabilityManager : MonoBehaviour
         SetCanvasGroupVisible(winPanel, true);
     }
 
-    public void LoadScene(string sceneName)
+    // Hook this to WinPanel "Next" button if you want
+    public void LoadNextScene()
     {
-        SceneManager.LoadScene(sceneName);
+        if (string.IsNullOrWhiteSpace(nextSceneName)) return;
+        SceneManager.LoadScene(nextSceneName);
     }
 
     private static void SetCanvasGroupVisible(CanvasGroup cg, bool visible)
@@ -92,3 +102,4 @@ public class InstabilityManager : MonoBehaviour
         cg.blocksRaycasts = visible;
     }
 }
+
