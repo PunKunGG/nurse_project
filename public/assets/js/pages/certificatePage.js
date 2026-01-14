@@ -1,0 +1,152 @@
+import { supabase } from "../supabaseClient.js";
+import { getSession } from "../auth.js";
+
+const statusEl = document.getElementById("status");
+const btn = document.getElementById("download");
+
+const session = await getSession();
+if (!session) {
+  window.location.href = "login.html";
+  throw new Error("not logged in");
+}
+
+const moduleId = "module-1";
+
+// ใช้ attempts แค่ "แสดงสถานะคร่าว ๆ" ว่าผ่านไหม (UX ดี)
+const { data: attempts, error: aErr } = await supabase
+  .from("attempts")
+  .select("score_percent, submitted_at")
+  .eq("user_id", session.user.id)
+  .eq("module_id", moduleId)
+  .eq("test_type", "post")
+  .order("submitted_at", { ascending: false })
+  .limit(1);
+
+let canDownload = false;
+let latestScore = null;
+
+if (aErr || !attempts || attempts.length === 0) {
+  statusEl.innerHTML = `<small>${
+    aErr ? aErr.message : "ยังไม่ได้ทำ Post-test"
+  }</small>`;
+  btn.disabled = true;
+} else {
+  latestScore = Number(attempts[0].score_percent);
+  canDownload = latestScore >= 80;
+
+  if (canDownload) {
+    statusEl.innerHTML = `✅ <b>ผ่าน</b> (Post-test ${latestScore}%)`;
+    btn.disabled = false;
+  } else {
+    statusEl.innerHTML = `❌ <b>ไม่ผ่าน</b> (Post-test ${latestScore}%) ต้อง ≥ 80%`;
+    btn.disabled = true;
+  }
+}
+
+btn.addEventListener("click", async () => {
+  if (btn.disabled) return;
+
+  // ✅ ขั้นสำคัญ: ขอ "ออกใบ" จาก DB (DB เช็กคะแนนจริง)
+  const { data: issued, error: iErr } = await supabase.rpc(
+    "issue_certificate",
+    {
+      p_module_id: moduleId,
+    }
+  );
+
+  if (iErr) {
+    // เคสที่เจอได้: NOT_PASSED, NO_POST_TEST, NOT_AUTHENTICATED
+    alert("ออกใบไม่ได้: " + iErr.message);
+    return;
+  }
+
+  const cert = issued?.[0];
+  if (!cert) {
+    alert("ออกใบไม่ได้: ไม่พบข้อมูล cert ที่คืนกลับมา");
+    return;
+  }
+
+  // cert = { cert_code, issued_at, full_name, student_id, score_percent }
+
+  // --- สร้าง Canvas ---
+  await document.fonts.ready;
+
+  const canvas = document.createElement("canvas");
+  canvas.width = 1920;
+  canvas.height = 1080;
+  const ctx = canvas.getContext("2d");
+
+  // พื้นหลัง fallback
+  ctx.fillStyle = "#0b1220";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // รูปพื้นหลังใบ
+  const bg = new Image();
+  bg.src = "assets/img/Nurse_Certificate.png";
+  await new Promise((resolve) => {
+    bg.onload = resolve;
+    bg.onerror = resolve;
+  });
+  if (bg.width) ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
+
+  // --- ข้อความบนใบ ---
+  ctx.fillStyle = "#000000";
+  ctx.textAlign = "center";
+
+  ctx.font = "bold 60px Charm";
+  ctx.fillText("ประกาศนียบัตร", canvas.width / 2, 240);
+
+  ctx.font = "35px Charm";
+  ctx.fillText("มอบให้เพื่อแสดงว่า", canvas.width / 2, 320);
+
+  ctx.font = "bold 65px Charm";
+  ctx.fillText(cert.full_name, canvas.width / 2, 470);
+
+  ctx.font = "30px Charm";
+  ctx.fillText(`รหัสนักศึกษา: ${cert.student_id}`, canvas.width / 2, 540);
+
+  ctx.font = "bold 35px Charm";
+  ctx.fillText("ได้ผ่านการทำแบบทดสอบหลังเรียนเรื่อง:", canvas.width / 2, 650);
+  ctx.fillText("ภารกิจพิชิต I", canvas.width / 2, 700);
+
+  const issuedAtText = new Date(cert.issued_at).toLocaleDateString("th-TH");
+  ctx.font = "bold 30px Charm";
+  ctx.fillText(`ให้ไว้ ณ วันที่ : ${issuedAtText}`, canvas.width / 2, 820);
+
+  // --- Certificate Code (ไว้ตรวจสอบ) ---
+  ctx.font = "25px Charm";
+  ctx.fillText(`Certificate Code: ${cert.cert_code}`, canvas.width / 2, 880);
+
+  // --- QR ไปหน้า verify ---
+  // ระวัง GitHub Pages จะอยู่ใน path เช่น /nurse_project/verify.html
+  const basePath = location.pathname.replace(/\/[^/]*$/, "/");
+  const verifyUrl = `${
+    location.origin
+  }${basePath}verify.html?code=${encodeURIComponent(cert.cert_code)}`;
+
+  if (typeof QRCode === "undefined" || typeof QRCode.toDataURL !== "function") {
+    statusEl.innerHTML = `<small style="color:#fbbf24;">เตือน: QRCode library ยังไม่พร้อม เลยข้ามการใส่ QR</small>`;
+  } else {
+    const qrDataUrl = await new Promise((resolve, reject) => {
+      QRCode.toDataURL(verifyUrl, { margin: 1, width: 220 }, (err, url) =>
+        err ? reject(err) : resolve(url)
+      );
+    });
+
+    const qrImg = new Image();
+    qrImg.src = qrDataUrl;
+    await new Promise((resolve) => {
+      qrImg.onload = resolve;
+      qrImg.onerror = resolve;
+    });
+
+    ctx.drawImage(qrImg, 1300, 840, 220, 220);
+  }
+
+  // --- ดาวน์โหลดเป็น PNG ---
+  const url = canvas.toDataURL("image/png");
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `certificate_${moduleId}_${cert.student_id}_${cert.cert_code}.png`;
+  a.click();
+});

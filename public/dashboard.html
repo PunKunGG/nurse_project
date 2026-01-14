@@ -9,34 +9,30 @@
   <body>
     <main class="container">
       <h1>Dashboard</h1>
+
+      <div
+        id="teacher_tools"
+        class="card"
+        style="margin-top: 14px; display: none"
+      >
+        <h3>Teacher Tools</h3>
+        <a class="btn" href="manage_questions.html">จัดการข้อสอบ</a>
+        <a class="btn btn-ghost" href="report.html">ดูผลคะแนนรวม</a>
+      </div>
+
       <div class="card">
         <p id="me"><small>กำลังโหลดข้อมูลผู้ใช้…</small></p>
+
         <a class="btn" href="posttest.html">ไปทำ Post-test (ทดลอง)</a>
         <a class="btn btn-ghost" href="certificate.html">ไปหน้า Certificate</a>
+
         <button id="btn_logout" class="btn btn-ghost" type="button">
           ออกจากระบบ
         </button>
       </div>
 
-      <script type="module">
-        import { getSession, getMyProfile, signOut } from "./assets/js/auth.js";
-
-        const me = document.getElementById("me");
-        const session = await getSession();
-        if (!session) {
-          window.location.href = "login.html";
-        } else {
-          const profile = await getMyProfile();
-          me.innerHTML = `👤 <b>${profile.full_name}</b> (${profile.student_id}) <small>role: ${profile.role}</small>`;
-        }
-
-        document
-          .getElementById("btn_logout")
-          .addEventListener("click", async () => {
-            await signOut();
-            window.location.href = "index.html";
-          });
-      </script>
+      <!-- ✅ แยกไปไฟล์ -->
+      <script type="module" src="assets/js/pages/dashboardPage.js"></script>
     </main>
   </body>
 </html>
