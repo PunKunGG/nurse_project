@@ -1,36 +1,119 @@
 :root {
-  font-family: system-ui, sans-serif;
+  --primary: #2563eb; /* ฟ้าน้ำเงิน */
+  --primary-soft: #dbeafe;
+  --bg-main: #f8fafc; /* ขาวอมฟ้า */
+  --card-bg: #ffffff;
+  --border: #e5e7eb;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --success: #16a34a;
+  --danger: #dc2626;
+
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
 }
+
 body {
   margin: 0;
-  background: #0f172a;
-  color: #e2e8f0;
+  background: linear-gradient(180deg, #e0f2fe 0%, var(--bg-main) 40%);
+  color: var(--text-main);
+  min-height: 100vh;
 }
+
+/* Layout */
 .container {
   max-width: 900px;
-  margin: 40px auto;
+  margin: 48px auto;
   padding: 0 16px;
 }
+
+/* Card */
 .card {
-  background: #111827;
-  border: 1px solid #1f2937;
-  border-radius: 12px;
-  padding: 16px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 14px;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
 }
+
+/* Headings */
+h1 {
+  font-size: 2rem;
+  margin-bottom: 12px;
+}
+
+h3 {
+  margin-top: 0;
+  color: var(--primary);
+}
+
+/* Buttons */
 .btn {
   display: inline-block;
-  padding: 10px 14px;
+  padding: 10px 16px;
   border-radius: 10px;
-  background: #22c55e;
-  color: #052e16;
+  background: var(--primary);
+  color: white;
   text-decoration: none;
   font-weight: 600;
-  margin-right: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
+
+.btn:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+/* Ghost / secondary button */
 .btn-ghost {
-  background: #334155;
-  color: #e2e8f0;
+  background: #f1f5f9;
+  color: var(--text-main);
 }
+
+.btn-ghost:hover {
+  background: #e2e8f0;
+}
+
+/* Inputs */
+input {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  width: 100%;
+  margin: 6px 0;
+  font-size: 1rem;
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--primary-soft);
+}
+
+/* Text helpers */
 small {
-  color: #94a3b8;
+  color: var(--text-muted);
+}
+
+.success {
+  color: var(--success);
+}
+
+.error {
+  color: var(--danger);
+}
+
+/* Teacher tools highlight */
+#teacher_tools {
+  border-left: 6px solid var(--primary);
+  background: linear-gradient(90deg, #eff6ff, #ffffff);
+}
+
+/* Dashboard user line */
+#me {
+  font-size: 1.05rem;
+  margin-bottom: 10px;
 }

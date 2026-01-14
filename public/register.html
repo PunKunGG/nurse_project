@@ -76,43 +76,7 @@
         <a class="btn btn-ghost" href="login.html">มีบัญชีแล้ว? เข้าสู่ระบบ</a>
       </div>
 
-      <script type="module">
-        import { supabase } from "./assets/js/supabaseClient.js";
-
-        const form = document.getElementById("form");
-        const msg = document.getElementById("msg");
-
-        form.addEventListener("submit", async (e) => {
-          e.preventDefault();
-          msg.innerHTML = "<small>กำลังสมัคร…</small>";
-
-          const fullName = document.getElementById("fullName").value.trim();
-          const studentId = document.getElementById("studentId").value.trim();
-          const email = document.getElementById("email").value.trim();
-          const password = document.getElementById("password").value;
-
-          const { data, error } = await supabase.auth.signUp({
-            email,
-            password,
-            options: {
-              data: {
-                full_name: fullName,
-                student_id: studentId,
-                role: "student",
-              },
-            },
-          });
-
-          if (error) {
-            msg.innerHTML = `<small style="color:#fca5a5;">สมัครไม่สำเร็จ: ${error.message}</small>`;
-            return;
-          }
-
-          // ถ้าโปรเจกต์เปิด email confirmation: จะต้องยืนยันก่อนล็อกอินได้
-          msg.innerHTML = `<small style="color:#86efac;">สมัครสำเร็จ ✅ ไปหน้าเข้าสู่ระบบได้เลย</small>`;
-          setTimeout(() => (window.location.href = "login.html"), 700);
-        });
-      </script>
+      <script type="module" src="assets/js/pages/registerPage.js"></script>
     </main>
   </body>
 </html>

@@ -47,49 +47,7 @@
         <a class="btn btn-ghost" href="index.html">กลับหน้าแรก</a>
       </p>
 
-      <script type="module">
-        import { signUp, signIn } from "./assets/js/auth.js";
-
-        const msu = document.getElementById("msg_signup");
-        const mli = document.getElementById("msg_login");
-
-        document
-          .getElementById("btn_signup")
-          .addEventListener("click", async () => {
-            msu.innerHTML = "<small>กำลังสมัคร…</small>";
-            try {
-              const fullName = document.getElementById("su_name").value.trim();
-              const studentId = document.getElementById("su_sid").value.trim();
-              const email = document.getElementById("su_email").value.trim();
-              const pass = document.getElementById("su_pass").value;
-
-              const r = await signUp(email, pass, fullName, studentId);
-              if (r.needsEmailConfirm) {
-                msu.innerHTML =
-                  "<small>สมัครสำเร็จ! กรุณายืนยันอีเมลก่อน (ถ้าเปิด confirm email)</small>";
-              } else {
-                msu.innerHTML = "<small>สมัครสำเร็จ! ลองล็อกอินได้เลย</small>";
-              }
-            } catch (e) {
-              msu.innerHTML = `<small style="color:#fca5a5;">สมัครไม่สำเร็จ: ${e.message}</small>`;
-            }
-          });
-
-        document
-          .getElementById("btn_login")
-          .addEventListener("click", async () => {
-            mli.innerHTML = "<small>กำลังเข้าสู่ระบบ…</small>";
-            try {
-              const email = document.getElementById("li_email").value.trim();
-              const pass = document.getElementById("li_pass").value;
-
-              await signIn(email, pass);
-              window.location.href = "dashboard.html";
-            } catch (e) {
-              mli.innerHTML = `<small style="color:#fca5a5;">ล็อกอินไม่สำเร็จ: ${e.message}</small>`;
-            }
-          });
-      </script>
+      <script type="module" src="assets/js/pages/loginPage.js"></script>
     </main>
   </body>
 </html>
