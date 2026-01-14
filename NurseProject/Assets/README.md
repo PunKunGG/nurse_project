@@ -24,7 +24,8 @@ The Main Menu scene is implemented and functional.
 ## Scene Flow (Current)
 MainMenu
 └── Instability
-(Future scenes will be added after Instability is completed.)
+└── Immobility
+
 
 ---
 
@@ -34,8 +35,16 @@ MainMenu
 - Attached to Main Menu Canvas
 - Responsible only for menu navigation
 - Handles scene loading via UI Button `OnClick()`
-- must assign the scene in (file -> build profiles -> open scene list -> add open scenes)
 
+### InstabilityManager
+- Attached to InstabilityManager
+- Responsible for obstacles clearing and UI
+
+### Obstacle2D
+- Attached to Obstable Object 
+- Make Interactable with Object using mouse possible with collider2D
+- Swap Sprite between Fixed and Obstacle Visual
+s
 ---
 
 ## Build Notes
@@ -44,10 +53,13 @@ MainMenu
 
 ---
 
-## Development Notes
+## Development Notes 1
 - Main Menu is intentionally simple
 - No settings, save system, or audio manager implemented at this stage
 - Focus is on completing gameplay scenes
+## Development Notes 2
+- Instability need a lot polishment and knowledge pop up is suck please fix it
+- Temp picture is only joke we have no bad intention please forgive us if it make you upset
 
 ---
 
