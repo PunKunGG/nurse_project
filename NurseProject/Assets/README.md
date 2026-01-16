@@ -60,6 +60,28 @@ MainMenu
 ## Development Notes 2
 - Instability need a lot polishment and knowledge pop up is suck please fix it
 - Temp picture is only joke we have no bad intention please forgive us if it make you upset
+## Development Notes 3 
+- Immobility Stage (In Progress)
+
+- The Immobility stage is currently under active development and is being implemented according to the clinical scenario defined in the design document (bed-bound elderly patient with pressure injury risk).
+
+- This stage focuses on nursing assessment and intervention, not player movement or action mechanics.
+
+- Core mechanics under implementation include:
+
+- Mouse/touch interaction to initiate assessment
+
+- Multiple-choice question for pressure injury grading
+
+- Drag-and-drop interaction for correct patient positioning using a pillow
+
+- Immediate feedback for correct and incorrect actions
+
+- Temporary placeholder visuals (simple shapes/sprites) are intentionally used to prioritize interaction logic, correctness, and learning flow over visual fidelity at this stage.
+
+- Touch and mouse input are both supported to ensure compatibility with desktop testing and future mobile deployment.
+
+- Further polishing (visual refinement, instructional text clarity, and UI feedback improvements) will be applied after the core interaction flow is validated.
 
 ---
 
