@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="th">
   <head>
     <meta charset="utf-8" />
@@ -6,33 +6,128 @@
     <title>Dashboard</title>
     <link rel="stylesheet" href="assets/css/main.css" />
   </head>
+
   <body>
-    <main class="container">
-      <h1>Dashboard</h1>
+    <main class="app">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-badge">
+            <img src="assets/img/logo.png" alt="Logo" width="40" height="40" />
+          </div>
+          <div>
+            <div class="brand-title">Nurse Learning</div>
+            <div class="brand-sub">Mission Hub</div>
+          </div>
+        </div>
 
-      <div
-        id="teacher_tools"
-        class="card"
-        style="margin-top: 14px; display: none"
-      >
-        <h3>Teacher Tools</h3>
-        <a class="btn" href="manage_questions.html">จัดการข้อสอบ</a>
-        <a class="btn btn-ghost" href="report.html">ดูผลคะแนนรวม</a>
-      </div>
+        <div class="user-card">
+          <div class="user-avatar">👤</div>
+          <div class="user-meta">
+            <div id="me" class="user-name">กำลังโหลดข้อมูลผู้ใช้…</div>
+            <div id="me_sub" class="user-sub"></div>
+          </div>
+        </div>
 
-      <div class="card">
-        <p id="me"><small>กำลังโหลดข้อมูลผู้ใช้…</small></p>
+        <nav class="menu">
+          <a class="menu-item active" href="dashboard.html">Dashboard</a>
+          <a class="menu-item" href="pretest.html">Pre-test</a>
+          <a class="menu-item" href="game.html">Play Game</a>
+          <a class="menu-item" href="posttest.html">Post-test</a>
+          <a class="menu-item" href="certificate.html">Certificate</a>
+        </nav>
 
-        <a class="btn" href="posttest.html">ไปทำ Post-test (ทดลอง)</a>
-        <a class="btn btn-ghost" href="certificate.html">ไปหน้า Certificate</a>
+        <div id="teacher_tools" class="teacher-card" style="display: none">
+          <div class="teacher-title">Teacher Tools</div>
+          <a class="btn w-full" href="manage_questions.html">จัดการข้อสอบ</a>
+          <a class="btn btn-ghost w-full" href="report.html">ดูผลคะแนนรวม</a>
+        </div>
 
-        <button id="btn_logout" class="btn btn-ghost" type="button">
-          ออกจากระบบ
-        </button>
-      </div>
+        <div class="sidebar-footer">
+          <button id="btn_logout" class="btn btn-ghost w-full" type="button">
+            ออกจากระบบ
+          </button>
+        </div>
+      </aside>
 
-      <!-- ✅ แยกไปไฟล์ -->
-      <script type="module" src="assets/js/pages/dashboardPage.js"></script>
+      <!-- CONTENT -->
+      <section class="content">
+        <header class="content-header">
+          <h1>Dashboard</h1>
+          <p class="muted">
+            เลือกทำ Pre-test / เล่นเกม / ทำ Post-test เพื่อรับเกียรติบัตร (≥
+            80%)
+          </p>
+        </header>
+
+        <div class="grid-2">
+          <!-- Slider -->
+          <div class="panel">
+            <div class="panel-head">
+              <h3>Gameplay Preview</h3>
+              <div class="dots" id="slider_dots"></div>
+            </div>
+
+            <div class="slider" id="slider">
+              <div class="slides" id="slides">
+                <!-- ใส่รูปของจริงของเธอได้ เปลี่ยนชื่อไฟล์/พาธได้เลย -->
+                <img
+                  class="slide"
+                  src="assets/img/gameplay1.png"
+                  alt="gameplay 1"
+                />
+                <img
+                  class="slide"
+                  src="assets/img/gameplay2.png"
+                  alt="gameplay 2"
+                />
+                <img
+                  class="slide"
+                  src="assets/img/gameplay3.png"
+                  alt="gameplay 3"
+                />
+              </div>
+
+              <button class="nav prev" id="prevBtn" type="button">‹</button>
+              <button class="nav next" id="nextBtn" type="button">›</button>
+            </div>
+
+            <div class="panel-foot">
+              <span class="muted" id="slider_caption">ภาพตัวอย่างเกมเพลย์</span>
+            </div>
+          </div>
+
+          <!-- Quick Actions -->
+          <div class="panel">
+            <div class="panel-head">
+              <h3>Quick Actions</h3>
+            </div>
+
+            <div class="stack">
+              <a class="btn w-full" href="posttest.html"
+                >ไปทำ Post-test (ทดลอง)</a
+              >
+              <a class="btn btn-ghost w-full" href="certificate.html"
+                >ไปหน้า Certificate</a
+              >
+              <a class="btn btn-ghost w-full" href="game.html">ไปหน้าเล่นเกม</a>
+            </div>
+
+            <hr class="sep" />
+
+            <div class="info-box">
+              <div class="info-title">หมายเหตุ</div>
+              <div class="muted">
+                เกียรติบัตรนับเฉพาะคะแนน Post-test ล่าสุดที่ผ่านเกณฑ์
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <footer class="content-footer muted">© Nurse Learning Platform</footer>
+
+        <script type="module" src="assets/js/pages/dashboardPage.js"></script>
+      </section>
     </main>
   </body>
 </html>
