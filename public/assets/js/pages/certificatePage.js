@@ -15,6 +15,10 @@ const previewName = document.getElementById("previewName");
 const previewStudentId = document.getElementById("previewStudentId");
 
 // Timeline elements
+const step2Icon = document.getElementById("step2Icon");
+const step2Text = document.getElementById("step2Text");
+const step3Icon = document.getElementById("step3Icon");
+const step3Text = document.getElementById("step3Text");
 const step4Icon = document.getElementById("step4Icon");
 const step4Text = document.getElementById("step4Text");
 const step5Icon = document.getElementById("step5Icon");
@@ -36,6 +40,43 @@ if (previewName) {
 if (previewStudentId) {
   previewStudentId.textContent = `รหัสนักศึกษา: ${session.user.user_metadata?.student_id || "-"}`;
 }
+
+// Check attempts for pre-test
+const { data: pretestAttempts } = await supabase
+  .from("attempts")
+  .select("id")
+  .eq("user_id", session.user.id)
+  .eq("module_id", moduleId)
+  .eq("test_type", "pre")
+  .limit(1);
+
+const hasDonePretest = pretestAttempts && pretestAttempts.length > 0;
+
+// Update Pre-test timeline (step 2)
+if (hasDonePretest && step2Icon && step2Text) {
+  step2Icon.className = "timeline-icon done";
+  step2Icon.textContent = "✓";
+  step2Text.className = "timeline-text done";
+}
+
+// TODO: Check game progress (step 3) - รอเพื่อนทำระบบเกมก่อน
+// เมื่อมี table game_progress แล้ว uncomment โค้ดด้านล่างนี้
+// let hasDoneGame = false;
+// try {
+//   const { data: gameProgress, error: gameErr } = await supabase
+//     .from("game_progress")
+//     .select("id")
+//     .eq("user_id", session.user.id)
+//     .limit(1);
+//   hasDoneGame = !gameErr && gameProgress && gameProgress.length > 0;
+//   if (hasDoneGame && step3Icon && step3Text) {
+//     step3Icon.className = "timeline-icon done";
+//     step3Icon.textContent = "✓";
+//     step3Text.className = "timeline-text done";
+//   }
+// } catch (e) {
+//   console.log("Could not check game progress:", e);
+// }
 
 // Check attempts for post-test
 const { data: attempts, error: aErr } = await supabase
