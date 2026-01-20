@@ -14,8 +14,7 @@ const creatorsData = {
     email: "rinlada.t@kkumail.com",
     phone: "xxx-xxx-xxxx",
     major: "พยาบาลศาสตร์",
-    responsibility:
-      "พัฒนาระบบ Frontend, ออกแบบ UI/UX, จัดการ User Authentication",
+    responsibility: "พัฒนาระบบ Frontend, ออกแบบ UI/UX, User Authentication",
   },
   creator2: {
     name: "นางสาวยุภาดา พิมพ์แมน",
@@ -26,7 +25,7 @@ const creatorsData = {
     email: "yupada.p@kkumail.com",
     phone: "xxx-xxx-xxxx",
     major: "พยาบาลศาสตร์",
-    responsibility: "พัฒนา REST API, จัดการฐานข้อมูล Firebase, ระบบ Backend",
+    responsibility: "REST API, ระบบ Backend",
   },
   creator3: {
     name: "นางสาวมณีชนก นิทะรัมย์",
@@ -49,6 +48,17 @@ const creatorsData = {
     phone: "xxx-xxx-xxxx",
     major: "พยาบาลศาสตร์",
     responsibility: "จัดการฐานข้อมูล",
+  },
+  creator5: {
+    name: "นางสาวเมทิณี ภูนิโรจน์",
+    role: "Server Deploy",
+    avatar: "assets/img/methinee.jpg",
+    avatarFallback:
+      "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%2310b981%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2260%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>👨💻</text></svg>",
+    email: "methinee.p@kkumail.com",
+    phone: "xxx-xxx-xxxx",
+    major: "พยาบาลศาสตร์",
+    responsibility: "ดูแลระบบ",
   },
 };
 

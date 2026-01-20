@@ -4,7 +4,8 @@
  * Uses Supabase auth/profiles for consistent data
  */
 
-import { getSession, getMyProfile, signOut } from "./auth.js";
+import { supabase } from "./supabaseClient.js";
+import { getMyProfile, signOut } from "./auth.js";
 
 // DOM Elements
 const meEl = document.getElementById("me");
@@ -12,19 +13,24 @@ const meSubEl = document.getElementById("me_sub");
 const logoutBtn = document.getElementById("btn_logout");
 const teacherTools = document.getElementById("teacher_tools");
 
-/**
- * Initialize user info display
- */
-async function initUserInfo() {
-  try {
-    const session = await getSession();
-    if (!session) {
-      window.location.href = "login.html";
-      return;
-    }
+// Track if we've already initialized
+let initialized = false;
 
+/**
+ * Load and display user profile
+ */
+async function loadUserProfile(user) {
+  try {
     // Try to get profile from Supabase
-    const profile = await getMyProfile();
+    const { data: profile, error } = await supabase
+      .from("profiles")
+      .select("full_name, student_id, role")
+      .eq("user_id", user.id)
+      .maybeSingle();
+
+    if (error) {
+      console.error("Error loading profile:", error);
+    }
 
     if (profile) {
       // Show profile data from Supabase
@@ -43,26 +49,63 @@ async function initUserInfo() {
         teacherTools.style.display = "block";
       }
     } else {
-      // Fallback to session user info
+      // Fallback to user metadata
       if (meEl) {
         meEl.textContent =
-          session.user.user_metadata?.full_name ||
-          session.user.email.split("@")[0];
+          user.user_metadata?.full_name || user.email.split("@")[0];
       }
       if (meSubEl) {
-        meSubEl.textContent = session.user.email;
+        meSubEl.textContent = user.email;
       }
     }
   } catch (error) {
     console.error("Error loading user info:", error);
     // Fallback display
     if (meEl) {
-      meEl.textContent = "ผู้ใช้";
+      meEl.textContent = user.email?.split("@")[0] || "ผู้ใช้";
     }
     if (meSubEl) {
-      meSubEl.textContent = "";
+      meSubEl.textContent = user.email || "";
     }
   }
+}
+
+/**
+ * Setup auth state listener
+ */
+function initAuth() {
+  if (initialized) return;
+  initialized = true;
+
+  // Listen for auth state changes (handles session refresh gracefully)
+  supabase.auth.onAuthStateChange((event, session) => {
+    console.log("Auth state:", event);
+
+    if (event === "SIGNED_OUT" || !session) {
+      // Only redirect if truly signed out, not during token refresh
+      if (event === "SIGNED_OUT") {
+        window.location.href = "login.html";
+      }
+      return;
+    }
+
+    if (
+      event === "SIGNED_IN" ||
+      event === "TOKEN_REFRESHED" ||
+      event === "INITIAL_SESSION"
+    ) {
+      loadUserProfile(session.user);
+    }
+  });
+
+  // Also check initial session
+  supabase.auth.getSession().then(({ data: { session } }) => {
+    if (!session) {
+      window.location.href = "login.html";
+    } else {
+      loadUserProfile(session.user);
+    }
+  });
 }
 
 /**
@@ -83,8 +126,8 @@ function setupLogout() {
 }
 
 // Initialize on load
-initUserInfo();
+initAuth();
 setupLogout();
 
 // Export for use in other scripts if needed
-export { initUserInfo, setupLogout };
+export { loadUserProfile, initAuth, setupLogout };
