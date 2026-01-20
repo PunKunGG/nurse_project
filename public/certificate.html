@@ -3,30 +3,463 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Certificate</title>
+    <title>Certificate - ภารกิจพิชิต I</title>
     <link rel="stylesheet" href="assets/css/main.css" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Charm:wght@400;700&family=Fira+Code:wght@300..700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Charm:wght@400;700&family=Sarabun:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
+    <style>
+      /* Certificate Page Styles */
+      .cert-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        margin-top: 20px;
+      }
+
+      .cert-status-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 32px;
+      }
+
+      .status-header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 24px;
+      }
+
+      .status-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        font-size: 2rem;
+      }
+
+      .status-icon.success {
+        background: rgba(16, 185, 129, 0.15);
+        border: 2px solid rgba(16, 185, 129, 0.3);
+      }
+
+      .status-icon.pending {
+        background: rgba(245, 158, 11, 0.15);
+        border: 2px solid rgba(245, 158, 11, 0.3);
+      }
+
+      .status-icon.failed {
+        background: rgba(239, 68, 68, 0.15);
+        border: 2px solid rgba(239, 68, 68, 0.3);
+      }
+
+      .status-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 4px;
+      }
+
+      .status-subtitle {
+        color: var(--muted);
+      }
+
+      .score-display {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 20px;
+        background: var(--bg2);
+        border-radius: var(--radius-sm);
+        margin-bottom: 24px;
+      }
+
+      .score-circle {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        font-size: 1.5rem;
+        font-weight: 900;
+        color: #fff;
+      }
+
+      .score-circle.passed {
+        background: linear-gradient(135deg, var(--success), #059669);
+      }
+
+      .score-circle.failed {
+        background: linear-gradient(135deg, var(--error), #dc2626);
+      }
+
+      .score-info h4 {
+        margin: 0 0 4px 0;
+        font-size: 1.1rem;
+      }
+
+      .score-info p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      .requirement-box {
+        padding: 16px;
+        background: var(--primary-soft);
+        border: 1px solid var(--primary-border);
+        border-radius: var(--radius-sm);
+        margin-bottom: 24px;
+      }
+
+      .requirement-box h4 {
+        margin: 0 0 8px 0;
+        font-size: 0.9rem;
+        color: var(--primary);
+      }
+
+      .requirement-box p {
+        margin: 0;
+        font-size: 0.9rem;
+      }
+
+      .cert-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      /* Certificate Preview */
+      .cert-preview-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 24px;
+        text-align: center;
+      }
+
+      .cert-preview-card h3 {
+        margin: 0 0 16px 0;
+      }
+
+      .cert-preview {
+        position: relative;
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        border-radius: var(--radius-sm);
+        padding: 32px 24px;
+        color: #fff;
+        text-align: center;
+        overflow: hidden;
+      }
+
+      .cert-preview::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("assets/img/Nurse_Certificate.png") center/cover
+          no-repeat;
+        opacity: 0.3;
+      }
+
+      .cert-preview-content {
+        position: relative;
+        z-index: 1;
+      }
+
+      .cert-preview .cert-title {
+        font-family: "Charm", cursive;
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+        color: #ffd700;
+      }
+
+      .cert-preview .cert-subtitle {
+        font-size: 0.9rem;
+        margin-bottom: 16px;
+        opacity: 0.8;
+      }
+
+      .cert-preview .cert-name {
+        font-family: "Charm", cursive;
+        font-size: 1.75rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+        color: #fff;
+      }
+
+      .cert-preview .cert-detail {
+        font-size: 0.85rem;
+        opacity: 0.7;
+        margin-bottom: 4px;
+      }
+
+      .cert-badge {
+        display: inline-block;
+        margin-top: 16px;
+        padding: 8px 20px;
+        background: linear-gradient(135deg, #ffd700, #ffb800);
+        color: #1a1a2e;
+        border-radius: 20px;
+        font-weight: 700;
+        font-size: 0.85rem;
+      }
+
+      .cert-locked {
+        padding: 60px 24px;
+        color: var(--muted);
+      }
+
+      .cert-locked-icon {
+        font-size: 4rem;
+        margin-bottom: 16px;
+        opacity: 0.5;
+      }
+
+      .cert-locked h4 {
+        margin: 0 0 8px 0;
+      }
+
+      .cert-locked p {
+        margin: 0;
+        font-size: 0.9rem;
+      }
+
+      /* Timeline */
+      .timeline {
+        margin-top: 24px;
+        padding-top: 24px;
+        border-top: 1px solid var(--border);
+      }
+
+      .timeline h4 {
+        margin: 0 0 16px 0;
+        font-size: 0.9rem;
+        color: var(--muted);
+      }
+
+      .timeline-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 12px 0;
+      }
+
+      .timeline-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        font-size: 0.9rem;
+        flex-shrink: 0;
+      }
+
+      .timeline-icon.done {
+        background: rgba(16, 185, 129, 0.15);
+        color: var(--success);
+      }
+
+      .timeline-icon.pending {
+        background: var(--bg2);
+        color: var(--muted);
+      }
+
+      .timeline-text {
+        font-size: 0.9rem;
+      }
+
+      .timeline-text.done {
+        color: var(--text);
+      }
+
+      .timeline-text.pending {
+        color: var(--muted);
+      }
+
+      @media (max-width: 900px) {
+        .cert-container {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
   </head>
   <body>
-    <main class="container">
-      <h1>เกียรติบัตร</h1>
-      <div class="card">
-        <p>เงื่อนไข: นับเฉพาะ <b>Post-test ≥ 80%</b></p>
-        <p id="status"><small>กำลังตรวจสอบ…</small></p>
+    <main class="app">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-badge">
+            <img src="assets/img/logo.png" alt="Logo" width="40" height="40" />
+          </div>
+          <div>
+            <div class="brand-title">Faculty of Nursing</div>
+            <div class="brand-sub">Khon Kaen University</div>
+          </div>
+        </div>
 
-        <button id="download" class="btn" type="button" disabled>
-          ดาวน์โหลดเกียรติบัตร
-        </button>
-        <a class="btn btn-ghost" href="posttest.html">กลับไปทำ Post-test</a>
-      </div>
+        <div class="user-card">
+          <div class="user-avatar">👤</div>
+          <div class="user-meta">
+            <div id="me" class="user-name">กำลังโหลดข้อมูลผู้ใช้…</div>
+            <div id="me_sub" class="user-sub"></div>
+          </div>
+        </div>
 
-      <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+        <nav class="menu">
+          <a class="menu-item" href="dashboard.html">Dashboard</a>
+          <a class="menu-item" href="pretest.html">Pre-test</a>
+          <a class="menu-item" href="game.html">Play Game</a>
+          <a class="menu-item" href="posttest.html">Post-test</a>
+          <a class="menu-item active" href="certificate.html">Certificate</a>
+          <a class="menu-item" href="creators.html">Creators</a>
+        </nav>
 
-      <script type="module" src="assets/js/pages/certificatePage.js"></script>
-      <script src="assets/js/theme.js"></script>
+        <div id="teacher_tools" class="teacher-card" style="display: none">
+          <div class="teacher-title">Teacher Tools</div>
+          <a class="btn w-full" href="manage_questions.html">จัดการข้อสอบ</a>
+          <a class="btn btn-ghost w-full" href="report.html">ดูผลคะแนนรวม</a>
+        </div>
+
+        <div class="sidebar-footer">
+          <button id="btn_logout" class="btn btn-ghost w-full" type="button">
+            ออกจากระบบ
+          </button>
+        </div>
+      </aside>
+
+      <!-- CONTENT -->
+      <section class="content">
+        <header class="content-header">
+          <h1>🏆 Certificate</h1>
+          <p class="muted">เกียรติบัตรผ่านการทดสอบ</p>
+        </header>
+
+        <div class="cert-container">
+          <!-- Status Card -->
+          <div class="cert-status-card">
+            <div class="status-header" id="statusHeader">
+              <div class="status-icon pending" id="statusIcon">⏳</div>
+              <div>
+                <div class="status-title" id="statusTitle">กำลังตรวจสอบ...</div>
+                <div class="status-subtitle" id="statusSubtitle">
+                  โปรดรอสักครู่
+                </div>
+              </div>
+            </div>
+
+            <div class="score-display" id="scoreDisplay" style="display: none">
+              <div class="score-circle" id="scoreCircle">0%</div>
+              <div class="score-info">
+                <h4>คะแนน Post-test ล่าสุด</h4>
+                <p id="scoreDetail">เกณฑ์ผ่าน: ≥ 80%</p>
+              </div>
+            </div>
+
+            <div class="requirement-box">
+              <h4>📋 เงื่อนไขการรับเกียรติบัตร</h4>
+              <p>
+                ต้องทำ Post-test และได้คะแนน
+                <b>≥ 80%</b> จึงจะสามารถดาวน์โหลดเกียรติบัตรได้
+              </p>
+            </div>
+
+            <div class="cert-actions" id="certActions">
+              <button
+                id="download"
+                class="btn"
+                type="button"
+                disabled
+                style="
+                  background: linear-gradient(135deg, var(--success), #059669);
+                "
+              >
+                🎓 ดาวน์โหลดเกียรติบัตร
+              </button>
+              <a class="btn btn-ghost" href="posttest.html">ทำ Post-test</a>
+            </div>
+
+            <!-- Timeline -->
+            <div class="timeline">
+              <h4>ความคืบหน้า</h4>
+              <div class="timeline-item">
+                <div class="timeline-icon done" id="step1Icon">✓</div>
+                <div class="timeline-text done" id="step1Text">
+                  ลงทะเบียนเข้าสู่ระบบ
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-icon pending" id="step2Icon">2</div>
+                <div class="timeline-text pending" id="step2Text">
+                  ทำ Pre-test
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-icon pending" id="step3Icon">3</div>
+                <div class="timeline-text pending" id="step3Text">
+                  เล่นเกมเพื่อเรียนรู้
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-icon pending" id="step4Icon">4</div>
+                <div class="timeline-text pending" id="step4Text">
+                  ทำ Post-test (≥ 80%)
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-icon pending" id="step5Icon">5</div>
+                <div class="timeline-text pending" id="step5Text">
+                  รับเกียรติบัตร
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Preview Card -->
+          <div class="cert-preview-card">
+            <h3>🎓 ตัวอย่างเกียรติบัตร</h3>
+
+            <!-- Locked State -->
+            <div class="cert-locked" id="certLocked">
+              <div class="cert-locked-icon">🔒</div>
+              <h4>เกียรติบัตรยังไม่ปลดล็อก</h4>
+              <p>ทำ Post-test ให้ได้ ≥ 80% เพื่อปลดล็อก</p>
+            </div>
+
+            <!-- Unlocked Preview -->
+            <div class="cert-preview" id="certPreview" style="display: none">
+              <div class="cert-preview-content">
+                <div class="cert-title">ประกาศนียบัตร</div>
+                <div class="cert-subtitle">มอบให้เพื่อแสดงว่า</div>
+                <div class="cert-name" id="previewName">-</div>
+                <div class="cert-detail" id="previewStudentId">
+                  รหัสนักศึกษา: -
+                </div>
+                <div class="cert-detail">ได้ผ่านการทดสอบเรื่อง</div>
+                <div class="cert-title" style="font-size: 1.2rem">
+                  ภารกิจพิชิต I
+                </div>
+                <div class="cert-badge">🏆 ผ่านการทดสอบ</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <footer class="content-footer muted">© Nurse Learning Platform</footer>
+
+        <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+        <script type="module" src="assets/js/pages/certificatePage.js"></script>
+      </section>
     </main>
+
+    <script src="assets/js/theme.js"></script>
+    <script src="assets/js/mobile-menu.js"></script>
+    <!-- User Info & Auth -->
+    <script type="module" src="assets/js/userInfo.js"></script>
   </body>
 </html>

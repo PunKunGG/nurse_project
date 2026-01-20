@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Creators - Nurse Learning</title>
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/creators.css" />
+  </head>
+
+  <body>
+    <main class="app">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-badge">
+            <img src="assets/img/logo.png" alt="Logo" width="40" height="40" />
+          </div>
+          <div>
+            <div class="brand-title">Faculty of Nursing</div>
+            <div class="brand-sub">Khon Kaen University</div>
+          </div>
+        </div>
+
+        <div class="user-card">
+          <div class="user-avatar">👤</div>
+          <div class="user-meta">
+            <div id="me" class="user-name">กำลังโหลดข้อมูลผู้ใช้…</div>
+            <div id="me_sub" class="user-sub"></div>
+          </div>
+        </div>
+
+        <nav class="menu">
+          <a class="menu-item" href="dashboard.html">Dashboard</a>
+          <a class="menu-item" href="pretest.html">Pre-test</a>
+          <a class="menu-item" href="game.html">Play Game</a>
+          <a class="menu-item" href="posttest.html">Post-test</a>
+          <a class="menu-item" href="certificate.html">Certificate</a>
+          <a class="menu-item active" href="creators.html">Creators</a>
+        </nav>
+
+        <div id="teacher_tools" class="teacher-card" style="display: none">
+          <div class="teacher-title">Teacher Tools</div>
+          <a class="btn w-full" href="manage_questions.html">จัดการข้อสอบ</a>
+          <a class="btn btn-ghost w-full" href="report.html">ดูผลคะแนนรวม</a>
+        </div>
+
+        <div class="sidebar-footer">
+          <button id="btn_logout" class="btn btn-ghost w-full" type="button">
+            ออกจากระบบ
+          </button>
+        </div>
+      </aside>
+
+      <!-- CONTENT -->
+      <section class="content">
+        <header class="creators-header content-header">
+          <a class="btn btn-ghost back-btn" href="dashboard.html">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+            กลับหน้าหลัก
+          </a>
+          <h1>Creators</h1>
+          <p class="muted">ทีมผู้จัดทำ</p>
+        </header>
+
+        <div class="creators-grid">
+          <!-- Creator Card 1 -->
+          <div class="creator-card" onclick="openModal('creator1')">
+            <img
+              class="creator-avatar"
+              src="assets/img/rinlada.png"
+              alt="Creator 1"
+              onerror="
+                this.src =
+                  'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%233b82f6%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2260%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>👩‍💻</text></svg>'
+              "
+            />
+            <div class="creator-name">นางสาวรินลดา ทองตา</div>
+            <div class="creator-role">User Interface</div>
+            <div class="creator-tagline">พัฒนาระบบและออกแบบ UI/UX</div>
+            <span class="creator-badge">🩺 Nurse</span>
+          </div>
+
+          <!-- Creator Card 2 -->
+          <div class="creator-card" onclick="openModal('creator2')">
+            <img
+              class="creator-avatar"
+              src="assets/img/yuphada.jpg"
+              alt="Creator 2"
+              onerror="
+                this.src =
+                  'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%2310b981%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2260%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>👨‍💻</text></svg>'
+              "
+            />
+            <div class="creator-name">นางสาวยุภาดา พิมพ์แมน</div>
+            <div class="creator-role">Backend Developer</div>
+            <div class="creator-tagline">พัฒนา API และจัดการฐานข้อมูล</div>
+            <span class="creator-badge">🩺 Nurse</span>
+          </div>
+
+          <!-- Creator Card 3 -->
+          <div class="creator-card" onclick="openModal('creator3')">
+            <img
+              class="creator-avatar"
+              src="assets/img/maneechanok.jpg"
+              alt="Creator 3"
+              onerror="
+                this.src =
+                  'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%2310b981%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2260%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>👨‍💻</text></svg>'
+              "
+            />
+            <div class="creator-name">นางสาวมณีชนก นิทะรัมย์</div>
+            <div class="creator-role">Frontend Developer</div>
+            <div class="creator-tagline">พัฒนา UI/UX และออกแบบ</div>
+            <span class="creator-badge">🩺 Nurse</span>
+          </div>
+
+          <!-- Creator Card 4 -->
+          <div class="creator-card" onclick="openModal('creator4')">
+            <img
+              class="creator-avatar"
+              src="assets/img/sawita.jpg"
+              alt="Creator 4"
+              onerror="
+                this.src =
+                  'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%2310b981%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2260%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>👨‍💻</text></svg>'
+              "
+            />
+            <div class="creator-name">นางสาวศวิตา สังแคนพรม</div>
+            <div class="creator-role">Database</div>
+            <div class="creator-tagline">จัดการฐานข้อมูล</div>
+            <span class="creator-badge">🩺 Nurse</span>
+          </div>
+        </div>
+
+        <footer class="content-footer muted">© Nurse Learning Platform</footer>
+      </section>
+    </main>
+
+    <!-- Modal Popup -->
+    <div class="modal-overlay" id="modal" onclick="closeModal(event)">
+      <div class="modal-content" onclick="event.stopPropagation()">
+        <div class="modal-header">
+          <button class="modal-close" onclick="closeModal()">&times;</button>
+          <img class="modal-avatar" id="modalAvatar" src="" alt="Creator" />
+          <div class="modal-name" id="modalName"></div>
+          <div class="modal-role" id="modalRole"></div>
+        </div>
+        <div class="modal-body">
+          <div class="info-row">
+            <div class="info-icon">📧</div>
+            <div>
+              <div class="info-label">อีเมล</div>
+              <div class="info-value" id="modalEmail"></div>
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-icon">📱</div>
+            <div>
+              <div class="info-label">เบอร์โทรศัพท์</div>
+              <div class="info-value" id="modalPhone"></div>
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-icon">🎓</div>
+            <div>
+              <div class="info-label">สาขาวิชา</div>
+              <div class="info-value" id="modalMajor"></div>
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-icon">💼</div>
+            <div>
+              <div class="info-label">หน้าที่รับผิดชอบ</div>
+              <div class="info-value" id="modalResponsibility"></div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-ghost w-full" onclick="closeModal()">
+            ปิด
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/pages/creatorsPage.js"></script>
+    <script src="assets/js/theme.js"></script>
+    <script src="assets/js/mobile-menu.js"></script>
+    <!-- User Info & Auth -->
+    <script type="module" src="assets/js/userInfo.js"></script>
+  </body>
+</html>
