@@ -177,7 +177,12 @@ downloadBtn.addEventListener("click", async () => {
     ctx.fillText("ได้ผ่านการทำแบบทดสอบหลังเรียนเรื่อง:", canvas.width / 2, 650);
     ctx.fillText("ภารกิจพิชิต I", canvas.width / 2, 700);
 
-    const issuedAtText = new Date(cert.issued_at).toLocaleDateString("th-TH");
+    // Use current date for certificate
+    const issuedAtText = new Date().toLocaleDateString("th-TH", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
     ctx.font = "bold 30px Charm";
     ctx.fillText(`ให้ไว้ ณ วันที่ : ${issuedAtText}`, canvas.width / 2, 820);
 
