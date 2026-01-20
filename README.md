@@ -51,27 +51,3 @@
 * เพื่อส่งเสริมคุณภาพชีวิตที่ดีและยั่งยืนของผู้สูงอายุ
 
 ---
-## Change Log
-update0.2 (Immobility Update)
--เพิ่ม Debugger รวมถึง cheat code เพื่อทดลองแต่ละเต็ปของเกม
--เพิ่ม Extras script เพื่อทำให้การ interact เสถียรกว่าเดิม (PatientClickTrigger,WoundClickTrigger)
--ปรับ script Immobility Stage Manager
-    CheckList
-    -ImmobilityStageManager GameObject:
-    -ลาก PatientDummy (ที่มี SpriteRenderer) ใส่ช่อง Patient Renderer ✅
-    -ลาก WoundClickArea ใส่ช่อง Wound Click Area ✅
-    -ใส่รูป นอนตะแคง ในช่อง Lateral Sprite // รอดู sprite
-
-    -PatientDummy GameObject:
-    -แปะ Script PatientClickTrigger ✅
-    -ใส่ BoxCollider2D (ให้ครอบคลุมตัวคน) ✅
-
-    -WoundClickArea GameObject (ลูกของ Patient):
-    -แปะ Script WoundClickTrigger ✅ 
-    -ใส่ BoxCollider2D (ให้ครอบคลุมแผล) ✅
-
-    -Pillow GameObject:
-    -ปรับค่า Snap Distance ตามความเหมาะสม (แนะนำ 1.5 - 2) // รอดู sprite
-
-update0.3 (Intellectual Impairment Update)
--Soon
