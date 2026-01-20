@@ -257,7 +257,7 @@ async function submitQuiz() {
   });
 
   const percentage = Math.round((correct / questions.length) * 100);
-  const passed = percentage >= 80;
+  const passed = percentage >= 60;
 
   // Update results UI
   const scoreEl = document.getElementById("resultScore");
@@ -275,15 +275,15 @@ async function submitQuiz() {
     document.getElementById("resultIcon").textContent = "🎉";
     document.getElementById("resultText").textContent =
       "ยอดเยี่ยม! คุณผ่านเกณฑ์";
-    noticeEl.textContent = "🎓 คุณสามารถรับเกียรติบัตรได้แล้ว!";
+    noticeEl.textContent = "คุณสามารถรับเกียรติบัตรได้แล้ว!";
     noticeEl.className = "certificate-notice";
     certBtn.style.display = "inline-flex";
   } else {
-    document.getElementById("resultIcon").textContent = "💪";
+    document.getElementById("resultIcon").textContent = "✌🏻";
     document.getElementById("resultText").textContent =
       "พยายามต่อไป! ลองอีกครั้งนะ";
     noticeEl.textContent =
-      "❌ คะแนนยังไม่ถึงเกณฑ์ ต้องได้ ≥ 80% เพื่อรับเกียรติบัตร";
+      "คะแนนยังไม่ถึงเกณฑ์ ต้องได้มากกว่า 60% เพื่อรับเกียรติบัตร";
     noticeEl.className = "certificate-notice failed";
     certBtn.style.display = "none";
   }
