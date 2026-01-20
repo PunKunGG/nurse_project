@@ -290,8 +290,8 @@ async function submitQuiz() {
 
   // Try to save score to database
   try {
-    const { supabase } = await import("./supabaseClient.js");
-    const { getSession } = await import("./auth.js");
+    const { supabase } = await import("../supabaseClient.js");
+    const { getSession } = await import("../auth.js");
 
     const session = await getSession();
     if (session) {
@@ -301,6 +301,7 @@ async function submitQuiz() {
         test_type: "post",
         score_percent: percentage,
         passed: passed,
+        submitted_at: new Date().toISOString(),
       });
     }
   } catch (e) {

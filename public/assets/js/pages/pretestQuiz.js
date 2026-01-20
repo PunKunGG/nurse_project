@@ -210,7 +210,7 @@ function prevQuestion() {
   }
 }
 
-function submitQuiz() {
+async function submitQuiz() {
   // Calculate score
   let correct = 0;
   questions.forEach((q) => {
@@ -236,6 +236,26 @@ function submitQuiz() {
     document.getElementById("resultIcon").textContent = "✌🏻";
     document.getElementById("resultText").textContent =
       "พยายามต่อไป! ลองอีกครั้งนะ";
+  }
+
+  // Try to save score to database
+  try {
+    const { supabase } = await import("../supabaseClient.js");
+    const { getSession } = await import("../auth.js");
+
+    const session = await getSession();
+    if (session) {
+      await supabase.from("attempts").insert({
+        user_id: session.user.id,
+        module_id: "module-1",
+        test_type: "pre",
+        score_percent: percentage,
+        passed: passed,
+        submitted_at: new Date().toISOString(),
+      });
+    }
+  } catch (e) {
+    console.log("Could not save score:", e);
   }
 
   // Show results
