@@ -73,7 +73,7 @@ if (aErr || !attempts || attempts.length === 0) {
     statusIcon.textContent = "🎉";
     statusTitle.textContent = "ยินดีด้วย! คุณผ่านเกณฑ์แล้ว";
     statusSubtitle.textContent = "สามารถดาวน์โหลดเกียรติบัตรได้เลย";
-    scoreDetail.textContent = `ผ่านเกณฑ์ ≥ 60% ✓`;
+    scoreDetail.textContent = `ผ่านเกณฑ์มากกว่า 60%`;
     downloadBtn.disabled = false;
 
     // Show preview
@@ -92,7 +92,7 @@ if (aErr || !attempts || attempts.length === 0) {
     statusIcon.className = "status-icon failed";
     statusIcon.textContent = "❌";
     statusTitle.textContent = "ยังไม่ผ่านเกณฑ์";
-    statusSubtitle.textContent = `ต้องได้ ≥ 60% แต่คุณได้ ${latestScore}%`;
+    statusSubtitle.textContent = `ต้องได้ มากกว่า 60% แต่คุณได้ ${latestScore}%`;
     scoreDetail.textContent = `ต้องได้อีก ${60 - latestScore}% จึงจะผ่าน`;
     downloadBtn.disabled = true;
 

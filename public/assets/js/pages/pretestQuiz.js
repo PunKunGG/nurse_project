@@ -220,7 +220,7 @@ function submitQuiz() {
   });
 
   const percentage = Math.round((correct / questions.length) * 100);
-  const passed = percentage >= 80;
+  const passed = percentage >= 60;
 
   // Update results UI
   document.getElementById("resultScore").textContent = percentage + "%";
@@ -233,7 +233,7 @@ function submitQuiz() {
     document.getElementById("resultText").textContent =
       "ยอดเยี่ยม! คุณผ่านเกณฑ์";
   } else {
-    document.getElementById("resultIcon").textContent = "💪";
+    document.getElementById("resultIcon").textContent = "✌🏻";
     document.getElementById("resultText").textContent =
       "พยายามต่อไป! ลองอีกครั้งนะ";
   }
