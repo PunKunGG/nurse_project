@@ -123,7 +123,7 @@ const questions = [
 let currentQuestion = 0;
 let userAnswers = {};
 let timerInterval = null;
-let timeRemaining = 90; // 3 minutes in seconds
+let timeRemaining = 180; // 3 minutes in seconds
 
 function startQuiz() {
   document.getElementById("quizIntro").style.display = "none";
