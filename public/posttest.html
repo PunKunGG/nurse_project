@@ -3,74 +3,214 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Post-test</title>
+    <title>Post-test - ภารกิจพิชิต I</title>
     <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/quiz.css" />
   </head>
   <body>
-    <main class="container">
-      <h1>Post-test (ตัวอย่าง)</h1>
-      <div class="card">
-        <p>ใส่คะแนนจำลอง (0-100) เพื่อทดสอบระบบ cert</p>
+    <main class="app quiz-theme-success">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-badge">
+            <img src="assets/img/logo.png" alt="Logo" width="40" height="40" />
+          </div>
+          <div>
+            <div class="brand-title">Faculty of Nursing</div>
+            <div class="brand-sub">Khon Kaen University</div>
+          </div>
+        </div>
 
-        <label>คะแนน Post-test (%):</label><br />
-        <input
-          id="score"
-          type="number"
-          min="0"
-          max="100"
-          value="80"
-          style="
-            padding: 10px;
-            border-radius: 10px;
-            border: 1px solid #334155;
-            width: 120px;
-          "
-        />
-        <button id="save" class="btn" type="button">บันทึกคะแนน</button>
+        <div class="user-card">
+          <div class="user-avatar">👤</div>
+          <div class="user-meta">
+            <div id="me" class="user-name">กำลังโหลดข้อมูลผู้ใช้…</div>
+            <div id="me_sub" class="user-sub"></div>
+          </div>
+        </div>
 
-        <p id="msg"><small>ยังไม่บันทึก</small></p>
-        <a class="btn btn-ghost" href="certificate.html">ไปหน้าเกียรติบัตร</a>
-        <a class="btn btn_login" href="dashboard.html">ไปหน้าแดชบอร์ด</a>
-      </div>
+        <nav class="menu">
+          <a class="menu-item" href="dashboard.html">Dashboard</a>
+          <a class="menu-item" href="pretest.html">Pre-test</a>
+          <a class="menu-item" href="game.html">Play Game</a>
+          <a class="menu-item active" href="posttest.html">Post-test</a>
+          <a class="menu-item" href="certificate.html">Certificate</a>
+          <a class="menu-item" href="creators.html">Creators</a>
+        </nav>
 
-      <script type="module">
-        import { supabase } from "./assets/js/supabaseClient.js";
-        import { getSession } from "./assets/js/auth.js";
+        <div id="teacher_tools" class="teacher-card" style="display: none">
+          <div class="teacher-title">Teacher Tools</div>
+          <a class="btn w-full" href="manage_questions.html">จัดการข้อสอบ</a>
+          <a class="btn btn-ghost w-full" href="report.html">ดูผลคะแนนรวม</a>
+        </div>
 
-        const msg = document.getElementById("msg");
+        <div class="sidebar-footer">
+          <button id="btn_logout" class="btn btn-ghost w-full" type="button">
+            ออกจากระบบ
+          </button>
+        </div>
+      </aside>
 
-        document.getElementById("save").addEventListener("click", async () => {
-          msg.innerHTML = "<small>กำลังบันทึก…</small>";
+      <!-- CONTENT -->
+      <section class="content">
+        <header class="content-header">
+          <h1>✅ Post-test</h1>
+          <p class="muted">
+            ทดสอบความรู้หลังเรียน (คะแนนนี้ใช้ในการรับเกียรติบัตร)
+          </p>
+        </header>
 
-          const session = await getSession();
-          if (!session) {
-            window.location.href = "login.html";
-            return;
-          }
+        <!-- Intro Screen -->
+        <div class="card quiz-intro" id="quizIntro">
+          <div class="quiz-intro-icon">🎯</div>
+          <h2>แบบทดสอบหลังเรียน (Post-test)</h2>
+          <p class="muted">เลือกคำตอบที่ถูกต้องที่สุดเพียงข้อเดียว</p>
 
-          const score = Number(document.getElementById("score").value || 0);
-          const moduleId = "module-1"; // ตอนนี้ fix ไว้ก่อน เดี๋ยวค่อยทำเลือกโมดูล
-          const passed = score >= 80; // ✅ นับเฉพาะ Post-test
+          <div class="quiz-info">
+            <div class="quiz-info-item">
+              <span class="icon">📊</span>
+              <span>10 ข้อ</span>
+            </div>
+            <div
+              class="quiz-info-item"
+              style="
+                background: rgba(239, 68, 68, 0.1);
+                border-color: rgba(239, 68, 68, 0.3);
+              "
+            >
+              <span class="icon">⏱️</span>
+              <span style="color: var(--error); font-weight: 700"
+                >จำกัดเวลา 3 นาที</span
+              >
+            </div>
+            <div class="quiz-info-item">
+              <span class="icon">🏆</span>
+              <span>ผ่าน ≥ 80% รับเกียรติบัตร</span>
+            </div>
+          </div>
 
-          const { error } = await supabase.from("attempts").insert({
-            user_id: session.user.id,
-            module_id: moduleId,
-            test_type: "post",
-            score_percent: score,
-            passed: passed,
-          });
+          <div
+            style="
+              background: rgba(245, 158, 11, 0.1);
+              border: 1px solid rgba(245, 158, 11, 0.3);
+              border-radius: var(--radius-sm);
+              padding: 12px 20px;
+              margin: 20px auto;
+              max-width: 450px;
+            "
+          >
+            <strong>⚠️ หมายเหตุ:</strong> เมื่อหมดเวลาระบบจะส่งคำตอบอัตโนมัติ
+            คะแนนจะถูกบันทึกเพื่อใช้ในการออกเกียรติบัตร
+          </div>
 
-          if (error) {
-            msg.innerHTML = `<small style="color:#fca5a5;">บันทึกไม่สำเร็จ: ${error.message}</small>`;
-            return;
-          }
+          <button class="btn" onclick="startQuiz()">เริ่มทำแบบทดสอบ</button>
+        </div>
 
-          msg.innerHTML = `<small>บันทึกแล้ว: ${score}% (${
-            passed ? "ผ่าน" : "ไม่ผ่าน"
-          })</small>`;
-        });
-      </script>
+        <!-- Quiz Container -->
+        <div class="quiz-container" id="quizContainer">
+          <div class="quiz-header">
+            <div class="quiz-progress">
+              <div class="progress-bar">
+                <div
+                  class="progress-fill success"
+                  id="progressFill"
+                  style="width: 10%"
+                ></div>
+              </div>
+              <div class="progress-text success" id="progressText">
+                ข้อ 1/10
+              </div>
+            </div>
+            <div class="timer" id="timer">
+              <span class="timer-icon">⏱️</span>
+              <span id="timerDisplay">03:00</span>
+            </div>
+          </div>
+
+          <div id="questionContainer"></div>
+
+          <div class="quiz-navigation">
+            <button
+              class="btn btn-ghost"
+              id="prevBtn"
+              onclick="prevQuestion()"
+              disabled
+            >
+              ← ข้อก่อนหน้า
+            </button>
+            <button class="btn" id="nextBtn" onclick="nextQuestion()">
+              ข้อถัดไป →
+            </button>
+            <button
+              class="btn"
+              id="submitBtn"
+              onclick="submitQuiz()"
+              style="
+                display: none;
+                background: linear-gradient(135deg, var(--success), #059669);
+              "
+            >
+              ส่งคำตอบ ✓
+            </button>
+          </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div class="card quiz-results" id="quizResults">
+          <div class="result-icon" id="resultIcon">🎉</div>
+          <div class="result-score" id="resultScore">80%</div>
+          <div class="result-text" id="resultText">ยอดเยี่ยม! คุณผ่านเกณฑ์</div>
+
+          <div class="result-details">
+            <div class="result-item">
+              <div class="result-item-value success" id="correctCount">8</div>
+              <div class="result-item-label">ตอบถูก</div>
+            </div>
+            <div class="result-item">
+              <div class="result-item-value error" id="incorrectCount">2</div>
+              <div class="result-item-label">ตอบผิด</div>
+            </div>
+          </div>
+
+          <div class="certificate-notice" id="certificateNotice">
+            🎓 คุณสามารถรับเกียรติบัตรได้แล้ว!
+          </div>
+
+          <div
+            style="
+              display: flex;
+              gap: 12px;
+              justify-content: center;
+              flex-wrap: wrap;
+              margin-top: 24px;
+            "
+          >
+            <a class="btn btn-ghost" href="dashboard.html">กลับหน้าหลัก</a>
+            <a
+              class="btn"
+              href="certificate.html"
+              id="certBtn"
+              style="
+                background: linear-gradient(135deg, var(--success), #059669);
+              "
+            >
+              รับเกียรติบัตร 🎓
+            </a>
+          </div>
+        </div>
+
+        <footer class="content-footer muted">© Nurse Learning Platform</footer>
+      </section>
     </main>
+
+    <!-- Quiz Script -->
+    <script src="assets/js/pages/posttestQuiz.js"></script>
+
+    <!-- Theme & Mobile Menu -->
     <script src="assets/js/theme.js"></script>
+    <script src="assets/js/mobile-menu.js"></script>
+
+    <!-- User Info & Auth -->
+    <script type="module" src="assets/js/userInfo.js"></script>
   </body>
 </html>
