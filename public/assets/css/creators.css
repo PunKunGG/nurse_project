@@ -92,6 +92,50 @@
   margin-top: 12px;
 }
 
+/* Section Title */
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 2rem 0 0.5rem;
+  color: var(--text);
+  text-align: center;
+  position: relative;
+}
+
+.section-title:first-of-type {
+  margin-top: 0;
+}
+
+.section-title::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--primary-hover));
+  margin: 8px auto 0;
+  border-radius: 2px;
+}
+
+/* Advisor Card - Special Styling */
+.advisor-card {
+  border: 2px solid var(--primary-border);
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), transparent);
+}
+
+.advisor-card::before {
+  background: linear-gradient(135deg, var(--primary) 0%, #8b5cf6 100%);
+  opacity: 0.15;
+}
+
+.advisor-card .creator-badge {
+  background: linear-gradient(
+    135deg,
+    var(--primary-soft),
+    rgba(139, 92, 246, 0.2)
+  );
+  border-color: var(--primary);
+}
+
 /* Modal/Popup Styles */
 .modal-overlay {
   position: fixed;
