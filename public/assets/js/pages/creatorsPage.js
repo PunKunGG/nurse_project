@@ -96,6 +96,17 @@ const creatorsData = {
     major: "พยาบาลศาสตร์",
     responsibility: "Authencication",
   },
+  creator7: {
+    name: "นางสาวศิริรัตน์ อุตระทอง",
+    role: "Security",
+    avatar: "assets/img/sirirat.jpg",
+    avatarFallback:
+      "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%2310b981%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2260%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>👨💻</text></svg>",
+    email: "sirirat.o@kkumail.com",
+    phone: "xxx-xxx-xxxx",
+    major: "พยาบาลศาสตร์",
+    responsibility: "Authencication",
+  },
 };
 
 /**

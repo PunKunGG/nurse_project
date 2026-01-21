@@ -51,12 +51,12 @@
             "
           />
 
-          <label for="email"><small>Email</small></label>
+          <label for="email"><small>Email (@kkumail.com)</small></label>
           <input
             id="email"
             type="email"
             required
-            placeholder="example@email.com"
+            placeholder="example@kkumail.com"
             autocomplete="email"
             style="
               padding: 12px;
@@ -102,7 +102,7 @@
       </section>
 
       <script type="module">
-        import { supabase } from "./assets/js/supabaseClient.js";
+        import { signUp } from "./assets/js/auth.js";
 
         const form = document.getElementById("form");
         const msg = document.getElementById("msg");
@@ -116,25 +116,18 @@
           const email = document.getElementById("email").value.trim();
           const password = document.getElementById("password").value;
 
-          const { error } = await supabase.auth.signUp({
-            email,
-            password,
-            options: {
-              data: {
-                full_name: fullName,
-                student_id: studentId,
-                role: "student",
-              },
-            },
-          });
+          try {
+            const result = await signUp(email, password, fullName, studentId);
 
-          if (error) {
+            if (result.needsEmailConfirm) {
+              msg.innerHTML = `<small style="color:#16a34a;">สมัครสำเร็จ ✅ กรุณายืนยันอีเมลก่อนเข้าสู่ระบบ</small>`;
+            } else {
+              msg.innerHTML = `<small style="color:#16a34a;">สมัครสำเร็จ ✅ ไปหน้าเข้าสู่ระบบได้เลย</small>`;
+              setTimeout(() => (window.location.href = "login.html"), 700);
+            }
+          } catch (error) {
             msg.innerHTML = `<small style="color:#ef4444;">สมัครไม่สำเร็จ: ${error.message}</small>`;
-            return;
           }
-
-          msg.innerHTML = `<small style="color:#16a34a;">สมัครสำเร็จ ✅ ไปหน้าเข้าสู่ระบบได้เลย</small>`;
-          setTimeout(() => (window.location.href = "login.html"), 700);
         });
       </script>
     </main>
