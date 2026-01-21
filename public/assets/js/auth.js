@@ -89,3 +89,25 @@ export async function getMyProfile() {
   // ถ้าไม่เจอโปรไฟล์จริง ๆ (เช่น insert ไม่ทัน/พลาด) ก็คืน null ให้หน้าไป handle
   return data;
 }
+
+// ส่ง OTP ไปยังอีเมล
+export async function sendOtp(email) {
+  const { error } = await supabase.auth.signInWithOtp({
+    email,
+    options: {
+      shouldCreateUser: false, // ไม่สร้าง user ใหม่ถ้าไม่มีในระบบ
+    },
+  });
+  if (error) throw error;
+}
+
+// ยืนยัน OTP
+export async function verifyOtp(email, token) {
+  const { data, error } = await supabase.auth.verifyOtp({
+    email,
+    token,
+    type: "email",
+  });
+  if (error) throw error;
+  return data;
+}
