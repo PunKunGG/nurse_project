@@ -105,7 +105,7 @@ const creatorsData = {
     email: "sirirat.o@kkumail.com",
     phone: "xxx-xxx-xxxx",
     major: "พยาบาลศาสตร์",
-    responsibility: "Authencication",
+    responsibility: "Security Testing",
   },
 };
 
