@@ -75,6 +75,52 @@
           <p class="muted">ทีมผู้จัดทำ</p>
         </header>
 
+        <!-- Section: อาจารย์ที่ปรึกษา -->
+        <h2 class="section-title">อาจารย์ที่ปรึกษา</h2>
+        <div class="creators-grid">
+          <!-- Advisor Card 1 -->
+          <div
+            class="creator-card advisor-card"
+            onclick="openModal('advisor1')"
+          >
+            <img
+              class="creator-avatar"
+              src="assets/img/aj1.png"
+              alt="Advisor 1"
+              onerror="
+                this.src =
+                  'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%238b5cf6%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2260%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>👩‍🏫</text></svg>'
+              "
+            />
+            <div class="creator-name">ผศ.ดร.ลดาวัลย์ พันธุ์พาณิชย์</div>
+            <div class="creator-role">อาจารย์ที่ปรึกษา</div>
+            <div class="creator-tagline">อาจารย์ที่ปรึกษาโครงการ</div>
+            <span class="creator-badge">👩‍🏫 Advisor</span>
+          </div>
+
+          <!-- Advisor Card 2 -->
+          <div
+            class="creator-card advisor-card"
+            onclick="openModal('advisor2')"
+          >
+            <img
+              class="creator-avatar"
+              src="assets/img/aj2.jpg"
+              alt="Advisor 2"
+              onerror="
+                this.src =
+                  'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%238b5cf6%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2260%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>👨‍🏫</text></svg>'
+              "
+            />
+            <div class="creator-name">อาจารย์พิมชญา วิเศษสิทธิกุล</div>
+            <div class="creator-role">อาจารย์ที่ปรึกษา</div>
+            <div class="creator-tagline">อาจารย์ที่ปรึกษาร่วม</div>
+            <span class="creator-badge">👨‍🏫 Advisor</span>
+          </div>
+        </div>
+
+        <!-- Section: นักศึกษาผู้พัฒนา -->
+        <h2 class="section-title">นักศึกษาผู้พัฒนา</h2>
         <div class="creators-grid">
           <!-- Creator Card 1 -->
           <div class="creator-card" onclick="openModal('creator1')">
@@ -106,7 +152,7 @@
             />
             <div class="creator-name">นางสาวยุภาดา พิมพ์แมน</div>
             <div class="creator-role">Backend Developer</div>
-            <div class="creator-tagline">พัฒนา API และจัดการฐานข้อมูล</div>
+            <div class="creator-tagline">พัฒนา API</div>
             <span class="creator-badge">🩺 Nurse</span>
           </div>
 
@@ -160,9 +206,28 @@
             <div class="creator-tagline">ดูแลระบบ</div>
             <span class="creator-badge">🩺 Nurse</span>
           </div>
+
+          <!-- Creator Card 6 -->
+          <div class="creator-card" onclick="openModal('creator6')">
+            <img
+              class="creator-avatar"
+              src="assets/img/apisara.jpg"
+              alt="Creator 6"
+              onerror="
+                this.src =
+                  'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%2310b981%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2260%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>👨💻</text></svg>'
+              "
+            />
+            <div class="creator-name">นางสาวอภิสรา สุสำนาจ</div>
+            <div class="creator-role">Backend Developer</div>
+            <div class="creator-tagline">Authencication</div>
+            <span class="creator-badge">🩺 Nurse</span>
+          </div>
         </div>
 
-        <footer class="content-footer muted">© Nurse Learning Platform</footer>
+        <footer class="content-footer muted">
+          © Faculty of Nursing, Khon Kaen University
+        </footer>
       </section>
     </main>
 

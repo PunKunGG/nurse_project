@@ -5,6 +5,31 @@
 
 // Creator Data
 const creatorsData = {
+  // === อาจารย์ที่ปรึกษา ===
+  advisor1: {
+    name: "ผศ.ดร.ลดาวัลย์ พันธุ์พาณิชย์",
+    role: "อาจารย์ที่ปรึกษา",
+    avatar: "assets/img/aj1.png",
+    avatarFallback:
+      "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%238b5cf6%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2260%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>👩‍🏫</text></svg>",
+    email: "-",
+    phone: "xxx-xxx-xxxx",
+    major: "คณะพยาบาลศาสตร์ มหาวิทยาลัยขอนแก่น",
+    responsibility: "อาจารย์ที่ปรึกษาโครงการ",
+  },
+  advisor2: {
+    name: "อาจารย์พิมชญา วิเศษสิทธิกุล",
+    role: "อาจารย์ที่ปรึกษา",
+    avatar: "assets/img/aj2.jpg",
+    avatarFallback:
+      "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%238b5cf6%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2260%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>👨‍🏫</text></svg>",
+    email: "-",
+    phone: "xxx-xxx-xxxx",
+    major: "คณะพยาบาลศาสตร์ มหาวิทยาลัยขอนแก่น",
+    responsibility: "อาจารย์ที่ปรึกษาร่วม",
+  },
+
+  // === นักศึกษาผู้พัฒนา ===
   creator1: {
     name: "นางสาวรินลดา ทองตา",
     role: "User Interface",
@@ -14,7 +39,7 @@ const creatorsData = {
     email: "rinlada.t@kkumail.com",
     phone: "xxx-xxx-xxxx",
     major: "พยาบาลศาสตร์",
-    responsibility: "พัฒนาระบบ Frontend, ออกแบบ UI/UX, User Authentication",
+    responsibility: "พัฒนาระบบ Frontend, ออกแบบ UI/UX",
   },
   creator2: {
     name: "นางสาวยุภาดา พิมพ์แมน",
@@ -59,6 +84,17 @@ const creatorsData = {
     phone: "xxx-xxx-xxxx",
     major: "พยาบาลศาสตร์",
     responsibility: "ดูแลระบบ",
+  },
+  creator6: {
+    name: "นางสาวอภิสรา สุสำนาจ",
+    role: "Backend Developer",
+    avatar: "assets/img/apisara.jpg",
+    avatarFallback:
+      "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%2310b981%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2260%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>👨💻</text></svg>",
+    email: "apisara.s@kkumail.com",
+    phone: "xxx-xxx-xxxx",
+    major: "พยาบาลศาสตร์",
+    responsibility: "Authencication",
   },
 };
 

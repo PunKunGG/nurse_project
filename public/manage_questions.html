@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>จัดการข้อสอบ - Nurse Learning</title>
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/manage_questions.css" />
+  </head>
+
+  <body>
+    <main class="app">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-badge">
+            <img src="assets/img/logo.png" alt="Logo" width="40" height="40" />
+          </div>
+          <div>
+            <div class="brand-title">Faculty of Nursing</div>
+            <div class="brand-sub">Khon Kaen University</div>
+          </div>
+        </div>
+
+        <div class="user-card">
+          <div class="user-avatar">👤</div>
+          <div class="user-meta">
+            <div id="me" class="user-name">กำลังโหลดข้อมูลผู้ใช้…</div>
+            <div id="me_sub" class="user-sub"></div>
+          </div>
+        </div>
+
+        <nav class="menu">
+          <a class="menu-item" href="dashboard.html">Dashboard</a>
+          <a class="menu-item" href="pretest.html">Pre-test</a>
+          <a class="menu-item" href="game.html">Play Game</a>
+          <a class="menu-item" href="posttest.html">Post-test</a>
+          <a class="menu-item" href="certificate.html">Certificate</a>
+          <a class="menu-item" href="creators.html">Creators</a>
+        </nav>
+
+        <div id="teacher_tools" class="teacher-card" style="display: none">
+          <div class="teacher-title">Teacher Tools</div>
+          <a class="btn w-full active" href="manage_questions.html"
+            >จัดการข้อสอบ</a
+          >
+          <a class="btn btn-ghost w-full" href="report.html">ดูผลคะแนนรวม</a>
+        </div>
+
+        <div class="sidebar-footer">
+          <button id="btn_logout" class="btn btn-ghost w-full" type="button">
+            ออกจากระบบ
+          </button>
+        </div>
+      </aside>
+
+      <!-- CONTENT -->
+      <section class="content">
+        <header class="content-header">
+          <div class="header-row">
+            <div>
+              <h1>จัดการข้อสอบ</h1>
+              <p class="muted">เพิ่ม แก้ไข และลบข้อสอบ Pre-test / Post-test</p>
+            </div>
+            <button class="btn" id="addQuestionBtn" onclick="openAddModal()">
+              <span>+</span> เพิ่มข้อสอบ
+            </button>
+          </div>
+        </header>
+
+        <!-- Filter Tabs -->
+        <div class="filter-tabs">
+          <button
+            class="tab-btn active"
+            data-type="pre"
+            onclick="filterQuestions('pre')"
+          >
+            Pre-test
+          </button>
+          <button
+            class="tab-btn"
+            data-type="post"
+            onclick="filterQuestions('post')"
+          >
+            Post-test
+          </button>
+          <button
+            class="tab-btn"
+            data-type="all"
+            onclick="filterQuestions('all')"
+          >
+            ทั้งหมด
+          </button>
+        </div>
+
+        <!-- Questions Table -->
+        <div class="panel">
+          <div class="table-container">
+            <table class="questions-table" id="questionsTable">
+              <thead>
+                <tr>
+                  <th style="width: 60px">ลำดับ</th>
+                  <th style="width: 100px">ประเภท</th>
+                  <th>คำถาม</th>
+                  <th style="width: 80px">คำตอบ</th>
+                  <th style="width: 120px">จัดการ</th>
+                </tr>
+              </thead>
+              <tbody id="questionsBody">
+                <tr>
+                  <td colspan="5" class="loading-cell">
+                    <div class="loading-spinner"></div>
+                    กำลังโหลดข้อมูล...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-value" id="totalCount">0</div>
+            <div class="stat-label">ข้อสอบทั้งหมด</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="preCount">0</div>
+            <div class="stat-label">Pre-test</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="postCount">0</div>
+            <div class="stat-label">Post-test</div>
+          </div>
+        </div>
+
+        <footer class="content-footer muted">
+          © Faculty of Nursing, Khon Kaen University
+        </footer>
+      </section>
+    </main>
+
+    <!-- Add/Edit Question Modal -->
+    <div class="modal-overlay" id="questionModal">
+      <div class="modal-content modal-lg">
+        <div class="modal-header">
+          <h2 id="modalTitle">เพิ่มข้อสอบใหม่</h2>
+          <button class="modal-close" onclick="closeModal()">&times;</button>
+        </div>
+        <form id="questionForm" onsubmit="saveQuestion(event)">
+          <div class="modal-body">
+            <div class="form-group">
+              <label class="form-label">ประเภทข้อสอบ *</label>
+              <select id="testType" class="form-select" required>
+                <option value="pre">Pre-test</option>
+                <option value="post">Post-test</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">ลำดับข้อ *</label>
+              <input
+                type="number"
+                id="questionNumber"
+                class="form-input"
+                min="1"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">คำถาม *</label>
+              <textarea
+                id="questionText"
+                class="form-textarea"
+                rows="4"
+                required
+              ></textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">ตัวเลือก (JSON Array) *</label>
+              <textarea
+                id="optionsJson"
+                class="form-textarea"
+                rows="6"
+                required
+                placeholder='[
+  {"key": "ก", "text": "ตัวเลือกที่ 1"},
+  {"key": "ข", "text": "ตัวเลือกที่ 2"},
+  {"key": "ค", "text": "ตัวเลือกที่ 3"},
+  {"key": "ง", "text": "ตัวเลือกที่ 4"}
+]'
+              ></textarea>
+              <small class="form-hint">ใส่ตัวเลือกในรูปแบบ JSON Array</small>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">คำตอบที่ถูกต้อง *</label>
+              <select id="correctAnswer" class="form-select" required>
+                <option value="ก">ก</option>
+                <option value="ข">ข</option>
+                <option value="ค">ค</option>
+                <option value="ง">ง</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-ghost" onclick="closeModal()">
+              ยกเลิก
+            </button>
+            <button type="submit" class="btn" id="saveBtn">บันทึก</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal-overlay" id="deleteModal">
+      <div class="modal-content modal-sm">
+        <div class="modal-header">
+          <h2>ยืนยันการลบ</h2>
+          <button class="modal-close" onclick="closeDeleteModal()">
+            &times;
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>คุณต้องการลบข้อสอบนี้ใช่หรือไม่?</p>
+          <p class="muted" id="deleteQuestionText"></p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-ghost" onclick="closeDeleteModal()">
+            ยกเลิก
+          </button>
+          <button
+            class="btn btn-danger"
+            id="confirmDeleteBtn"
+            onclick="confirmDelete()"
+          >
+            ลบ
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Scripts -->
+    <script type="module" src="assets/js/pages/manageQuestionsPage.js"></script>
+    <script src="assets/js/theme.js"></script>
+    <script src="assets/js/mobile-menu.js"></script>
+    <script type="module" src="assets/js/userInfo.js"></script>
+  </body>
+</html>
