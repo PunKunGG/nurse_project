@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="th">
   <head>
     <meta charset="utf-8" />
@@ -8,46 +8,84 @@
   </head>
   <body>
     <main class="container">
-      <h1>เข้าสู่ระบบ</h1>
+      <section class="card" style="text-align: center; padding: 26px">
+        <h1 style="margin-bottom: 6px">เข้าสู่ระบบ</h1>
+        <p style="color: #64748b; margin-top: 0">
+          Nurse Learning Platform | ระบบการเรียนรู้เชิงเกม
+        </p>
+      </section>
 
-      <div class="card" style="margin-top: 14px">
-        <h3>ล็อกอิน</h3>
+      <section class="card" style="margin-top: 14px">
+        <h3 style="margin-top: 0">ล็อกอิน</h3>
+
+        <label for="li_email"><small>อีเมล (@kkumail.com)</small></label>
         <input
           id="li_email"
-          placeholder="อีเมล"
+          type="email"
+          placeholder="example@kkumail.com"
+          autocomplete="email"
           style="
-            padding: 10px;
-            border-radius: 10px;
-            border: 1px solid #334155;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid #cbd5e1;
             width: 100%;
-            margin: 6px 0;
+            margin: 6px 0 12px;
+            background: #ffffff;
+            color: #0f172a;
           "
         />
+
+        <label for="li_pass"><small>รหัสผ่าน</small></label>
         <input
           id="li_pass"
-          placeholder="รหัสผ่าน"
           type="password"
+          placeholder="อย่างน้อย 6 ตัวอักษร"
+          autocomplete="current-password"
           style="
-            padding: 10px;
-            border-radius: 10px;
-            border: 1px solid #334155;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid #cbd5e1;
             width: 100%;
-            margin: 6px 0;
+            margin: 6px 0 12px;
+            background: #ffffff;
+            color: #0f172a;
           "
         />
+
         <button id="btn_login" class="btn" type="button">เข้าสู่ระบบ</button>
-        <p id="msg_login"><small></small></p>
+        <p id="msg_login" style="margin-top: 10px"><small></small></p>
+
+        <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 14px 0" />
 
         <a class="btn btn-ghost" href="register.html"
           >ยังไม่มีบัญชี? สมัครสมาชิก</a
         >
-      </div>
+        <a class="btn btn-ghost" href="index.html" style="margin-top: 8px"
+          >กลับหน้าแรก</a
+        >
+      </section>
 
-      <p style="margin-top: 14px">
-        <a class="btn btn-ghost" href="index.html">กลับหน้าแรก</a>
-      </p>
+      <script type="module">
+        import { signIn } from "./assets/js/auth.js";
 
-      <script type="module" src="assets/js/pages/loginPage.js"></script>
+        const mli = document.getElementById("msg_login");
+
+        document
+          .getElementById("btn_login")
+          .addEventListener("click", async () => {
+            mli.innerHTML = "<small>กำลังเข้าสู่ระบบ…</small>";
+            try {
+              const email = document.getElementById("li_email").value.trim();
+              const pass = document.getElementById("li_pass").value;
+
+              await signIn(email, pass);
+              window.location.href = "dashboard.html";
+            } catch (e) {
+              mli.innerHTML = `<small style="color:#ef4444;">ล็อกอินไม่สำเร็จ: ${e.message}</small>`;
+            }
+          });
+      </script>
     </main>
+    <script src="assets/js/theme.js"></script>
   </body>
 </html>

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Play Game</title>
+    <link rel="stylesheet" href="assets/css/main.css" />
+  </head>
+  <body>
+    <main class="app">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-badge">
+            <img src="assets/img/logo.png" alt="Logo" width="40" height="40" />
+          </div>
+          <div>
+            <div class="brand-title">Faculty of Nursing</div>
+            <div class="brand-sub">Khon Kaen University</div>
+          </div>
+        </div>
+
+        <div class="user-card">
+          <div class="user-avatar">👤</div>
+          <div class="user-meta">
+            <div id="me" class="user-name">กำลังโหลดข้อมูลผู้ใช้…</div>
+            <div id="me_sub" class="user-sub"></div>
+          </div>
+        </div>
+
+        <nav class="menu">
+          <a class="menu-item" href="dashboard.html">Dashboard</a>
+          <a class="menu-item" href="pretest.html">Pre-test</a>
+          <a class="menu-item active" href="game.html">Play Game</a>
+          <a class="menu-item" href="posttest.html">Post-test</a>
+          <a class="menu-item" href="certificate.html">Certificate</a>
+          <a class="menu-item" href="creators.html">Creators</a>
+        </nav>
+
+        <div id="teacher_tools" class="teacher-card" style="display: none">
+          <div class="teacher-title">Teacher Tools</div>
+          <a class="btn w-full" href="manage_questions.html">จัดการข้อสอบ</a>
+          <a class="btn btn-ghost w-full" href="report.html">ดูผลคะแนนรวม</a>
+        </div>
+
+        <div class="sidebar-footer">
+          <button id="btn_logout" class="btn btn-ghost w-full" type="button">
+            ออกจากระบบ
+          </button>
+        </div>
+      </aside>
+
+      <!-- CONTENT -->
+      <section class="content">
+        <header class="content-header">
+          <h1>PLAY GAME</h1>
+          <p class="muted">เล่นเกมเพื่อเรียนรู้</p>
+        </header>
+
+        <div class="card">
+          <h3>กำลังพัฒนา</h3>
+          <p>หน้าเกมกำลังอยู่ในระหว่างการพัฒนา</p>
+          <a class="btn btn-ghost" href="dashboard.html">กลับหน้าแดชบอร์ด</a>
+        </div>
+
+        <footer class="content-footer muted">
+          © Faculty of Nursing, Khon Kaen University
+        </footer>
+      </section>
+    </main>
+    <script src="assets/js/theme.js"></script>
+    <script src="assets/js/mobile-menu.js"></script>
+    <!-- User Info & Auth -->
+    <script type="module" src="assets/js/userInfo.js"></script>
+  </body>
+</html>

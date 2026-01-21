@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="th">
   <head>
     <meta charset="utf-8" />
@@ -8,75 +8,129 @@
   </head>
   <body>
     <main class="container">
-      <h1>สมัครสมาชิก</h1>
+      <section class="card" style="text-align: center; padding: 26px">
+        <h1 style="margin-bottom: 6px">สมัครสมาชิก</h1>
+        <p style="color: #64748b; margin-top: 0">
+          สร้างบัญชีเพื่อทำแบบทดสอบและรับเกียรติบัตร
+        </p>
+      </section>
 
-      <div class="card">
+      <section class="card" style="margin-top: 14px">
+        <h3 style="margin-top: 0">ข้อมูลผู้สมัคร</h3>
+
         <form id="form">
-          <label>ชื่อ-สกุล</label>
+          <label for="fullName"><small>ชื่อ-สกุล</small></label>
           <input
             id="fullName"
             required
+            placeholder="เช่น นิสลิ วินเทอร์โฟล"
             style="
-              padding: 10px;
-              border-radius: 10px;
-              border: 1px solid #334155;
+              padding: 12px;
+              border-radius: 12px;
+              border: 1px solid #cbd5e1;
               width: 100%;
-              margin: 6px 0;
+              margin: 6px 0 12px;
+              background: #ffffff;
+              color: #0f172a;
             "
           />
 
-          <label>รหัสนักศึกษา</label>
+          <label for="studentId"><small>รหัสนักศึกษา</small></label>
           <input
             id="studentId"
             required
             placeholder="663380xxx-x"
             style="
-              padding: 10px;
-              border-radius: 10px;
-              border: 1px solid #334155;
+              padding: 12px;
+              border-radius: 12px;
+              border: 1px solid #cbd5e1;
               width: 100%;
-              margin: 6px 0;
+              margin: 6px 0 12px;
+              background: #ffffff;
+              color: #0f172a;
             "
           />
 
-          <label>Email</label>
+          <label for="email"><small>Email (@kkumail.com)</small></label>
           <input
             id="email"
             type="email"
             required
+            placeholder="example@kkumail.com"
+            autocomplete="email"
             style="
-              padding: 10px;
-              border-radius: 10px;
-              border: 1px solid #334155;
+              padding: 12px;
+              border-radius: 12px;
+              border: 1px solid #cbd5e1;
               width: 100%;
-              margin: 6px 0;
+              margin: 6px 0 12px;
+              background: #ffffff;
+              color: #0f172a;
             "
           />
 
-          <label>Password</label>
+          <label for="password"><small>Password</small></label>
           <input
             id="password"
             type="password"
             required
             minlength="6"
+            placeholder="อย่างน้อย 6 ตัวอักษร"
+            autocomplete="new-password"
             style="
-              padding: 10px;
-              border-radius: 10px;
-              border: 1px solid #334155;
+              padding: 12px;
+              border-radius: 12px;
+              border: 1px solid #cbd5e1;
               width: 100%;
-              margin: 6px 0;
+              margin: 6px 0 14px;
+              background: #ffffff;
+              color: #0f172a;
             "
           />
 
           <button class="btn" type="submit">สมัครสมาชิก</button>
         </form>
 
-        <p id="msg"><small></small></p>
+        <p id="msg" style="margin-top: 10px"><small></small></p>
+
+        <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 14px 0" />
 
         <a class="btn btn-ghost" href="login.html">มีบัญชีแล้ว? เข้าสู่ระบบ</a>
-      </div>
+        <a class="btn btn-ghost" href="index.html" style="margin-top: 8px"
+          >กลับหน้าแรก</a
+        >
+      </section>
 
-      <script type="module" src="assets/js/pages/registerPage.js"></script>
+      <script type="module">
+        import { signUp } from "./assets/js/auth.js";
+
+        const form = document.getElementById("form");
+        const msg = document.getElementById("msg");
+
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          msg.innerHTML = "<small>กำลังสมัคร…</small>";
+
+          const fullName = document.getElementById("fullName").value.trim();
+          const studentId = document.getElementById("studentId").value.trim();
+          const email = document.getElementById("email").value.trim();
+          const password = document.getElementById("password").value;
+
+          try {
+            const result = await signUp(email, password, fullName, studentId);
+
+            if (result.needsEmailConfirm) {
+              msg.innerHTML = `<small style="color:#16a34a;">สมัครสำเร็จ ✅ กรุณายืนยันอีเมลก่อนเข้าสู่ระบบ</small>`;
+            } else {
+              msg.innerHTML = `<small style="color:#16a34a;">สมัครสำเร็จ ✅ ไปหน้าเข้าสู่ระบบได้เลย</small>`;
+              setTimeout(() => (window.location.href = "login.html"), 700);
+            }
+          } catch (error) {
+            msg.innerHTML = `<small style="color:#ef4444;">สมัครไม่สำเร็จ: ${error.message}</small>`;
+          }
+        });
+      </script>
     </main>
+    <script src="assets/js/theme.js"></script>
   </body>
 </html>
