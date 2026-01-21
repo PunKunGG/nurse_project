@@ -65,25 +65,209 @@
         >
       </section>
 
+      <!-- OTP Modal -->
+      <div
+        id="otp_modal"
+        style="
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.6);
+          backdrop-filter: blur(4px);
+          z-index: 1000;
+          justify-content: center;
+          align-items: center;
+        "
+      >
+        <div
+          class="card"
+          style="
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            padding: 24px;
+            animation: fadeIn 0.3s ease;
+          "
+        >
+          <h3 style="margin-top: 0; color: #3b82f6">ยืนยัน OTP</h3>
+          <p style="color: #64748b; margin-bottom: 20px">
+            กรุณากรอกรหัส OTP 8 หลักที่ส่งไปยังอีเมลของคุณ
+          </p>
+
+          <input
+            id="otp_input"
+            type="text"
+            maxlength="8"
+            placeholder="00000000"
+            autocomplete="one-time-code"
+            style="
+              padding: 16px;
+              border-radius: 12px;
+              border: 2px solid #3b82f6;
+              width: 100%;
+              font-size: 24px;
+              text-align: center;
+              letter-spacing: 8px;
+              margin-bottom: 16px;
+              background: #f8fafc;
+              color: #0f172a;
+            "
+          />
+
+          <button
+            id="btn_verify_otp"
+            class="btn"
+            type="button"
+            style="width: 100%"
+          >
+            ยืนยัน OTP
+          </button>
+
+          <button
+            id="btn_resend_otp"
+            class="btn btn-ghost"
+            type="button"
+            style="margin-top: 10px; width: 100%"
+          >
+            ส่ง OTP ใหม่
+          </button>
+
+          <p id="msg_otp" style="margin-top: 12px"><small></small></p>
+
+          <button
+            id="btn_cancel_otp"
+            class="btn btn-ghost"
+            type="button"
+            style="margin-top: 10px; color: #ef4444"
+          >
+            ยกเลิก
+          </button>
+        </div>
+      </div>
+
+      <style>
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: scale(0.95);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+      </style>
+
       <script type="module">
-        import { signIn } from "./assets/js/auth.js";
+        import {
+          signIn,
+          signOut,
+          sendOtp,
+          verifyOtp,
+        } from "./assets/js/auth.js";
 
         const mli = document.getElementById("msg_login");
+        const otpModal = document.getElementById("otp_modal");
+        const otpInput = document.getElementById("otp_input");
+        const msgOtp = document.getElementById("msg_otp");
 
+        let currentEmail = "";
+
+        // ปุ่ม Login
         document
           .getElementById("btn_login")
           .addEventListener("click", async () => {
-            mli.innerHTML = "<small>กำลังเข้าสู่ระบบ…</small>";
+            mli.innerHTML = "<small>กำลังตรวจสอบข้อมูล…</small>";
             try {
               const email = document.getElementById("li_email").value.trim();
               const pass = document.getElementById("li_pass").value;
 
+              // Step 1: ตรวจสอบ Email + Password ก่อน
               await signIn(email, pass);
-              window.location.href = "dashboard.html";
+
+              // Step 2: Sign out ชั่วคราว แล้วส่ง OTP
+              await signOut();
+
+              mli.innerHTML = "<small>กำลังส่ง OTP ไปยังอีเมล…</small>";
+              await sendOtp(email);
+
+              // เก็บ email ไว้ใช้ตอน verify
+              currentEmail = email;
+
+              // แสดง OTP Modal
+              otpModal.style.display = "flex";
+              otpInput.value = "";
+              otpInput.focus();
+              msgOtp.innerHTML =
+                "<small style='color:#22c55e;'>OTP ถูกส่งไปยังอีเมลของคุณแล้ว</small>";
+              mli.innerHTML = "";
             } catch (e) {
               mli.innerHTML = `<small style="color:#ef4444;">ล็อกอินไม่สำเร็จ: ${e.message}</small>`;
             }
           });
+
+        // ปุ่มยืนยัน OTP
+        document
+          .getElementById("btn_verify_otp")
+          .addEventListener("click", async () => {
+            const token = otpInput.value.trim();
+
+            if (token.length !== 8) {
+              msgOtp.innerHTML =
+                "<small style='color:#ef4444;'>กรุณากรอก OTP 8 หลัก</small>";
+              return;
+            }
+
+            msgOtp.innerHTML = "<small>กำลังตรวจสอบ OTP…</small>";
+
+            try {
+              await verifyOtp(currentEmail, token);
+              msgOtp.innerHTML =
+                "<small style='color:#22c55e;'>ยืนยันสำเร็จ! กำลังเข้าสู่ระบบ…</small>";
+
+              setTimeout(() => {
+                window.location.href = "dashboard.html";
+              }, 500);
+            } catch (e) {
+              msgOtp.innerHTML = `<small style='color:#ef4444;'>OTP ไม่ถูกต้อง: ${e.message}</small>`;
+            }
+          });
+
+        // ปุ่มส่ง OTP ใหม่
+        document
+          .getElementById("btn_resend_otp")
+          .addEventListener("click", async () => {
+            msgOtp.innerHTML = "<small>กำลังส่ง OTP ใหม่…</small>";
+
+            try {
+              await sendOtp(currentEmail);
+              msgOtp.innerHTML =
+                "<small style='color:#22c55e;'>OTP ใหม่ถูกส่งไปยังอีเมลของคุณแล้ว</small>";
+              otpInput.value = "";
+              otpInput.focus();
+            } catch (e) {
+              msgOtp.innerHTML = `<small style='color:#ef4444;'>ส่ง OTP ไม่สำเร็จ: ${e.message}</small>`;
+            }
+          });
+
+        // ปุ่มยกเลิก
+        document
+          .getElementById("btn_cancel_otp")
+          .addEventListener("click", () => {
+            otpModal.style.display = "none";
+            currentEmail = "";
+            mli.innerHTML = "";
+          });
+
+        // กด Enter ใน OTP input เพื่อ submit
+        otpInput.addEventListener("keypress", (e) => {
+          if (e.key === "Enter") {
+            document.getElementById("btn_verify_otp").click();
+          }
+        });
       </script>
     </main>
     <script src="assets/js/theme.js"></script>
