@@ -2605,7 +2605,7 @@ MonoBehaviour:
   patientDummy: {fileID: 1009432316}
   patientRenderer: {fileID: 1009432319}
   lateralSprite: {fileID: 0}
-  woundClickArea: {fileID: 0}
+  woundClickArea: {fileID: 26788924}
   pillow: {fileID: 2116944148}
   pillowDropZone: {fileID: 375082940}
   congratsAutoCloseSeconds: 1
