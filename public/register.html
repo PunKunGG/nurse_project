@@ -111,9 +111,19 @@
           </div>
 
           <button class="btn" type="submit">สมัครสมาชิก</button>
+
+          <p class="pdpa-notice">
+            <small>
+              การสมัครสมาชิกถือว่าคุณยอมรับ<a
+                href="privacy.html"
+                target="_blank"
+                >นโยบายความเป็นส่วนตัว (PDPA)</a
+              >
+            </small>
+          </p>
         </form>
 
-        <p id="msg" style="margin-top: 10px"><small></small></p>
+        <p id="msg"><small></small></p>
 
         <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 14px 0" />
 
@@ -137,7 +147,7 @@
             const toggleBtn = document.getElementById("toggle_password");
             if (passInput.type === "password") {
               passInput.type = "text";
-              toggleBtn.textContent = "🙈";
+              toggleBtn.textContent = "👁️";
             } else {
               passInput.type = "password";
               toggleBtn.textContent = "👁️";
