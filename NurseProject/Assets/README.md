@@ -118,6 +118,10 @@ update0.3 (Intellectual Impairment Update)
 
 -ระบบ Debugger
 
+-เพิ่มปุ่ม replay สำหรับเล่น cutscene ใหม่
+
+-Display UI ว่า object ในการเล่นหลังจากตอบคำถามคืออะไร
+
     CheckList
 
     Cutscene to Quiz
@@ -133,6 +137,17 @@ update0.3 (Intellectual Impairment Update)
     -ปรับค่า size ใน main camera ด้วยเด้อ(อยู่ตรง Inpector -> Camera ) แบบลากฉากให้ตรงกับ camera แล้วก้ใส่ size ดูว่าฉากมันกว้างยาวแค่ได้ไหน
     -(optional) สามารถปรับสีพื้นหลังในกรณีที่หน้าจอเกมไม่ fit กับขอบพื้นหลังได้ที่ main camera -> environment -> Background เด้อ ไม่งั้นก้อาจจะเปลี่ยนจาก solid color เป็น skybox แล้วแต่ๆ 
 
+update0.4 (Insomnia)
+
+-ระบบตอบคำถาม + สุ่มคำตอบ
+
+-ระบบ Next Stage for Insomnia (เหลือของ  Intellectual Impairment, Immobility , Instability)
+
+    CheckList
+
+    Sprite For UI
+    -เช็ค sprite ง่ายๆผ่านไม่ผ่านใน Universal_Result
+    -ขนาดหน้าจอ ปรับได้ตามเหมาะสม
 ---
 
 ## Unity Version
