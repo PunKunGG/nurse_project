@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Creators - Nurse Learning</title>
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/creators.css" />
+  </head>
+
+  <body>
+    <main class="app">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-badge">
+            <img src="assets/img/logo.png" alt="Logo" width="40" height="40" />
+          </div>
+          <div>
+            <div class="brand-title">Faculty of Nursing</div>
+            <div class="brand-sub">Khon Kaen University</div>
+          </div>
+        </div>
+
+        <div class="user-card">
+          <div class="user-avatar">👤</div>
+          <div class="user-meta">
+            <div id="me" class="user-name">กำลังโหลดข้อมูลผู้ใช้…</div>
+            <div id="me_sub" class="user-sub"></div>
+          </div>
+        </div>
+
+        <nav class="menu">
+          <a class="menu-item" href="dashboard.html">Dashboard</a>
+          <a class="menu-item" href="pretest.html">Pre-test</a>
+          <a
+            class="menu-item locked"
+            href="game.html"
+            data-menu-id="game"
+            data-tooltip="กรุณาทำ Pre-test ก่อนเพื่อปลดล็อก"
+            >Play Game</a
+          >
+          <a
+            class="menu-item locked"
+            href="posttest.html"
+            data-menu-id="posttest"
+            data-tooltip="กรุณาทำ Pre-test ก่อนเพื่อปลดล็อก"
+            >Post-test</a
+          >
+          <a
+            class="menu-item locked"
+            href="certificate.html"
+            data-menu-id="certificate"
+            data-tooltip="ทำ Post-test ให้ได้ ≥60% เพื่อปลดล็อก"
+            >Certificate</a
+          >
+          <a class="menu-item active" href="creators.html">Creators</a>
+        </nav>
+
+        <div id="teacher_tools" class="teacher-card" style="display: none">
+          <div class="teacher-title">Teacher Tools</div>
+          <a class="btn w-full" href="manage_questions.html">จัดการข้อสอบ</a>
+          <a class="btn btn-ghost w-full" href="report.html">ดูผลคะแนนรวม</a>
+        </div>
+
+        <div class="sidebar-footer">
+          <button id="btn_logout" class="btn btn-ghost w-full" type="button">
+            ออกจากระบบ
+          </button>
+        </div>
+      </aside>
+
+      <!-- CONTENT -->
+      <section class="content">
+        <header class="creators-header content-header">
+          <a class="btn btn-ghost back-btn" href="dashboard.html">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+            กลับหน้าหลัก
+          </a>
+          <h1>CREATORS</h1>
+          <p class="muted">ทีมผู้จัดทำ</p>
+        </header>
+
+        <!-- Section: อาจารย์ที่ปรึกษา -->
+        <h2 class="section-title">อาจารย์ที่ปรึกษา</h2>
+        <div class="creators-grid">
+          <!-- Advisor Card 1 -->
+          <div
+            class="creator-card advisor-card"
+            onclick="openModal('advisor1')"
+          >
+            <img
+              class="creator-avatar"
+              src="assets/img/aj1.png"
+              alt="Advisor 1"
+              style="object-position: top"
+              onerror="
+                this.src =
+                  'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%238b5cf6%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2260%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>👩‍🏫</text></svg>'
+              "
+            />
+            <div class="creator-name">ผศ.ดร.ลดาวัลย์ พันธุ์พาณิชย์</div>
+            <div class="creator-role">อาจารย์ที่ปรึกษา</div>
+            <div class="creator-tagline">อาจารย์ที่ปรึกษาโครงการ</div>
+            <span class="creator-badge">👩‍🏫 Advisor</span>
+          </div>
+
+          <!-- Advisor Card 2 -->
+          <div
+            class="creator-card advisor-card"
+            onclick="openModal('advisor2')"
+          >
+            <img
+              class="creator-avatar"
+              src="assets/img/aj2.jpg"
+              alt="Advisor 2"
+              onerror="
+                this.src =
+                  'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%238b5cf6%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2260%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>👨‍🏫</text></svg>'
+              "
+            />
+            <div class="creator-name">อาจารย์พิมชญา วิเศษสิทธิกุล</div>
+            <div class="creator-role">อาจารย์ที่ปรึกษา</div>
+            <div class="creator-tagline">อาจารย์ที่ปรึกษาร่วม</div>
+            <span class="creator-badge">👨‍🏫 Advisor</span>
+          </div>
+        </div>
+
+        <!-- Section: นักศึกษาพยาบาล -->
+        <h2 class="section-title">นักศึกษาพยาบาล</h2>
+        <div class="creators-grid">
+          <!-- Creator Card 1 -->
+          <div class="creator-card" onclick="openModal('creator1')">
+            <img
+              class="creator-avatar"
+              src="assets/img/rinlada.png"
+              alt="Creator 1"
+              onerror="
+                this.src =
+                  'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%233b82f6%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2260%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>👩‍💻</text></svg>'
+              "
+            />
+            <div class="creator-name">นางสาวรินลดา ทองตา</div>
+            <div class="creator-role">663060107-8</div>
+            <div class="creator-tagline">
+              คณะพยาบาลศาสตร์ มหาวิทยาลัยขอนแก่น
+            </div>
+            <span class="creator-badge">🩺 Nursing Student</span>
+          </div>
+
+          <!-- Creator Card 2 -->
+          <div class="creator-card" onclick="openModal('creator2')">
+            <img
+              class="creator-avatar"
+              src="assets/img/yuphada.jpg"
+              alt="Creator 2"
+              onerror="
+                this.src =
+                  'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%2310b981%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2260%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>👨‍💻</text></svg>'
+              "
+            />
+            <div class="creator-name">นางสาวยุภาดา พิมพ์แมน</div>
+            <div class="creator-role">663060105-2</div>
+            <div class="creator-tagline">
+              คณะพยาบาลศาสตร์ มหาวิทยาลัยขอนแก่น
+            </div>
+            <span class="creator-badge">🩺 Nursing Student</span>
+          </div>
+
+          <!-- Creator Card 3 -->
+          <div class="creator-card" onclick="openModal('creator3')">
+            <img
+              class="creator-avatar"
+              src="assets/img/maneechanok.jpg"
+              alt="Creator 3"
+              onerror="
+                this.src =
+                  'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%2310b981%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2260%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>👨‍💻</text></svg>'
+              "
+            />
+            <div class="creator-name">นางสาวมณีชนก นิทะรัมย์</div>
+            <div class="creator-role">663060100-2</div>
+            <div class="creator-tagline">
+              คณะพยาบาลศาสตร์ มหาวิทยาลัยขอนแก่น
+            </div>
+            <span class="creator-badge">🩺 Nursing Student</span>
+          </div>
+
+          <!-- Creator Card 4 -->
+          <div class="creator-card" onclick="openModal('creator4')">
+            <img
+              class="creator-avatar"
+              src="assets/img/sawita.jpg"
+              alt="Creator 4"
+              onerror="
+                this.src =
+                  'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%2310b981%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2260%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>👨‍💻</text></svg>'
+              "
+            />
+            <div class="creator-name">นางสาวศวิตา สังแคนพรม</div>
+            <div class="creator-role">663060110-9</div>
+            <div class="creator-tagline">
+              คณะพยาบาลศาสตร์ มหาวิทยาลัยขอนแก่น
+            </div>
+            <span class="creator-badge">🩺 Nursing Student</span>
+          </div>
+
+          <!-- Creator Card 5 -->
+          <div class="creator-card" onclick="openModal('creator5')">
+            <img
+              class="creator-avatar"
+              src="assets/img/methinee.jpg"
+              alt="Creator 5"
+              onerror="
+                this.src =
+                  'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%2310b981%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2260%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>👨💻</text></svg>'
+              "
+            />
+            <div class="creator-name">นางสาวเมทิณี ภูนิโรจน์</div>
+            <div class="creator-role">663060125-6</div>
+            <div class="creator-tagline">
+              คณะพยาบาลศาสตร์ มหาวิทยาลัยขอนแก่น
+            </div>
+            <span class="creator-badge">🩺 Nursing Student</span>
+          </div>
+
+          <!-- Creator Card 6 -->
+          <div class="creator-card" onclick="openModal('creator6')">
+            <img
+              class="creator-avatar"
+              src="assets/img/apisara.jpg"
+              alt="Creator 6"
+              onerror="
+                this.src =
+                  'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%2310b981%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2260%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>👨💻</text></svg>'
+              "
+            />
+            <div class="creator-name">นางสาวอภิสรา สุสำนาจ</div>
+            <div class="creator-role">663060119-1</div>
+            <div class="creator-tagline">
+              คณะพยาบาลศาสตร์ มหาวิทยาลัยขอนแก่น
+            </div>
+            <span class="creator-badge">🩺 Nursing Student</span>
+          </div>
+
+          <!-- Creator Card 7 -->
+          <div class="creator-card" onclick="openModal('creator7')">
+            <img
+              class="creator-avatar"
+              src="assets/img/sirirat.jpg"
+              alt="Creator 7"
+              onerror="
+                this.src =
+                  'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%2310b981%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2260%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>👨💻</text></svg>'
+              "
+            />
+            <div class="creator-name">นางสาวศิริรัตน์ อุตระทอง</div>
+            <div class="creator-role">663060113-3</div>
+            <div class="creator-tagline">
+              คณะพยาบาลศาสตร์ มหาวิทยาลัยขอนแก่น
+            </div>
+            <span class="creator-badge">🩺 Nursing Student</span>
+          </div>
+        </div>
+
+        <!-- Section: นักศึกษาทีมพัฒนา -->
+        <h2 class="section-title">นักศึกษาทีมพัฒนา</h2>
+        <div class="creators-grid">
+          <!-- Creator Card 1 -->
+          <div class="creator-card" onclick="openModal('developer1')">
+            <img
+              class="creator-avatar"
+              src="assets/img/pun.png"
+              alt="Creator 1"
+              style="object-position: top"
+              onerror="
+                this.src =
+                  'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%2310b981%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2260%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>👨💻</text></svg>'
+              "
+            />
+            <div class="creator-name">นายศิวภาส ภูศรีอ่อน</div>
+            <div class="creator-role">663380026-5</div>
+            <div class="creator-tagline">
+              วิทยาลัยการคอมพิวเตอร์ สาขาวิทยาการคอมพิวเตอร์ มหาวิทยาลัยขอนแก่น
+            </div>
+            <span class="creator-badge">💻 Web Developer</span>
+            <span class="creator-badge">📊 Database</span>
+            <span class="creator-badge">🛠️ Deployment</span>
+            <span class="creator-badge">📱 Responsive</span>
+            <span class="creator-badge">🛡️ Security</span>
+          </div>
+
+          <!-- Creator Card 2 -->
+          <div class="creator-card" onclick="openModal('developer2')">
+            <img
+              class="creator-avatar"
+              src="assets/img/tar.png"
+              alt="Creator 2"
+              style="object-position: top"
+              onerror="
+                this.src =
+                  'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%2310b981%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2260%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>👨💻</text></svg>'
+              "
+            />
+            <div class="creator-name">นายภควรรธ บุญเรือง</div>
+            <div class="creator-role">663380227-5</div>
+            <div class="creator-tagline">
+              วิทยาลัยการคอมพิวเตอร์ สาขาวิทยาการคอมพิวเตอร์ มหาวิทยาลัยขอนแก่น
+            </div>
+            <span class="creator-badge">👾 Game Developer</span>
+            <span class="creator-badge">🎮 Game Tester</span>
+          </div>
+
+          <!-- Creator Card 3 -->
+          <div class="creator-card" onclick="openModal('developer3')">
+            <img
+              class="creator-avatar"
+              src="assets/img/boat.png"
+              alt="Creator 2"
+              style="object-position: top"
+              onerror="
+                this.src =
+                  'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%2310b981%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2260%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>👨💻</text></svg>'
+              "
+            />
+            <div class="creator-name">นายรัชภูมิ ทองแดง</div>
+            <div class="creator-role">663380231-4</div>
+            <div class="creator-tagline">
+              วิทยาลัยการคอมพิวเตอร์ สาขาวิทยาการคอมพิวเตอร์ มหาวิทยาลัยขอนแก่น
+            </div>
+            <span class="creator-badge">🖌️ Art Designer</span>
+            <span class="creator-badge">👾 Game Developer</span>
+            <span class="creator-badge">🎮 Game Tester</span>
+          </div>
+
+          <!-- Creator Card 4 -->
+          <div class="creator-card" onclick="openModal('developer4')">
+            <img
+              class="creator-avatar"
+              src="assets/img/gust.png"
+              alt="Creator 2"
+              style="object-position: top"
+              onerror="
+                this.src =
+                  'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%2310b981%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2260%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>👨💻</text></svg>'
+              "
+            />
+            <div class="creator-name">นายธิติวุฒิ ศรีอมรรัตน์</div>
+            <div class="creator-role">663380213-6</div>
+            <div class="creator-tagline">
+              วิทยาลัยการคอมพิวเตอร์ สาขาวิทยาการคอมพิวเตอร์ มหาวิทยาลัยขอนแก่น
+            </div>
+            <span class="creator-badge">🖌️ Art Director</span>
+            <span class="creator-badge">👾 Game Developer</span>
+            <span class="creator-badge">🎮 Game Tester</span>
+          </div>
+        </div>
+
+        <footer class="content-footer muted">
+          © Faculty of Nursing, Khon Kaen University
+        </footer>
+      </section>
+    </main>
+
+    <!-- Modal Popup -->
+    <div class="modal-overlay" id="modal" onclick="closeModal(event)">
+      <div class="modal-content" onclick="event.stopPropagation()">
+        <div class="modal-header">
+          <button class="modal-close" onclick="closeModal()">&times;</button>
+          <img class="modal-avatar" id="modalAvatar" src="" alt="Creator" />
+          <div class="modal-name" id="modalName"></div>
+          <div class="modal-role" id="modalRole"></div>
+        </div>
+        <div class="modal-body">
+          <div class="info-row">
+            <div class="info-icon">📧</div>
+            <div>
+              <div class="info-label">อีเมล</div>
+              <div class="info-value" id="modalEmail"></div>
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-icon">📱</div>
+            <div>
+              <div class="info-label">เบอร์โทรศัพท์</div>
+              <div class="info-value" id="modalPhone"></div>
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-icon">🎓</div>
+            <div>
+              <div class="info-label">สาขาวิชา</div>
+              <div class="info-value" id="modalMajor"></div>
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-icon">💼</div>
+            <div>
+              <div class="info-label">หน้าที่รับผิดชอบ</div>
+              <div class="info-value" id="modalResponsibility"></div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-ghost w-full" onclick="closeModal()">
+            ปิด
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/pages/creatorsPage.js"></script>
+    <script src="assets/js/theme.js"></script>
+    <script src="assets/js/mobile-menu.js"></script>
+    <!-- User Info & Auth -->
+    <script type="module" src="assets/js/userInfo.js"></script>
+    <script type="module" src="assets/js/menuLock.js"></script>
+  </body>
+</html>

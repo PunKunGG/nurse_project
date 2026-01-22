@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pre-test - ภารกิจพิชิต I</title>
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/quiz.css" />
+  </head>
+  <body>
+    <main class="app">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-badge">
+            <img src="assets/img/logo.png" alt="Logo" width="40" height="40" />
+          </div>
+          <div>
+            <div class="brand-title">Faculty of Nursing</div>
+            <div class="brand-sub">Khon Kaen University</div>
+          </div>
+        </div>
+
+        <div class="user-card">
+          <div class="user-avatar">👤</div>
+          <div class="user-meta">
+            <div id="me" class="user-name">กำลังโหลดข้อมูลผู้ใช้…</div>
+            <div id="me_sub" class="user-sub"></div>
+          </div>
+        </div>
+
+        <nav class="menu">
+          <a class="menu-item" href="dashboard.html">Dashboard</a>
+          <a class="menu-item active" href="pretest.html">Pre-test</a>
+          <a
+            class="menu-item locked"
+            href="game.html"
+            data-menu-id="game"
+            data-tooltip="กรุณาทำ Pre-test ก่อนเพื่อปลดล็อก"
+            >Play Game</a
+          >
+          <a
+            class="menu-item locked"
+            href="posttest.html"
+            data-menu-id="posttest"
+            data-tooltip="กรุณาทำ Pre-test ก่อนเพื่อปลดล็อก"
+            >Post-test</a
+          >
+          <a
+            class="menu-item locked"
+            href="certificate.html"
+            data-menu-id="certificate"
+            data-tooltip="ทำ Post-test ให้ได้ ≥60% เพื่อปลดล็อก"
+            >Certificate</a
+          >
+          <a class="menu-item" href="creators.html">Creators</a>
+        </nav>
+
+        <div id="teacher_tools" class="teacher-card" style="display: none">
+          <div class="teacher-title">Teacher Tools</div>
+          <a class="btn w-full" href="manage_questions.html">จัดการข้อสอบ</a>
+          <a class="btn btn-ghost w-full" href="report.html">ดูผลคะแนนรวม</a>
+        </div>
+
+        <div class="sidebar-footer">
+          <button id="btn_logout" class="btn btn-ghost w-full" type="button">
+            ออกจากระบบ
+          </button>
+        </div>
+      </aside>
+
+      <!-- CONTENT -->
+      <section class="content">
+        <header class="content-header">
+          <h1>PRE-TEST</h1>
+          <p class="muted">ทดสอบความรู้ก่อนเรียน</p>
+        </header>
+
+        <!-- Intro Screen -->
+        <div class="card quiz-intro" id="quizIntro">
+          <div class="quiz-intro-icon">
+            <img
+              src="assets/img/logo.png"
+              alt="Logo"
+              width="100"
+              height="100"
+            />
+          </div>
+          <h2>แบบทดสอบก่อนเรียน</h2>
+          <p class="muted">เลือกคำตอบที่ถูกต้องที่สุดเพียงข้อเดียว</p>
+
+          <div class="quiz-info">
+            <div class="quiz-info-item">
+              <span>10 ข้อ</span>
+            </div>
+            <div class="quiz-info-item">
+              <span>ไม่จำกัดเวลา</span>
+            </div>
+            <div class="quiz-info-item">
+              <span>ผ่านมากกว่า 60%</span>
+            </div>
+          </div>
+
+          <button class="btn" onclick="startQuiz()">เริ่มทำแบบทดสอบ</button>
+        </div>
+
+        <!-- Quiz Container -->
+        <div class="quiz-container" id="quizContainer">
+          <div class="quiz-progress standalone">
+            <div class="progress-bar">
+              <div
+                class="progress-fill primary"
+                id="progressFill"
+                style="width: 10%"
+              ></div>
+            </div>
+            <div class="progress-text primary" id="progressText">ข้อ 1/10</div>
+          </div>
+
+          <div id="questionContainer"></div>
+
+          <div class="quiz-navigation">
+            <button
+              class="btn btn-ghost"
+              id="prevBtn"
+              onclick="prevQuestion()"
+              disabled
+            >
+              ← ข้อก่อนหน้า
+            </button>
+            <button class="btn" id="nextBtn" onclick="nextQuestion()">
+              ข้อถัดไป →
+            </button>
+            <button
+              class="btn"
+              id="submitBtn"
+              onclick="submitQuiz()"
+              style="display: none"
+            >
+              ส่งคำตอบ ✓
+            </button>
+          </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div class="card quiz-results" id="quizResults">
+          <div class="result-icon" id="resultIcon">🎉</div>
+          <div class="result-score" id="resultScore">80%</div>
+          <div class="result-text" id="resultText">ยอดเยี่ยม! คุณผ่านเกณฑ์</div>
+
+          <div class="result-details">
+            <div class="result-item">
+              <div class="result-item-value success" id="correctCount">8</div>
+              <div class="result-item-label">ตอบถูก</div>
+            </div>
+            <div class="result-item">
+              <div class="result-item-value error" id="incorrectCount">2</div>
+              <div class="result-item-label">ตอบผิด</div>
+            </div>
+          </div>
+
+          <div
+            style="
+              display: flex;
+              gap: 12px;
+              justify-content: center;
+              flex-wrap: wrap;
+              margin-top: 24px;
+            "
+          >
+            <button class="btn btn-ghost" onclick="location.reload()">
+              ทำอีกครั้ง
+            </button>
+            <a class="btn" href="game.html">ไปเล่นเกม →</a>
+          </div>
+        </div>
+
+        <footer class="content-footer muted">
+          © Faculty of Nursing, Khon Kaen University
+        </footer>
+      </section>
+    </main>
+
+    <!-- Quiz Script -->
+    <script src="assets/js/pages/pretestQuiz.js"></script>
+
+    <!-- Theme & Mobile Menu -->
+    <script src="assets/js/theme.js"></script>
+    <script src="assets/js/mobile-menu.js"></script>
+
+    <!-- User Info & Auth -->
+    <script type="module" src="assets/js/userInfo.js"></script>
+    <script type="module" src="assets/js/menuLock.js"></script>
+  </body>
+</html>

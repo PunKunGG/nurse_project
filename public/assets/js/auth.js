@@ -1,6 +1,16 @@
 import { supabase } from "./supabaseClient.js";
 
+// ตรวจสอบว่าเป็น KKU email หรือไม่
+function isKKUEmail(email) {
+  return email.toLowerCase().endsWith("@kkumail.com");
+}
+
 export async function signUp(email, password, fullName, studentId) {
+  // ตรวจสอบว่าเป็น KKU email
+  if (!isKKUEmail(email)) {
+    throw new Error("กรุณาใช้อีเมลมหาวิทยาลัย (@kkumail.com) เท่านั้น");
+  }
+
   // 1) สร้าง user ใน auth
   const { data, error } = await supabase.auth.signUp({
     email,
@@ -29,7 +39,7 @@ export async function signUp(email, password, fullName, studentId) {
       student_id: studentId,
       role: "student",
     },
-    { onConflict: "user_id" }
+    { onConflict: "user_id" },
   );
 
   if (pErr) throw pErr;
@@ -38,6 +48,11 @@ export async function signUp(email, password, fullName, studentId) {
 }
 
 export async function signIn(email, password) {
+  // ตรวจสอบว่าเป็น KKU email
+  if (!isKKUEmail(email)) {
+    throw new Error("กรุณาใช้อีเมลมหาวิทยาลัย (@kkumail.com) เท่านั้น");
+  }
+
   const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password,
@@ -72,5 +87,27 @@ export async function getMyProfile() {
   if (error) throw error;
 
   // ถ้าไม่เจอโปรไฟล์จริง ๆ (เช่น insert ไม่ทัน/พลาด) ก็คืน null ให้หน้าไป handle
+  return data;
+}
+
+// ส่ง OTP ไปยังอีเมล
+export async function sendOtp(email) {
+  const { error } = await supabase.auth.signInWithOtp({
+    email,
+    options: {
+      shouldCreateUser: false, // ไม่สร้าง user ใหม่ถ้าไม่มีในระบบ
+    },
+  });
+  if (error) throw error;
+}
+
+// ยืนยัน OTP
+export async function verifyOtp(email, token) {
+  const { data, error } = await supabase.auth.verifyOtp({
+    email,
+    token,
+    type: "email",
+  });
+  if (error) throw error;
   return data;
 }

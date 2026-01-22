@@ -3048,6 +3048,10 @@ MonoBehaviour:
   - {fileID: 657077881}
   examTriggerGO: {fileID: 0}
   rerollEveryEnterInspect: 1
+  patientDummy: {fileID: 1009432316}
+  patientRenderer: {fileID: 1009432319}
+  lateralSprite: {fileID: 0}
+  woundClickArea: {fileID: 26788924}
   pillow: {fileID: 2116944148}
   pillowDropZone: {fileID: 375082940}
   congratsAutoCloseSeconds: 1

@@ -112,7 +112,26 @@ update0.2 (Immobility Update)
 
 update0.3 (Intellectual Impairment Update)
 
--Soon
+-ระบบ cutscene to quiz
+
+-ระบบ interact กับ object เปลี่ยน sprite จากผิดเป็นถูก
+
+-ระบบ Debugger
+
+    CheckList
+
+    Cutscene to Quiz
+    -ลาก Panel_Cutscene, VideoPlayer, Panel_Quiz ใส่ให้ครบ
+    -ที่ Panel_Quiz ลากปุ่มถูกใส่ช่อง Correct Button ลากปุ่มผิดใส่ Array Wrong Buttons ทีไม่แน่ใจอันไหนถูกผิด
+    -หา font ที่ไม่มีลิขสิทธิ์มาใช้กับคำถามภาษาไทยด้วยเด้อ
+
+    Object Interaction
+    -วางของในฉาก (เช่น Lamp_Object) เป็น SpriteRenderer
+    -คลิกที่ Object ที่ต้องการ -> ใส่ Script HazardObject -> ใส่ BoxCollider2D (เพื่อให้คลิกได้)
+    -ลากรูป ที่แก้ไขหลังจากกด object มาใส่ในช่อง Fixed Sprite
+    -ลากฉากใส่ Room_Background sprite แล้วก็ลาก sprite patient ใส่ patient
+    -ปรับค่า size ใน main camera ด้วยเด้อ(อยู่ตรง Inpector -> Camera ) แบบลากฉากให้ตรงกับ camera แล้วก้ใส่ size ดูว่าฉากมันกว้างยาวแค่ได้ไหน
+    -(optional) สามารถปรับสีพื้นหลังในกรณีที่หน้าจอเกมไม่ fit กับขอบพื้นหลังได้ที่ main camera -> environment -> Background เด้อ ไม่งั้นก้อาจจะเปลี่ยนจาก solid color เป็น skybox แล้วแต่ๆ 
 
 ---
 
