@@ -70,28 +70,60 @@
           />
 
           <label for="password"><small>Password</small></label>
-          <input
-            id="password"
-            type="password"
-            required
-            minlength="6"
-            placeholder="อย่างน้อย 6 ตัวอักษร"
-            autocomplete="new-password"
-            style="
-              padding: 12px;
-              border-radius: 12px;
-              border: 1px solid #cbd5e1;
-              width: 100%;
-              margin: 6px 0 14px;
-              background: #ffffff;
-              color: #0f172a;
-            "
-          />
+          <div style="position: relative">
+            <input
+              id="password"
+              type="password"
+              required
+              minlength="6"
+              placeholder="อย่างน้อย 6 ตัวอักษร"
+              autocomplete="new-password"
+              style="
+                padding: 12px;
+                padding-right: 45px;
+                border-radius: 12px;
+                border: 1px solid #cbd5e1;
+                width: 100%;
+                margin: 6px 0 14px;
+                background: #ffffff;
+                color: #0f172a;
+              "
+            />
+            <button
+              type="button"
+              id="toggle_password"
+              style="
+                position: absolute;
+                right: 12px;
+                top: 50%;
+                transform: translateY(-50%);
+                background: none;
+                border: none;
+                cursor: pointer;
+                padding: 4px;
+                color: #64748b;
+                font-size: 18px;
+              "
+              title="แสดง/ซ่อนรหัสผ่าน"
+            >
+              👁️
+            </button>
+          </div>
 
           <button class="btn" type="submit">สมัครสมาชิก</button>
+
+          <p class="pdpa-notice">
+            <small>
+              การสมัครสมาชิกถือว่าคุณยอมรับ<a
+                href="privacy.html"
+                target="_blank"
+                >นโยบายความเป็นส่วนตัว (PDPA)</a
+              >
+            </small>
+          </p>
         </form>
 
-        <p id="msg" style="margin-top: 10px"><small></small></p>
+        <p id="msg"><small></small></p>
 
         <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 14px 0" />
 
@@ -106,6 +138,21 @@
 
         const form = document.getElementById("form");
         const msg = document.getElementById("msg");
+
+        // Toggle password visibility
+        document
+          .getElementById("toggle_password")
+          .addEventListener("click", () => {
+            const passInput = document.getElementById("password");
+            const toggleBtn = document.getElementById("toggle_password");
+            if (passInput.type === "password") {
+              passInput.type = "text";
+              toggleBtn.textContent = "👁️";
+            } else {
+              passInput.type = "password";
+              toggleBtn.textContent = "👁️";
+            }
+          });
 
         form.addEventListener("submit", async (e) => {
           e.preventDefault();

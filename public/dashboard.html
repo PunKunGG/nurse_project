@@ -32,9 +32,27 @@
         <nav class="menu">
           <a class="menu-item active" href="dashboard.html">Dashboard</a>
           <a class="menu-item" href="pretest.html">Pre-test</a>
-          <a class="menu-item" href="game.html">Play Game</a>
-          <a class="menu-item" href="posttest.html">Post-test</a>
-          <a class="menu-item" href="certificate.html">Certificate</a>
+          <a
+            class="menu-item locked"
+            href="game.html"
+            data-menu-id="game"
+            data-tooltip="กรุณาทำ Pre-test ก่อนเพื่อปลดล็อก"
+            >Play Game</a
+          >
+          <a
+            class="menu-item locked"
+            href="posttest.html"
+            data-menu-id="posttest"
+            data-tooltip="กรุณาทำ Pre-test ก่อนเพื่อปลดล็อก"
+            >Post-test</a
+          >
+          <a
+            class="menu-item locked"
+            href="certificate.html"
+            data-menu-id="certificate"
+            data-tooltip="ทำ Post-test ให้ได้ ≥60% เพื่อปลดล็อก"
+            >Certificate</a
+          >
           <a class="menu-item" href="creators.html">Creators</a>
         </nav>
 
@@ -98,18 +116,49 @@
             </div>
           </div>
 
-          <!-- Quick Actions -->
+          <!-- วิธีการใช้งาน -->
           <div class="panel">
             <div class="panel-head">
-              <h3>Quick Actions</h3>
+              <h3>วิธีการใช้งานเว็บไซต์เบื้องต้น</h3>
             </div>
 
-            <div class="stack">
-              <a class="btn w-full" href="posttest.html">ไปทำ Post-test</a>
-              <a class="btn btn-ghost w-full" href="certificate.html"
-                >ไปหน้า Certificate</a
-              >
-              <a class="btn btn-ghost w-full" href="game.html">ไปหน้าเล่นเกม</a>
+            <div class="usage-steps">
+              <div class="usage-step">
+                <span class="step-number"><strong>1</strong></span>
+                <div class="step-content">
+                  <div class="step-title">ทำแบบทดสอบก่อนเรียน</div>
+                  <div class="step-desc muted">
+                    ทำ Pre-test เพื่อประเมินความรู้เบื้องต้น
+                  </div>
+                </div>
+              </div>
+              <div class="usage-step">
+                <span class="step-number"><strong>2</strong></span>
+                <div class="step-content">
+                  <div class="step-title">เล่นเกมเพื่อเรียนรู้</div>
+                  <div class="step-desc muted">
+                    เรียนรู้เนื้อหาผ่านเกมจำลองสถานการณ์
+                  </div>
+                </div>
+              </div>
+              <div class="usage-step">
+                <span class="step-number"><strong>3</strong></span>
+                <div class="step-content">
+                  <div class="step-title">ทำแบบทดสอบหลังเรียน</div>
+                  <div class="step-desc muted">
+                    ทำ Post-test เพื่อวัดผลการเรียนรู้
+                  </div>
+                </div>
+              </div>
+              <div class="usage-step completed">
+                <span class="step-number"><strong>4</strong></span>
+                <div class="step-content">
+                  <div class="step-title">รับเกียรติบัตร</div>
+                  <div class="step-desc muted">
+                    ได้คะแนนมากกว่า 60% รับเกียรติบัตรได้เลย!
+                  </div>
+                </div>
+              </div>
             </div>
 
             <hr class="sep" />
@@ -132,5 +181,6 @@
     </main>
     <script src="assets/js/theme.js"></script>
     <script src="assets/js/mobile-menu.js"></script>
+    <script type="module" src="assets/js/menuLock.js"></script>
   </body>
 </html>

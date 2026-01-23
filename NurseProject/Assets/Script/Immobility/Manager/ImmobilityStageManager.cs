@@ -1,3 +1,4 @@
+// ImmobilityStageManager.cs
 using UnityEngine;
 
 public class ImmobilityStageManager : MonoBehaviour
@@ -5,6 +6,14 @@ public class ImmobilityStageManager : MonoBehaviour
     // กำหนดสถานะขั้นตอนต่างๆ
     public enum StageState
     {
+        Idle,               // Rest
+        PatientTurned,      // Lateral
+        InspectReady,       // Inspect + chosen wound active/clickable
+        GradeQuestion,
+        CongratsAfterGrade,
+        PillowPlacement,
+        TurnOverQuestion,
+        Complete,
         Idle,               // เริ่มต้น (ท่านอนหงาย)
         PatientTurned,      // พลิกตัวแล้ว (ท่านอนตะแคง)
         InspectReady,       // [NEW] ซูมดูแผล + สุ่มแผลเสร็จแล้ว (พร้อมให้กดเลือก)
@@ -18,6 +27,7 @@ public class ImmobilityStageManager : MonoBehaviour
 
     [Header("State")]
     public StageState state = StageState.Idle;
+    public StageState state = StageState.Idle;
 
     [Header("Result System")]
     public UniversalResultUI resultUI; // [FLOW] หน้าจอผลลัพธ์ตอนจบ
@@ -27,6 +37,21 @@ public class ImmobilityStageManager : MonoBehaviour
     [SerializeField] private GameObject panelCongrats;
     [SerializeField] private GameObject panelTurnOver;
     [SerializeField] private GameObject panelKnowledge; // [FLOW] ใบความรู้
+
+    [Header("Patient Position GameObjects (Animator-based)")]
+    [SerializeField] private GameObject restPositionGO;
+    [SerializeField] private GameObject lateralPositionGO;
+    [SerializeField] private GameObject inspectPositionGO;
+
+    [Header("Wound Variants (Grade 1–4)")]
+    [Tooltip("Index 0=Grade1, 1=Grade2, 2=Grade3, 3=Grade4")]
+    [SerializeField] private GameObject[] woundVariants;
+
+    [Header("Chosen Exam Trigger (Runtime)")]
+    [SerializeField] private GameObject examTriggerGO; // runtime-selected wound GO
+
+    [Header("Roll behavior")]
+    [SerializeField] private bool rerollEveryEnterInspect = false;
 
     [Header("Patient Position GameObjects")]
     // ใช้ GameObject แทน SpriteRenderer เพื่อการจัดการ Animation/Prop ที่ซับซ้อนขึ้นได้
@@ -51,12 +76,16 @@ public class ImmobilityStageManager : MonoBehaviour
 
     public bool IsUIBlockingInput { get; private set; }
 
+    private int selectedWoundGrade = 0; // 1..4
+    public int CurrentWoundGrade => selectedWoundGrade;
+
     // ตัวแปรเก็บเฉลย (เอาไว้ให้ GradeQuestionUI ดึงไปเช็ค)
     private int selectedWoundGrade = 0; 
     public int CurrentWoundGrade => selectedWoundGrade; // Property ให้คนอื่นอ่านค่าได้
 
     private void Awake()
     {
+        // Turn off UI
         SetAllOff();
         
         // ตั้งค่าเริ่มต้น
@@ -84,18 +113,75 @@ public class ImmobilityStageManager : MonoBehaviour
         if (panelTurnOver) panelTurnOver.SetActive(false);
         if (panelKnowledge) panelKnowledge.SetActive(false);
 
+        // Turn off pillow flow
         // ปิดหมอน
         if (pillow) pillow.SetActive(false);
         if (pillowDropZone) pillowDropZone.SetActive(false);
-    }
 
+        // Start at Rest
     // =================================================
     // STEP 1 & 2: Patient Interaction (Turn & Inspect)
+        selectedWoundGrade = 0;
+        examTriggerGO = null;
+
+        ApplyPositionVisual(StageState.Idle);
+        HideAllWounds();
+
+        state = StageState.Idle;}
     // =================================================
 
+    // =========================
+    // Patient click transitions
+    // =========================
     // ฟังก์ชันนี้ผูกกับปุ่มกดที่ตัวคนไข้ (เช่น Invisible Button หรือ Collider)
     public void OnPatientClicked()
     {
+        if (IsUIBlockingInput) return;
+
+        if (state == StageState.Idle)
+        {
+            ApplyPositionVisual(StageState.PatientTurned);
+            state = StageState.PatientTurned;
+            return;
+        }
+
+        if (state == StageState.PatientTurned)
+        {
+            EnterInspect();
+            return;
+        }
+
+        // Beyond this, ignore patient clicks by your spec
+    }
+
+    private void EnterInspect()
+    {
+        ApplyPositionVisual(StageState.InspectReady);
+
+        // Choose wound (and set examTriggerGO)
+        if (rerollEveryEnterInspect || examTriggerGO == null || selectedWoundGrade == 0)
+            RollRandomWound();
+
+        state = StageState.InspectReady;
+    }
+
+    private void ApplyPositionVisual(StageState target)
+    {
+        bool rest    = target == StageState.Idle;
+        bool lateral = target == StageState.PatientTurned;
+        bool inspect = target == StageState.InspectReady;
+
+        if (restPositionGO)    restPositionGO.SetActive(rest);
+        if (lateralPositionGO) lateralPositionGO.SetActive(lateral);
+        if (inspectPositionGO) inspectPositionGO.SetActive(inspect);
+
+        if (!inspect)
+        {
+            // Ensure no wound is clickable/visible outside Inspect
+            examTriggerGO = null;
+            selectedWoundGrade = 0;
+            HideAllWounds();
+        }
         if (IsUIBlockingInput) return;
 
         // ถ้ายังนอนหงาย -> ให้พลิกตัว (Lateral)
@@ -182,9 +268,18 @@ public class ImmobilityStageManager : MonoBehaviour
         }
     }
 
+    // =========================
+    // Called by ExamTrigger.cs
+    // =========================
+    public void OnExamTriggerClicked(GameObject caller);
     // ฟังก์ชันนี้ให้ Script ที่ติดอยู่กับแผล (ExamTrigger) เรียกเมื่อถูกกด
     public void OnExamTriggerClicked(GameObject caller)
     {
+        if (IsUIBlockingInput) return;
+        if (state != StageState.InspectReady) return;
+
+        // Only accept clicks from the chosen wound
+        if (caller != examTriggerGO) return;
         if (IsUIBlockingInput) return;
         if (state != StageState.InspectReady) return;
 
@@ -193,10 +288,6 @@ public class ImmobilityStageManager : MonoBehaviour
 
         StartGradeQuestion();
     }
-
-    // =================================================
-    // STEP 3: Grading Question
-    // =================================================
 
     public void StartGradeQuestion()
     {
@@ -225,6 +316,18 @@ public class ImmobilityStageManager : MonoBehaviour
         state = StageState.PillowPlacement;
         IsUIBlockingInput = false;
 
+        // === FORCE PATIENT TO REST POSITION DURING DRAG PHASE ===
+        if (restPositionGO)    restPositionGO.SetActive(true);
+        if (lateralPositionGO) lateralPositionGO.SetActive(false);
+        if (inspectPositionGO) inspectPositionGO.SetActive(false);
+
+        // Clear wound / exam state
+        examTriggerGO = null;
+        selectedWoundGrade = 0;
+        HideAllWounds();
+
+        // === ENABLE PILLOW DRAG ===
+        if (pillow)
         // [IMPORTANT] บังคับคนไข้กลับท่านอนหงาย เพื่อให้วางหมอนได้
         ApplyPositionVisual(StageState.Idle); 
         
@@ -237,11 +340,14 @@ public class ImmobilityStageManager : MonoBehaviour
         if (pillow)
         {
             pillow.SetActive(true);
+
             var dragScript = pillow.GetComponent<Draggable2D>();
             if (dragScript) dragScript.isLocked = false;
         }
+
         if (pillowDropZone) pillowDropZone.SetActive(true);
     }
+
 
     // =================================================
     // STEP 4 & 5: Pillow -> Knowledge -> Quiz -> Result

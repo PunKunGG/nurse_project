@@ -31,9 +31,27 @@
         <nav class="menu">
           <a class="menu-item" href="dashboard.html">Dashboard</a>
           <a class="menu-item" href="pretest.html">Pre-test</a>
-          <a class="menu-item active" href="game.html">Play Game</a>
-          <a class="menu-item" href="posttest.html">Post-test</a>
-          <a class="menu-item" href="certificate.html">Certificate</a>
+          <a
+            class="menu-item active locked"
+            href="game.html"
+            data-menu-id="game"
+            data-tooltip="กรุณาทำ Pre-test ก่อนเพื่อปลดล็อก"
+            >Play Game</a
+          >
+          <a
+            class="menu-item locked"
+            href="posttest.html"
+            data-menu-id="posttest"
+            data-tooltip="กรุณาทำ Pre-test ก่อนเพื่อปลดล็อก"
+            >Post-test</a
+          >
+          <a
+            class="menu-item locked"
+            href="certificate.html"
+            data-menu-id="certificate"
+            data-tooltip="ทำ Post-test ให้ได้ ≥60% เพื่อปลดล็อก"
+            >Certificate</a
+          >
           <a class="menu-item" href="creators.html">Creators</a>
         </nav>
 
@@ -72,5 +90,6 @@
     <script src="assets/js/mobile-menu.js"></script>
     <!-- User Info & Auth -->
     <script type="module" src="assets/js/userInfo.js"></script>
+    <script type="module" src="assets/js/menuLock.js"></script>
   </body>
 </html>

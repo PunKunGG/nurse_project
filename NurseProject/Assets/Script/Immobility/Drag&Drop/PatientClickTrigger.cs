@@ -2,9 +2,16 @@ using UnityEngine;
 
 public class PatientClickTrigger : MonoBehaviour
 {
-    void OnMouseDown()
+    [SerializeField] private ImmobilityStageManager stageManager;
+
+    private void Reset()
     {
-        // เรียกฟังก์ชันใน Manager
-        FindObjectOfType<ImmobilityStageManager>().OnPatientClicked();
+        stageManager = FindFirstObjectByType<ImmobilityStageManager>();
+    }
+
+    private void OnMouseDown()
+    {
+        if (!stageManager) return;
+        stageManager.OnPatientClicked();
     }
 }

@@ -33,9 +33,27 @@
         <nav class="menu">
           <a class="menu-item" href="dashboard.html">Dashboard</a>
           <a class="menu-item" href="pretest.html">Pre-test</a>
-          <a class="menu-item" href="game.html">Play Game</a>
-          <a class="menu-item" href="posttest.html">Post-test</a>
-          <a class="menu-item" href="certificate.html">Certificate</a>
+          <a
+            class="menu-item locked"
+            href="game.html"
+            data-menu-id="game"
+            data-tooltip="กรุณาทำ Pre-test ก่อนเพื่อปลดล็อก"
+            >Play Game</a
+          >
+          <a
+            class="menu-item locked"
+            href="posttest.html"
+            data-menu-id="posttest"
+            data-tooltip="กรุณาทำ Pre-test ก่อนเพื่อปลดล็อก"
+            >Post-test</a
+          >
+          <a
+            class="menu-item locked"
+            href="certificate.html"
+            data-menu-id="certificate"
+            data-tooltip="ทำ Post-test ให้ได้ ≥60% เพื่อปลดล็อก"
+            >Certificate</a
+          >
           <a class="menu-item active" href="creators.html">Creators</a>
         </nav>
 
@@ -120,8 +138,8 @@
           </div>
         </div>
 
-        <!-- Section: นักศึกษาผู้พัฒนา -->
-        <h2 class="section-title">นักศึกษาผู้พัฒนา</h2>
+        <!-- Section: นักศึกษาพยาบาล -->
+        <h2 class="section-title">นักศึกษาพยาบาล</h2>
         <div class="creators-grid">
           <!-- Creator Card 1 -->
           <div class="creator-card" onclick="openModal('creator1')">
@@ -135,8 +153,10 @@
               "
             />
             <div class="creator-name">นางสาวรินลดา ทองตา</div>
-            <div class="creator-role">User Interface</div>
-            <div class="creator-tagline">พัฒนาระบบและออกแบบ UI/UX</div>
+            <div class="creator-role">663060107-8</div>
+            <div class="creator-tagline">
+              คณะพยาบาลศาสตร์ มหาวิทยาลัยขอนแก่น
+            </div>
             <span class="creator-badge">🩺 Nursing Student</span>
           </div>
 
@@ -152,8 +172,10 @@
               "
             />
             <div class="creator-name">นางสาวยุภาดา พิมพ์แมน</div>
-            <div class="creator-role">Backend Developer</div>
-            <div class="creator-tagline">พัฒนา API</div>
+            <div class="creator-role">663060105-2</div>
+            <div class="creator-tagline">
+              คณะพยาบาลศาสตร์ มหาวิทยาลัยขอนแก่น
+            </div>
             <span class="creator-badge">🩺 Nursing Student</span>
           </div>
 
@@ -169,8 +191,10 @@
               "
             />
             <div class="creator-name">นางสาวมณีชนก นิทะรัมย์</div>
-            <div class="creator-role">Frontend Developer</div>
-            <div class="creator-tagline">พัฒนา UI/UX และออกแบบ</div>
+            <div class="creator-role">663060100-2</div>
+            <div class="creator-tagline">
+              คณะพยาบาลศาสตร์ มหาวิทยาลัยขอนแก่น
+            </div>
             <span class="creator-badge">🩺 Nursing Student</span>
           </div>
 
@@ -186,8 +210,10 @@
               "
             />
             <div class="creator-name">นางสาวศวิตา สังแคนพรม</div>
-            <div class="creator-role">Database</div>
-            <div class="creator-tagline">จัดการฐานข้อมูล</div>
+            <div class="creator-role">663060110-9</div>
+            <div class="creator-tagline">
+              คณะพยาบาลศาสตร์ มหาวิทยาลัยขอนแก่น
+            </div>
             <span class="creator-badge">🩺 Nursing Student</span>
           </div>
 
@@ -203,8 +229,10 @@
               "
             />
             <div class="creator-name">นางสาวเมทิณี ภูนิโรจน์</div>
-            <div class="creator-role">Server Deploy</div>
-            <div class="creator-tagline">ดูแลระบบ</div>
+            <div class="creator-role">663060125-6</div>
+            <div class="creator-tagline">
+              คณะพยาบาลศาสตร์ มหาวิทยาลัยขอนแก่น
+            </div>
             <span class="creator-badge">🩺 Nursing Student</span>
           </div>
 
@@ -220,8 +248,10 @@
               "
             />
             <div class="creator-name">นางสาวอภิสรา สุสำนาจ</div>
-            <div class="creator-role">Backend Developer</div>
-            <div class="creator-tagline">Authencication</div>
+            <div class="creator-role">663060119-1</div>
+            <div class="creator-tagline">
+              คณะพยาบาลศาสตร์ มหาวิทยาลัยขอนแก่น
+            </div>
             <span class="creator-badge">🩺 Nursing Student</span>
           </div>
 
@@ -237,9 +267,104 @@
               "
             />
             <div class="creator-name">นางสาวศิริรัตน์ อุตระทอง</div>
-            <div class="creator-role">Security</div>
-            <div class="creator-tagline">Security Testing</div>
+            <div class="creator-role">663060113-3</div>
+            <div class="creator-tagline">
+              คณะพยาบาลศาสตร์ มหาวิทยาลัยขอนแก่น
+            </div>
             <span class="creator-badge">🩺 Nursing Student</span>
+          </div>
+        </div>
+
+        <!-- Section: นักศึกษาทีมพัฒนา -->
+        <h2 class="section-title">นักศึกษาทีมพัฒนา</h2>
+        <div class="creators-grid">
+          <!-- Creator Card 1 -->
+          <div class="creator-card" onclick="openModal('developer1')">
+            <img
+              class="creator-avatar"
+              src="assets/img/pun.png"
+              alt="Creator 1"
+              style="object-position: top"
+              onerror="
+                this.src =
+                  'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%2310b981%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2260%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>👨💻</text></svg>'
+              "
+            />
+            <div class="creator-name">นายศิวภาส ภูศรีอ่อน</div>
+            <div class="creator-role">663380026-5</div>
+            <div class="creator-tagline">
+              วิทยาลัยการคอมพิวเตอร์ สาขาวิทยาการคอมพิวเตอร์ มหาวิทยาลัยขอนแก่น
+            </div>
+            <span class="creator-badge">💻 Web Developer</span>
+            <span class="creator-badge">📊 Database</span>
+            <span class="creator-badge">🛠️ Deployment</span>
+            <span class="creator-badge">📱 Responsive</span>
+            <span class="creator-badge">🛡️ Security</span>
+          </div>
+
+          <!-- Creator Card 2 -->
+          <div class="creator-card" onclick="openModal('developer2')">
+            <img
+              class="creator-avatar"
+              src="assets/img/tar.png"
+              alt="Creator 2"
+              style="object-position: top"
+              onerror="
+                this.src =
+                  'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%2310b981%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2260%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>👨💻</text></svg>'
+              "
+            />
+            <div class="creator-name">นายภควรรธ บุญเรือง</div>
+            <div class="creator-role">663380227-5</div>
+            <div class="creator-tagline">
+              วิทยาลัยการคอมพิวเตอร์ สาขาวิทยาการคอมพิวเตอร์ มหาวิทยาลัยขอนแก่น
+            </div>
+            <span class="creator-badge">👾 Game Developer</span>
+            <span class="creator-badge">🎮 Game Tester</span>
+          </div>
+
+          <!-- Creator Card 3 -->
+          <div class="creator-card" onclick="openModal('developer3')">
+            <img
+              class="creator-avatar"
+              src="assets/img/boat.png"
+              alt="Creator 2"
+              style="object-position: top"
+              onerror="
+                this.src =
+                  'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%2310b981%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2260%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>👨💻</text></svg>'
+              "
+            />
+            <div class="creator-name">นายรัชภูมิ ทองแดง</div>
+            <div class="creator-role">663380231-4</div>
+            <div class="creator-tagline">
+              วิทยาลัยการคอมพิวเตอร์ สาขาวิทยาการคอมพิวเตอร์ มหาวิทยาลัยขอนแก่น
+            </div>
+            <span class="creator-badge">🖌️ Art Designer</span>
+            <span class="creator-badge">👾 Game Developer</span>
+            <span class="creator-badge">🎮 Game Tester</span>
+          </div>
+
+          <!-- Creator Card 4 -->
+          <div class="creator-card" onclick="openModal('developer4')">
+            <img
+              class="creator-avatar"
+              src="assets/img/gust.png"
+              alt="Creator 2"
+              style="object-position: top"
+              onerror="
+                this.src =
+                  'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%2310b981%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2260%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>👨💻</text></svg>'
+              "
+            />
+            <div class="creator-name">นายธิติวุฒิ ศรีอมรรัตน์</div>
+            <div class="creator-role">663380213-6</div>
+            <div class="creator-tagline">
+              วิทยาลัยการคอมพิวเตอร์ สาขาวิทยาการคอมพิวเตอร์ มหาวิทยาลัยขอนแก่น
+            </div>
+            <span class="creator-badge">🖌️ Art Director</span>
+            <span class="creator-badge">👾 Game Developer</span>
+            <span class="creator-badge">🎮 Game Tester</span>
           </div>
         </div>
 
@@ -302,5 +427,6 @@
     <script src="assets/js/mobile-menu.js"></script>
     <!-- User Info & Auth -->
     <script type="module" src="assets/js/userInfo.js"></script>
+    <script type="module" src="assets/js/menuLock.js"></script>
   </body>
 </html>

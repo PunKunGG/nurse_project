@@ -11,46 +11,64 @@ public class GradeQuestionUI : MonoBehaviour
     [SerializeField] private Button btn1;
     [SerializeField] private Button btn2;
     [SerializeField] private Button btn3;
-
-    [Header("Correct Answer (1/2/3)")]
-    [SerializeField] private int correctOption = 2;
+    [SerializeField] private Button btn4;
 
     [Header("Optional Feedback")]
-    [SerializeField] private TextMeshProUGUI feedbackText; // or TMP_Text if you use TextMeshPro
+    [SerializeField] private TextMeshProUGUI feedbackText;
+
+    private int correctOption; // runtime 1..4
 
     private void Awake()
     {
         if (btn1) btn1.onClick.AddListener(() => Choose(1));
         if (btn2) btn2.onClick.AddListener(() => Choose(2));
         if (btn3) btn3.onClick.AddListener(() => Choose(3));
+        if (btn4) btn4.onClick.AddListener(() => Choose(4));
     }
 
     private void OnEnable()
     {
         if (feedbackText) feedbackText.text = "";
+        ResetButtonColors();
+
+        if (!stageManager)
+        {
+            Debug.LogError("GradeQuestionUI: stageManager not assigned.", this);
+            correctOption = 0;
+            return;
+        }
+
+        correctOption = stageManager.CurrentWoundGrade; // 1..4
+        if (correctOption < 1 || correctOption > 4)
+        {
+            Debug.LogWarning($"GradeQuestionUI: invalid wound grade = {correctOption}.", this);
+        }
     }
 
     private void Choose(int option)
     {
-        // รีเซ็ตสีปุ่มทั้งหมดก่อน (เผื่อกดผิดไปแล้วปุ่มแดงค้าง)
-        ResetButtonColors(); 
+        ResetButtonColors();
 
         if (option == correctOption)
         {
-            if (feedbackText) feedbackText.text = "Correct!";
-            if (feedbackText) feedbackText.color = Color.green;
-            
-            // เปลี่ยนปุ่มที่กดเป็นสีเขียว
+            if (feedbackText)
+            {
+                feedbackText.text = "Correct!";
+                feedbackText.color = Color.green;
+            }
+
             SetButtonColor(option, Color.green);
 
-            stageManager.OnGradeAnsweredCorrect();
+            if (stageManager) stageManager.OnGradeAnsweredCorrect();
         }
         else
         {
-            if (feedbackText) feedbackText.text = "Wrong. Try again.";
-            if (feedbackText) feedbackText.color = Color.red;
+            if (feedbackText)
+            {
+                feedbackText.text = "Wrong. Try again.";
+                feedbackText.color = Color.red;
+            }
 
-            // เปลี่ยนปุ่มที่กดเป็นสีแดง
             SetButtonColor(option, Color.red);
         }
     }
@@ -61,14 +79,16 @@ public class GradeQuestionUI : MonoBehaviour
         if (option == 1) targetBtn = btn1;
         else if (option == 2) targetBtn = btn2;
         else if (option == 3) targetBtn = btn3;
+        else if (option == 4) targetBtn = btn4;
 
         if (targetBtn) targetBtn.image.color = color;
     }
 
     private void ResetButtonColors()
     {
-        if(btn1) btn1.image.color = Color.white;
-        if(btn2) btn2.image.color = Color.white;
-        if(btn3) btn3.image.color = Color.white;
+        if (btn1) btn1.image.color = Color.white;
+        if (btn2) btn2.image.color = Color.white;
+        if (btn3) btn3.image.color = Color.white;
+        if (btn4) btn4.image.color = Color.white;
     }
 }

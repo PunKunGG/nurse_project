@@ -293,6 +293,9 @@ label {
   background: rgba(255, 255, 255, 0.7);
   border-right: 1px solid var(--border);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  position: relative;
+  z-index: 10;
   transition:
     background var(--transition),
     border-color var(--transition);
@@ -877,4 +880,207 @@ body.dark .slider .nav {
 }
 .justify-between {
   justify-content: space-between;
+}
+
+/* PDPA Notice */
+.pdpa-notice {
+  text-align: center;
+  margin: 12px 0 0;
+  color: var(--muted);
+}
+.pdpa-notice a {
+  color: var(--primary);
+  text-decoration: underline;
+}
+.pdpa-notice a:hover {
+  color: var(--secondary);
+}
+
+/* ============================================
+   USAGE STEPS (Dashboard)
+   ============================================ */
+.usage-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.usage-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  transition: all var(--transition-fast);
+}
+
+.usage-step:hover {
+  border-color: var(--primary-border);
+  background: var(--primary-soft);
+}
+
+.step-number {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.usage-step.completed .step-number {
+  background: var(--success);
+  font-size: 1rem;
+}
+
+.step-content {
+  flex: 1;
+}
+
+.step-title {
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.step-desc {
+  font-size: 0.85rem;
+}
+
+/* ============================================
+   MENU LOCK SYSTEM
+   ============================================ */
+.menu-item.locked {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: auto;
+  position: relative;
+}
+
+.menu-item.locked::after {
+  content: "🔒";
+  margin-left: 8px;
+  font-size: 0.85em;
+  opacity: 0.8;
+}
+
+.menu-item.locked:hover {
+  background: var(--card);
+  border-color: var(--border);
+  transform: none;
+}
+
+/* Tooltip for locked items */
+.menu-item.locked[data-tooltip]:hover::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 12px;
+  padding: 8px 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-lg);
+  font-size: 0.8rem;
+  font-weight: 500;
+  white-space: nowrap;
+  z-index: 9999;
+  animation: tooltipFadeIn 0.2s ease;
+}
+
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50%) translateX(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+}
+
+/* Toast Notifications */
+.menu-lock-toast {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  padding: 14px 24px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 500;
+  z-index: 10000;
+  opacity: 0;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.menu-lock-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.menu-lock-toast--warning {
+  border-color: var(--warning);
+  background: linear-gradient(135deg, var(--card), rgba(245, 158, 11, 0.1));
+}
+
+.menu-lock-toast--success {
+  border-color: var(--success);
+  background: linear-gradient(135deg, var(--card), rgba(16, 185, 129, 0.1));
+}
+
+.menu-lock-toast .toast-icon {
+  font-size: 1.25rem;
+}
+
+.menu-lock-toast .toast-message {
+  font-size: 0.95rem;
+}
+
+/* Mobile tooltip - show below instead */
+@media (max-width: 768px) {
+  .menu-item.locked[data-tooltip]:hover::before {
+    left: 50%;
+    top: 100%;
+    transform: translateX(-50%);
+    margin-left: 0;
+    margin-top: 8px;
+  }
+
+  @keyframes tooltipFadeIn {
+    from {
+      opacity: 0;
+      transform: translateX(-50%) translateY(-5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+
+  .menu-lock-toast {
+    left: 16px;
+    right: 16px;
+    bottom: 80px;
+    transform: translateX(0) translateY(20px);
+  }
+
+  .menu-lock-toast.show {
+    transform: translateX(0) translateY(0);
+  }
 }
