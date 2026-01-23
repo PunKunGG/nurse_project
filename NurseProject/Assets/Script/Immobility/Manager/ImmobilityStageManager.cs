@@ -2,110 +2,202 @@ using UnityEngine;
 
 public class ImmobilityStageManager : MonoBehaviour
 {
-    // กำหนดสถานะต่างๆ ของด่านนี้ เพื่อให้รู้ว่าตอนนี้ผู้เล่นอยู่ขั้นตอนไหน
+    // กำหนดสถานะขั้นตอนต่างๆ
     public enum StageState
     {
-        Idle,               // เริ่มต้น ยังไม่ได้ทำอะไร
-        PatientTurned,      // พลิกตัวคนไข้แล้ว (รอตรวจแผล)
-        GradeQuestion,      // กำลังตอบคำถามเรื่องระดับแผล (Single Choice)
-        CongratsAfterGrade, // ตอบถูก แสดงความยินดีสั้นๆ
-        PillowPlacement,    // ช่วงลากหมอนไปวาง (Drag & Drop)
-        KnowledgeSheet,     // [NEW] ช่วงอ่านใบความรู้ (แทรกเข้ามาก่อนคำถามท้าย)
-        TurnOverQuestion,   // กำลังตอบคำถามหลังพลิกตัว (Multi-Select)
+        Idle,               // เริ่มต้น (ท่านอนหงาย)
+        PatientTurned,      // พลิกตัวแล้ว (ท่านอนตะแคง)
+        InspectReady,       // [NEW] ซูมดูแผล + สุ่มแผลเสร็จแล้ว (พร้อมให้กดเลือก)
+        GradeQuestion,      // กำลังตอบคำถามเรื่องแผล
+        CongratsAfterGrade, // ชมเชยหลังตอบถูก
+        PillowPlacement,    // ช่วงวางหมอน
+        KnowledgeSheet,     // [FLOW] ช่วงอ่านใบความรู้
+        TurnOverQuestion,   // ช่วงตอบคำถามสุดท้าย (Multi-Select)
         Complete            // จบด่าน
     }
 
-    [Header("State Checking")]
-    public StageState state = StageState.Idle; // ดูสถานะปัจจุบันได้ใน Inspector
+    [Header("State")]
+    public StageState state = StageState.Idle;
 
-    [Header("Result System")] 
-    public UniversalResultUI resultUI; // [NEW] ลาก Universal_ResultPanel มาใส่ตรงนี้ (หน้าจอเขียวๆ ตอนชนะ)
+    [Header("Result System")]
+    public UniversalResultUI resultUI; // [FLOW] หน้าจอผลลัพธ์ตอนจบ
 
     [Header("UI Panels")]
-    [SerializeField] private GameObject panelGradeQuestion; // คำถามแรก (ระดับแผล)
-    [SerializeField] private GameObject panelCongrats;      // ข้อความชมเชย
-    [SerializeField] private GameObject panelTurnOver;      // คำถามสุดท้าย (Multi-select)
-    
-    [Header("New Features")] 
-    [SerializeField] private GameObject panelKnowledge;     // [NEW] ใบความรู้ (ใส่ Panel ที่มีปุ่ม "เข้าใจแล้ว")
+    [SerializeField] private GameObject panelGradeQuestion;
+    [SerializeField] private GameObject panelCongrats;
+    [SerializeField] private GameObject panelTurnOver;
+    [SerializeField] private GameObject panelKnowledge; // [FLOW] ใบความรู้
 
-    [Header("Patient Phase Objects")]
-    [SerializeField] private GameObject patientDummy;       // ตัวคนไข้
-    [SerializeField] private SpriteRenderer patientRenderer; // ตัว render รูปคนไข้ (เอาไว้เปลี่ยนรูป)
-    [SerializeField] private Sprite lateralSprite;          // รูปตอนนอนตะแคง
-    [SerializeField] private GameObject woundClickArea;     // จุดที่ให้คลิกดูแผล (Collider)
+    [Header("Patient Position GameObjects")]
+    // ใช้ GameObject แทน SpriteRenderer เพื่อการจัดการ Animation/Prop ที่ซับซ้อนขึ้นได้
+    [SerializeField] private GameObject restPositionGO;    // ท่านอนหงาย (เริ่มต้น/วางหมอน)
+    [SerializeField] private GameObject lateralPositionGO; // ท่านอนตะแคง (ตอนพลิกตัว)
+    [SerializeField] private GameObject inspectPositionGO; // ท่าซูมดูแผล (ตอน Inspect)
+
+    [Header("Wound Variants (Random Logic)")]
+    [Tooltip("ใส่ Prefab แผลต่างๆ เรียงตามลำดับ: Index 0=Grade1, 1=Grade2, ...")]
+    [SerializeField] private GameObject[] woundVariants;
     
+    // เก็บตัวแปรแผลที่สุ่มได้ในรอบนี้
+    [SerializeField] private GameObject examTriggerGO; 
+    
+    [Header("Settings")]
+    [SerializeField] private bool rerollEveryEnterInspect = false; // สุ่มแผลใหม่ทุกครั้งที่กดดูไหม?
+    [SerializeField] private float congratsAutoCloseSeconds = 1.0f;
+
     [Header("Pillow Objects")]
-    [SerializeField] private GameObject pillow;             // ตัวหมอน (Draggable)
-    [SerializeField] private GameObject pillowDropZone;     // จุดวางหมอน (DropZone)
+    [SerializeField] private GameObject pillow;
+    [SerializeField] private GameObject pillowDropZone;
 
-    [Header("Timing settings")]
-    [SerializeField] private float congratsAutoCloseSeconds = 1.0f; // เวลาหน่วงปิดหน้าชมเชย
-
-    // ตัวแปรเช็คว่า UI กำลังบังจออยู่ไหม (เผื่อใช้ป้องกันการกดทะลุ)
     public bool IsUIBlockingInput { get; private set; }
+
+    // ตัวแปรเก็บเฉลย (เอาไว้ให้ GradeQuestionUI ดึงไปเช็ค)
+    private int selectedWoundGrade = 0; 
+    public int CurrentWoundGrade => selectedWoundGrade; // Property ให้คนอื่นอ่านค่าได้
 
     private void Awake()
     {
-        SetAllOff(); // ปิดทุกอย่างก่อนเพื่อความชัวร์
+        SetAllOff();
+        
+        // ตั้งค่าเริ่มต้น
+        IsUIBlockingInput = false;
+        selectedWoundGrade = 0;
+        examTriggerGO = null;
+        
+        // ซ่อนแผลทั้งหมด และเริ่มที่ท่า Rest
+        HideAllWounds();
+        ApplyPositionVisual(StageState.Idle);
+
         state = StageState.Idle;
     }
 
     private void Start()
     {
-        // ซ่อนหน้า Result ไว้ก่อน
         if (resultUI) resultUI.gameObject.SetActive(false);
-
-        // เริ่มเกม: ให้เห็นคนไข้ แต่ซ่อนแผลและหมอนไว้
-        if (patientDummy) patientDummy.SetActive(true);
-        if (woundClickArea) woundClickArea.SetActive(false);
     }
 
-    // ฟังก์ชันสำหรับรีเซ็ตหน้าจอ (ปิด UI ทั้งหมด)
     private void SetAllOff()
     {
+        // ปิด UI ทั้งหมด
         if (panelGradeQuestion) panelGradeQuestion.SetActive(false);
         if (panelCongrats) panelCongrats.SetActive(false);
         if (panelTurnOver) panelTurnOver.SetActive(false);
-        if (panelKnowledge) panelKnowledge.SetActive(false); // [NEW] ปิดใบความรู้
+        if (panelKnowledge) panelKnowledge.SetActive(false);
 
+        // ปิดหมอน
         if (pillow) pillow.SetActive(false);
         if (pillowDropZone) pillowDropZone.SetActive(false);
-        if (woundClickArea) woundClickArea.SetActive(false);
-
-        IsUIBlockingInput = false;
     }
 
-    // --- STEP 1: พลิกตัวคนไข้ ---
-    // เรียกโดย: การคลิกที่ตัวคนไข้ (ผ่าน Event Trigger หรือ Collider)
+    // =================================================
+    // STEP 1 & 2: Patient Interaction (Turn & Inspect)
+    // =================================================
+
+    // ฟังก์ชันนี้ผูกกับปุ่มกดที่ตัวคนไข้ (เช่น Invisible Button หรือ Collider)
     public void OnPatientClicked()
     {
-        if (state != StageState.Idle) return; // กดได้แค่ตอนเริ่มเกมเท่านั้น
+        if (IsUIBlockingInput) return;
 
-        // เปลี่ยนรูปเป็นนอนตะแคง
-        if (patientRenderer && lateralSprite) 
+        // ถ้ายังนอนหงาย -> ให้พลิกตัว (Lateral)
+        if (state == StageState.Idle)
         {
-            patientRenderer.sprite = lateralSprite;
+            ApplyPositionVisual(StageState.PatientTurned);
+            state = StageState.PatientTurned;
+            Debug.Log("Patient Turned (Lateral)");
+            return;
         }
 
-        // เปิด Collider แผล ให้กดต่อได้
-        if (woundClickArea) woundClickArea.SetActive(true);
-
-        // อัปเดตสถานะ
-        state = StageState.PatientTurned;
-        Debug.Log("Patient Turned: Ready to inspect wound.");
+        // ถ้าพลิกตัวแล้ว -> ให้เข้าโหมดส่องแผล (Inspect)
+        if (state == StageState.PatientTurned)
+        {
+            EnterInspect();
+            return;
+        }
     }
 
-    // --- STEP 2: ตรวจแผล ---
-    // เรียกโดย: การคลิกที่แผล (WoundClickArea)
-    public void OnWoundClicked()
+    // เข้าสู่โหมดส่องแผล และสุ่มแผล
+    private void EnterInspect()
     {
-        if (state != StageState.PatientTurned) return; // ต้องพลิกตัวก่อนถึงจะกดแผลได้
+        ApplyPositionVisual(StageState.InspectReady);
+
+        // ถ้ายังไม่มีแผล หรือตั้งให้สุ่มใหม่ตลอด -> สุ่มแผลเลย
+        if (rerollEveryEnterInspect || examTriggerGO == null || selectedWoundGrade == 0)
+        {
+            RollRandomWound();
+        }
+
+        state = StageState.InspectReady;
+    }
+
+    // ฟังก์ชันจัดการเปิด/ปิด Model คนไข้ตามท่าทาง
+    private void ApplyPositionVisual(StageState target)
+    {
+        bool rest    = target == StageState.Idle;
+        bool lateral = target == StageState.PatientTurned;
+        bool inspect = target == StageState.InspectReady;
+
+        if (restPositionGO)    restPositionGO.SetActive(rest);
+        if (lateralPositionGO) lateralPositionGO.SetActive(lateral);
+        if (inspectPositionGO) inspectPositionGO.SetActive(inspect);
+
+        // ถ้าไม่ใช่หน้า Inspect ให้ซ่อนแผลทิ้งไปเลย
+        if (!inspect)
+        {
+            if (examTriggerGO) examTriggerGO.SetActive(false); 
+        }
+        // ถ้าหน้า Inspect ให้เปิดแผลที่สุ่มไว้
+        else if (inspect && examTriggerGO)
+        {
+            examTriggerGO.SetActive(true);
+        }
+    }
+
+    // =================================================
+    // Wound Randomization Logic
+    // =================================================
+
+    private void RollRandomWound()
+    {
+        if (woundVariants == null || woundVariants.Length == 0) return;
+
+        HideAllWounds(); // ปิดอันเก่าก่อน
+
+        // สุ่ม Index
+        int index = Random.Range(0, woundVariants.Length); 
+        
+        examTriggerGO = woundVariants[index]; // เก็บ GameObject แผลที่ได้
+        selectedWoundGrade = index + 1;       // เก็บเกรด (index 0 คือ grade 1)
+
+        if (examTriggerGO) examTriggerGO.SetActive(true);
+
+        Debug.Log($"Rolled Wound: Grade {selectedWoundGrade}");
+    }
+
+    private void HideAllWounds()
+    {
+        if (woundVariants == null) return;
+        foreach (var w in woundVariants)
+        {
+            if (w) w.SetActive(false);
+        }
+    }
+
+    // ฟังก์ชันนี้ให้ Script ที่ติดอยู่กับแผล (ExamTrigger) เรียกเมื่อถูกกด
+    public void OnExamTriggerClicked(GameObject caller)
+    {
+        if (IsUIBlockingInput) return;
+        if (state != StageState.InspectReady) return;
+
+        // ป้องกันการกดแผลผิดอัน (เผื่อมีบั๊กแสดงผลซ้อน)
+        if (caller != examTriggerGO) return;
 
         StartGradeQuestion();
     }
 
-    // เริ่มคำถามแรก (ระดับแผล)
+    // =================================================
+    // STEP 3: Grading Question
+    // =================================================
+
     public void StartGradeQuestion()
     {
         state = StageState.GradeQuestion;
@@ -114,88 +206,84 @@ public class ImmobilityStageManager : MonoBehaviour
         if (panelGradeQuestion) panelGradeQuestion.SetActive(true);
     }
 
-    // เมื่อตอบคำถามแรกถูก (เรียกโดย script GradeQuestionUI)
     public void OnGradeAnsweredCorrect()
     {
         if (state != StageState.GradeQuestion) return;
 
-        // ปิดคำถามแรก
         if (panelGradeQuestion) panelGradeQuestion.SetActive(false);
 
-        // แสดงความยินดีชั่วคราว
         state = StageState.CongratsAfterGrade;
         if (panelCongrats) panelCongrats.SetActive(true);
 
-        // รอสักครู่ แล้วค่อยไปขั้นตอนวางหมอน
         Invoke(nameof(AdvanceToPillowPlacement), congratsAutoCloseSeconds);
     }
 
-    // เตรียมเข้าสู่ขั้นตอนวางหมอน
     private void AdvanceToPillowPlacement()
     {
-        if (panelCongrats) panelCongrats.SetActive(false); // ปิดหน้ายินดี
+        if (panelCongrats) panelCongrats.SetActive(false);
 
         state = StageState.PillowPlacement;
         IsUIBlockingInput = false;
 
-        // เปิดหมอนและจุดวางหมอนขึ้นมา
-        if (pillow) 
+        // [IMPORTANT] บังคับคนไข้กลับท่านอนหงาย เพื่อให้วางหมอนได้
+        ApplyPositionVisual(StageState.Idle); 
+        
+        // เคลียร์ค่าแผลต่างๆ
+        examTriggerGO = null;
+        selectedWoundGrade = 0;
+        HideAllWounds();
+
+        // เปิดระบบหมอน
+        if (pillow)
         {
             pillow.SetActive(true);
-            // สั่งปลดล็อคหมอนให้ลากได้ (ถ้า Script Draggable มีตัวแปร isLocked)
             var dragScript = pillow.GetComponent<Draggable2D>();
             if (dragScript) dragScript.isLocked = false;
         }
         if (pillowDropZone) pillowDropZone.SetActive(true);
     }
 
-    // --- STEP 3: วางหมอน ---
-    // เรียกโดย: Script DropZone2D เมื่อวางหมอนถูก
+    // =================================================
+    // STEP 4 & 5: Pillow -> Knowledge -> Quiz -> Result
+    // =================================================
+
     public void OnPillowPlacedCorrect()
     {
         if (state != StageState.PillowPlacement) return;
 
-        // [NEW] แทนที่จะไปคำถามเลย เราเปลี่ยนไปหน้า "ใบความรู้" ก่อน
+        // [FLOW] วางหมอนเสร็จ -> ไปใบความรู้
         state = StageState.KnowledgeSheet;
         IsUIBlockingInput = true;
 
-        // เปิดใบความรู้ขึ้นมา
-        if (panelKnowledge) panelKnowledge.SetActive(true); 
+        if (panelKnowledge) panelKnowledge.SetActive(true);
         
-        Debug.Log("Pillow Placed -> Show Knowledge Sheet");
+        Debug.Log("Pillow Placed -> Show Knowledge");
     }
 
-    // --- STEP 4: อ่านใบความรู้ ---
-    // [NEW] เรียกโดย: ปุ่ม "ถัดไป/เข้าใจแล้ว" บน Panel_Knowledge
+    // ปุ่ม "ถัดไป" บนใบความรู้เรียกฟังก์ชันนี้
     public void OnKnowledgeReadConfirm()
     {
         if (state != StageState.KnowledgeSheet) return;
 
-        // ปิดใบความรู้
         if (panelKnowledge) panelKnowledge.SetActive(false);
 
-        // เข้าสู่ Quiz สุดท้ายจริงๆ
+        // [FLOW] เข้าสู่ Quiz ท้ายบท
         state = StageState.TurnOverQuestion;
         if (panelTurnOver) panelTurnOver.SetActive(true);
-        
-        Debug.Log("Knowledge Read -> Start Quiz");
     }
-    
-    // --- STEP 5: คำถามสุดท้าย (Multi-Select) ---
-    // เรียกโดย: Script TurnOverQuestion เมื่อตอบครบทุกข้อ
+
+    // ตอบ Quiz ท้ายบทครบ
     public void OnTurnOverAnsweredCorrect()
     {
         if (state != StageState.TurnOverQuestion) return;
 
-        // ปิดหน้าคำถาม
         if (panelTurnOver) panelTurnOver.SetActive(false);
         IsUIBlockingInput = false;
 
-        // จบเกม
         state = StageState.Complete;
-        Debug.Log("Immobility stage complete.");
+        Debug.Log("Immobility Stage Complete!");
 
-        // [NEW] เรียกหน้า Result รวม (สีเขียว)
+        // [FLOW] โชว์หน้า Result
         if (resultUI) resultUI.ShowResult(true);
     }
 }
