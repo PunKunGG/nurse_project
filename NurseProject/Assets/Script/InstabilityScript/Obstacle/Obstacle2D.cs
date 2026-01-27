@@ -3,15 +3,10 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class Obstacle2D : MonoBehaviour
 {
-    private enum State
-    {
-        Unselected,
-        Selected,
-        Fixed
-    }
+    private enum State { Unfixed, Fixed }
 
     [Header("State (Debug)")]
-    [SerializeField] private State state = State.Unselected;
+    [SerializeField] private State state = State.Unfixed;
 
     [Header("References")]
     [SerializeField] private InstabilityManager manager;
@@ -20,42 +15,36 @@ public class Obstacle2D : MonoBehaviour
     [TextArea(2, 6)]
     [SerializeField] private string knowledgeMessage;
 
-    [Header("Visuals")]
-    [SerializeField] private GameObject obstacleVisual; // hazard visual
-    [SerializeField] private GameObject fixedVisual;    // fixed visual
-    [SerializeField] private GameObject outlineVisual;  // outline/highlight (optional)
+    [Header("Visuals (Multiple)")]
+    [SerializeField] private GameObject[] hazardVisuals;   // light ON, switch idle, etc.
+    [SerializeField] private GameObject[] fixedVisuals;    // light OFF, switch flipped, etc.
+    [SerializeField] private GameObject[] outlineVisuals;  // hover outline (switch + light)
 
-    private void Awake()
+    private bool isHovered;
+
+    private void Awake() => ApplyVisuals();
+
+    private void OnMouseEnter()
     {
+        isHovered = true;
         ApplyVisuals();
     }
 
-    private void OnMouseDown()
+    private void OnMouseExit()
     {
-        HandleClick();
+        isHovered = false;
+        ApplyVisuals();
     }
 
-    private void HandleClick()
+    private void OnMouseDown() => TryFix();
+
+    // if switch/light have their own collider, call this from a proxy
+    public void OnProxyClick() => TryFix();
+
+    private void TryFix()
     {
         if (state == State.Fixed) return;
 
-        if (state == State.Unselected)
-        {
-            // First click: show outline only
-            state = State.Selected;
-            ApplyVisuals();
-            return;
-        }
-
-        if (state == State.Selected)
-        {
-            // Second click: confirm -> fix
-            Fix();
-        }
-    }
-
-    private void Fix()
-    {
         state = State.Fixed;
         ApplyVisuals();
 
@@ -76,20 +65,20 @@ public class Obstacle2D : MonoBehaviour
     private void ApplyVisuals()
     {
         bool isFixed = (state == State.Fixed);
-        bool isSelected = (state == State.Selected);
 
-        if (obstacleVisual != null) obstacleVisual.SetActive(!isFixed);
-        if (fixedVisual != null) fixedVisual.SetActive(isFixed);
+        SetActiveAll(hazardVisuals, !isFixed);
+        SetActiveAll(fixedVisuals, isFixed);
 
-        // Outline shows only when selected and not fixed
-        if (outlineVisual != null) outlineVisual.SetActive(isSelected && !isFixed);
+        // outline ONLY when hovered, never when fixed
+        SetActiveAll(outlineVisuals, isHovered && !isFixed);
     }
 
-    // Optional: allow manager to clear selection globally (if you want only one selection at a time)
-    public void ClearSelection()
+    private static void SetActiveAll(GameObject[] gos, bool active)
     {
-        if (state != State.Selected) return;
-        state = State.Unselected;
-        ApplyVisuals();
+        if (gos == null) return;
+        for (int i = 0; i < gos.Length; i++)
+        {
+            if (gos[i] != null) gos[i].SetActive(active);
+        }
     }
 }

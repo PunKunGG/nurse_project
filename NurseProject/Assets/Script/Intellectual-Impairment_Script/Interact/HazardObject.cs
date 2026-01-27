@@ -13,7 +13,7 @@ public class HazardObject : MonoBehaviour
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        manager = FindObjectOfType<EnvironmentStageManager>();
+        manager = FindFirstObjectByType<EnvironmentStageManager>();
         
         // บอก Manager ว่า "ฉันคือ 1 ปัญหาที่ต้องแก้"
         if(manager) manager.totalHazards++;
