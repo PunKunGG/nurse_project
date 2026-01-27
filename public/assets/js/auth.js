@@ -1,14 +1,19 @@
 import { supabase } from "./supabaseClient.js";
 
-// ตรวจสอบว่าเป็น KKU email หรือไม่
+// ตรวจสอบว่าเป็น KKU email หรือไม่ (รองรับทั้ง @kkumail.com และ @kku.ac.th)
 function isKKUEmail(email) {
-  return email.toLowerCase().endsWith("@kkumail.com");
+  const lowerEmail = email.toLowerCase();
+  return (
+    lowerEmail.endsWith("@kkumail.com") || lowerEmail.endsWith("@kku.ac.th")
+  );
 }
 
 export async function signUp(email, password, fullName, studentId) {
   // ตรวจสอบว่าเป็น KKU email
   if (!isKKUEmail(email)) {
-    throw new Error("กรุณาใช้อีเมลมหาวิทยาลัย (@kkumail.com) เท่านั้น");
+    throw new Error(
+      "กรุณาใช้อีเมลมหาวิทยาลัย (@kkumail.com หรือ @kku.ac.th) เท่านั้น",
+    );
   }
 
   // 1) สร้าง user ใน auth
@@ -50,7 +55,9 @@ export async function signUp(email, password, fullName, studentId) {
 export async function signIn(email, password) {
   // ตรวจสอบว่าเป็น KKU email
   if (!isKKUEmail(email)) {
-    throw new Error("กรุณาใช้อีเมลมหาวิทยาลัย (@kkumail.com) เท่านั้น");
+    throw new Error(
+      "กรุณาใช้อีเมลมหาวิทยาลัย (@kkumail.com หรือ @kku.ac.th) เท่านั้น",
+    );
   }
 
   const { data, error } = await supabase.auth.signInWithPassword({
