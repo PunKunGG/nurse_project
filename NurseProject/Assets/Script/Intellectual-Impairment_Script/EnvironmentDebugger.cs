@@ -7,7 +7,7 @@ public class EnvironmentDebugger : MonoBehaviour
 
     void Start()
     {
-        if (!manager) manager = FindObjectOfType<EnvironmentStageManager>();
+        if (!manager) manager = FindFirstObjectByType<EnvironmentStageManager>();
 
         // ตั้งค่าตัวหนังสือให้ใหญ่อ่านง่าย
         style = new GUIStyle();
@@ -95,7 +95,7 @@ public class EnvironmentDebugger : MonoBehaviour
     void FixRandomHazard()
     {
         // หาของทั้งหมดในฉากที่มี Script HazardObject
-        HazardObject[] allHazards = FindObjectsOfType<HazardObject>();
+        HazardObject[] allHazards = FindObjectsByType<HazardObject>(FindObjectsSortMode.None);
         
         foreach (var hazard in allHazards)
         {
@@ -109,7 +109,7 @@ public class EnvironmentDebugger : MonoBehaviour
     // ฟังก์ชันโกง: แก้หมดเลย
     void FixAllHazards()
     {
-        HazardObject[] allHazards = FindObjectsOfType<HazardObject>();
+        HazardObject[] allHazards = FindObjectsByType<HazardObject>(FindObjectsSortMode.None);
         foreach (var hazard in allHazards)
         {
             hazard.ForceFix();

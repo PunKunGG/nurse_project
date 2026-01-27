@@ -20,7 +20,7 @@ public class Draggable2D : MonoBehaviour
         startPos = transform.position;
         
         // Setup Physics เบื้องต้นกันลืม ไม่รุ้เขียนไว้ก่อน
-        GetComponent<Rigidbody2D>().isKinematic = true; 
+        GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic; 
         GetComponent<Collider2D>().isTrigger = false; // ตัวหมอนต้องไม่เป็น Trigger (ให้ DropZone เป็น Trigger)
     }
 

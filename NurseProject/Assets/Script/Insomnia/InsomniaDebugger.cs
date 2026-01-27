@@ -7,7 +7,7 @@ public class InsomniaDebugger : MonoBehaviour
 
     void Start()
     {
-        if (!manager) manager = FindObjectOfType<InsomniaQuizManager>();
+        if (!manager) manager = FindFirstObjectByType<InsomniaQuizManager>();
 
         style = new GUIStyle();
         style.fontSize = 22;
