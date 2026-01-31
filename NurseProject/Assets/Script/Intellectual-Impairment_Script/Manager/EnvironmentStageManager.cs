@@ -35,6 +35,7 @@ public class EnvironmentStageManager : MonoBehaviour
     }
 
     // --- PHASE 1: CUTSCENE ---
+    // --- PHASE 1: CUTSCENE ---
     void PlayCutscene()
     {
         if (cutscenePanel) cutscenePanel.SetActive(true);
@@ -47,6 +48,11 @@ public class EnvironmentStageManager : MonoBehaviour
             videoPlayer.loopPointReached -= OnVideoFinished; // กัน error จากการ add ซ้ำ
             videoPlayer.loopPointReached += OnVideoFinished; 
         }
+        else
+        {
+            Debug.LogWarning("Video Player not assigned. Skipping cutscene.");
+            OnVideoFinished(null);
+        }
     }
 
     // ฟังก์ชันนี้เอาไว้ให้ปุ่ม Replay เรียกใช้
@@ -56,10 +62,18 @@ public class EnvironmentStageManager : MonoBehaviour
         if(quizPanel) quizPanel.SetActive(false); // ปิด Quiz
         PlayCutscene(); // เล่นวิดีโอใหม่
     }
+    
+    // ฟังก์ชันสำหรับปุ่ม Skip (เรียกจาก UI Button)
+    public void SkipCutscene()
+    {
+        Debug.Log("Skipping Cutscene...");
+        if (videoPlayer) videoPlayer.Stop(); // หยุดวิดีโอถ้าเล่นอยู่
+        OnVideoFinished(videoPlayer);
+    }
 
     void OnVideoFinished(VideoPlayer vp)
     {
-        Debug.Log("Video Finished");
+        Debug.Log("Video Finished (or Skipped)");
         if (cutscenePanel) cutscenePanel.SetActive(false); 
         if (quizPanel) quizPanel.SetActive(true);          
     }
