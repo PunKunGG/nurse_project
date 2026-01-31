@@ -148,6 +148,20 @@ update0.4 (Insomnia)
     Sprite For UI
     -เช็ค sprite ง่ายๆผ่านไม่ผ่านใน Universal_Result
     -ขนาดหน้าจอ ปรับได้ตามเหมาะสม
+
+update0.45 (Inanition)
+
+-หน้า result สำหรับ Intellectual , Immobility
+
+-หน้าต่างคำถามท้ายก่อน result ของ immobility
+
+-หน้าต่าง Inanition ระบบภายในเสร็จแล้ว หัวใจ / จับผิด / ไปหน้าถัดไป / เริ่มใหม่
+
+    CheckList
+
+    Sprite For UI
+    -เอา Sprite ใส่ให้หมดในหน้านี้เด้อตามชื่อใน hierarchy เลย
+
 ---
 
 ## Unity Version

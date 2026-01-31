@@ -15,6 +15,9 @@ public class EnvironmentStageManager : MonoBehaviour
     [Header("Phase 3: Gameplay & UI")]
     public GameObject environmentParent;
     public TextMeshProUGUI objectiveText; // ข้อความภารกิจบนหน้าจอ*
+
+    [Header("Result System")] // แสดงผลลัพธ์ตอนจบด่าน
+    public UniversalResultUI resultUI; // ลาก UniversalResultPanel มาใส่ตรงนี้
     
     [Header("Game Logic")]
     public int totalHazards = 0;     
@@ -24,7 +27,7 @@ public class EnvironmentStageManager : MonoBehaviour
     {
         // เริ่มมา: ซ่อน Objective ก่อน
         if(objectiveText) objectiveText.gameObject.SetActive(false);
-
+        if(resultUI) resultUI.gameObject.SetActive(false); // ซ่อนหน้าผลไว้ก่อน
         // เริ่ม Cutscene
         PlayCutscene();
         
@@ -78,7 +81,7 @@ public class EnvironmentStageManager : MonoBehaviour
     // --- PHASE 2: QUIZ ---
     public void OnQuizCompleted()
     {
-        Debug.Log("Quiz Correct! Start Gameplay.");
+        Debug.Log("Quiz Done! Let's head to the next part.");
         if (quizPanel) quizPanel.SetActive(false);
         
         StartGameplay();
@@ -98,13 +101,18 @@ public class EnvironmentStageManager : MonoBehaviour
     public void OnHazardFixed()
     {
         fixedHazards++;
-        UpdateObjectiveUI(); // อัปเดตข้อความ
+        UpdateObjectiveUI();
 
+        // เช็คเงื่อนไขชนะเกม
         if (fixedHazards >= totalHazards)
         {
             Debug.Log("LEVEL COMPLETE!");
-            if(objectiveText) objectiveText.text = "<color=green>สำเร็จแล้ว! ผู้ป่วยปลอดภัยแล้ว</color>";
-            // เรียกหน้า Win Screen ตรงนี้
+            
+            // **เรียกหน้า Result แสดงผลว่าผ่าน**
+            if(resultUI) resultUI.ShowResult(true);
+            
+            // (Optional) ซ่อน Objective Text เพื่อความสวยงาม
+            if(objectiveText) objectiveText.gameObject.SetActive(false);
         }
     }
 
