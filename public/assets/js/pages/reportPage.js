@@ -82,7 +82,7 @@ async function loadAttempts() {
     console.error("Error loading attempts:", error);
     reportBody.innerHTML = `
       <tr>
-        <td colspan="7" class="empty-cell">
+        <td colspan="8" class="empty-cell">
           ⚠️ ไม่สามารถโหลดข้อมูลได้: ${error.message}
         </td>
       </tr>
@@ -129,7 +129,7 @@ function renderAttempts() {
   if (filtered.length === 0) {
     reportBody.innerHTML = `
       <tr>
-        <td colspan="7" class="empty-cell">
+        <td colspan="8" class="empty-cell">
           📝 ยังไม่มีข้อมูลการทำข้อสอบ${currentFilter === "all" ? "" : ` (${currentFilter === "pre" ? "Pre-test" : "Post-test"})`}
         </td>
       </tr>
@@ -148,6 +148,9 @@ function renderAttempts() {
         <td><span class="score-badge ${getScoreClass(a.score_percent)}">${a.score_percent}%</span></td>
         <td><span class="status-badge ${a.passed ? "passed" : "failed"}">${a.passed ? "ผ่าน" : "ไม่ผ่าน"}</span></td>
         <td>${formatDate(a.submitted_at)}</td>
+        <td>
+          ${a.test_type === "post" ? `<button class="btn-reset" onclick="openResetModal('${a.id}', '${escapeHtml(a.full_name)}', '${escapeHtml(a.student_id)}')">🔄</button>` : "-"}
+        </td>
       </tr>
     `,
     )
@@ -231,9 +234,76 @@ function escapeHtml(text) {
   return div.innerHTML;
 }
 
+// Reset functionality
+let resetAttemptId = null;
+
+function openResetModal(attemptId, studentName, studentId) {
+  resetAttemptId = attemptId;
+  document.getElementById("resetStudentName").textContent = studentName;
+  document.getElementById("resetStudentId").textContent = `รหัส: ${studentId}`;
+  document.getElementById("resetModal").classList.add("active");
+}
+
+function closeResetModal() {
+  document.getElementById("resetModal").classList.remove("active");
+  resetAttemptId = null;
+}
+
+async function confirmReset() {
+  if (!resetAttemptId) return;
+
+  const btn = document.getElementById("confirmResetBtn");
+  btn.disabled = true;
+  btn.textContent = "กำลังรีเซ็ต...";
+
+  // Convert to number for proper comparison
+  const attemptIdNum = Number(resetAttemptId);
+
+  try {
+    const { error } = await supabase
+      .from("attempts")
+      .delete()
+      .eq("id", attemptIdNum);
+
+    if (error) throw error;
+
+    // Remove from local array (compare as numbers)
+    allAttempts = allAttempts.filter((a) => a.id !== attemptIdNum);
+
+    closeResetModal();
+    updateStats();
+    renderAttempts();
+
+    // Show success toast
+    showToast("รีเซ็ต Post-test สำเร็จ", "success");
+  } catch (error) {
+    console.error("Error resetting:", error);
+    showToast("เกิดข้อผิดพลาด: " + error.message, "error");
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "รีเซ็ต";
+  }
+}
+
+function showToast(message, type = "info") {
+  const toast = document.createElement("div");
+  toast.className = `toast ${type}`;
+  toast.textContent = message;
+  document.body.appendChild(toast);
+
+  setTimeout(() => toast.classList.add("show"), 10);
+  setTimeout(() => {
+    toast.classList.remove("show");
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
+}
+
 // Export functions to window
 window.filterAttempts = filterAttempts;
 window.exportCSV = exportCSV;
+window.openResetModal = openResetModal;
+window.closeResetModal = closeResetModal;
+window.confirmReset = confirmReset;
 
 // Initialize on load
 init();
