@@ -1,5 +1,6 @@
 // ImmobilityStageManager.cs
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ImmobilityStageManager : MonoBehaviour
 {
@@ -271,6 +272,7 @@ public class ImmobilityStageManager : MonoBehaviour
     {
         state = StageState.Complete;
         IsUIBlockingInput = false;
-        Debug.Log("Immobility stage complete.");
+        Debug.Log("Immobility stage complete. Loading Insomnia (NF)...");
+        SceneManager.LoadScene("Insomnia (NF)");
     }
 }
