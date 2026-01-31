@@ -12,6 +12,7 @@ public class ImmobilityStageManager : MonoBehaviour
         CongratsAfterGrade,
         PillowPlacement,
         TurnOverQuestion,
+        SummaryQuiz,
         Complete
     }
 
@@ -22,6 +23,8 @@ public class ImmobilityStageManager : MonoBehaviour
     [SerializeField] private GameObject panelGradeQuestion;
     [SerializeField] private GameObject panelCongrats;
     [SerializeField] private GameObject panelTurnOver;
+    [SerializeField] private GameObject titlePanel; // New Title Panel
+    [SerializeField] private ImmobilitySummaryQuiz summaryQuiz; // Reference to the new quiz
 
     [Header("Patient Position GameObjects (Animator-based)")]
     [SerializeField] private GameObject restPositionGO;
@@ -70,6 +73,9 @@ public class ImmobilityStageManager : MonoBehaviour
         HideAllWounds();
 
         state = StageState.Idle;
+        
+        // Ensure Title Panel is active at start if assigned
+        if (titlePanel) titlePanel.SetActive(true);
     }
 
     // =========================
@@ -98,6 +104,9 @@ public class ImmobilityStageManager : MonoBehaviour
     private void EnterInspect()
     {
         ApplyPositionVisual(StageState.InspectReady);
+
+        // Hide Title Panel when entering Inspect Mode
+        if (titlePanel) titlePanel.SetActive(false);
 
         // Choose wound (and set examTriggerGO)
         if (rerollEveryEnterInspect || examTriggerGO == null || selectedWoundGrade == 0)
@@ -228,20 +237,40 @@ public class ImmobilityStageManager : MonoBehaviour
     {
         if (state != StageState.PillowPlacement) return;
 
-        state = StageState.TurnOverQuestion;
-        IsUIBlockingInput = true;
-
-        if (panelTurnOver) panelTurnOver.SetActive(true);
+        // SKIP TurnOverQuestion -> Go straight to SummaryQuiz
+        StartSummaryQuiz();
     }
 
+    // Deprecated / Unused now
     public void OnTurnOverAnsweredCorrect()
     {
-        if (state != StageState.TurnOverQuestion) return;
+        // if (state != StageState.TurnOverQuestion) return;
+        // if (panelTurnOver) panelTurnOver.SetActive(false);
+        // StartSummaryQuiz();
+    }
 
-        if (panelTurnOver) panelTurnOver.SetActive(false);
-        IsUIBlockingInput = false;
+    private void StartSummaryQuiz()
+    {
+        state = StageState.SummaryQuiz;
+        IsUIBlockingInput = true; // Quiz is modal
 
+        if (summaryQuiz)
+        {
+            summaryQuiz.Show();
+        }
+        else
+        {
+            Debug.LogWarning("SummaryQuiz reference missing on Manager. Completing immediately.");
+            CompleteStage();
+        }
+    }
+
+    // Called optionally by SummaryQuiz when "Finish" is clicked?
+    // Or just stay in quiz. But lets have a method just in case.
+    public void CompleteStage()
+    {
         state = StageState.Complete;
+        IsUIBlockingInput = false;
         Debug.Log("Immobility stage complete.");
     }
 }

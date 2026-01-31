@@ -8,7 +8,9 @@ public class InsomniaQuestionData
 {
     public string title;        // หัวข้อ 
     [TextArea(3, 5)]
-    public string storyText;    // เนื้อหาคำถาม
+    public string storyText;    // เนื้อหา (Scenario)
+    [TextArea(2, 4)]
+    public string questionText; // คำถาม (Question)
     public string answer1;      // ตัวเลือก 1
     public string answer2;      // ตัวเลือก 2
     public int correctAnswer;   // 1 หรือ 2
@@ -19,6 +21,7 @@ public class InsomniaQuizManager : MonoBehaviour
     [Header("UI References (Question)")]
     public TextMeshProUGUI titleText;
     public TextMeshProUGUI storyText;
+    public TextMeshProUGUI questionText; // New UI reference
     public TextMeshProUGUI pageIndicatorText;
     public TextMeshProUGUI btn1Text;
     public TextMeshProUGUI btn2Text;
@@ -68,6 +71,7 @@ public class InsomniaQuizManager : MonoBehaviour
             // อัปเดต UI
             if(titleText) titleText.text = q.title;
             if(storyText) storyText.text = q.storyText;
+            if(questionText) questionText.text = q.questionText; // Update Question text
             if(btn1Text) btn1Text.text = q.answer1;
             if(btn2Text) btn2Text.text = q.answer2;
             

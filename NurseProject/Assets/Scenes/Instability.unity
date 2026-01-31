@@ -390,7 +390,7 @@ SpriteRenderer:
   m_Size: {x: 1.37, y: 1.63}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
 --- !u!1 &232717694
 GameObject:
@@ -459,8 +459,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d93a7952c4dfc9b4f8fc088cdf18b410, type: 2}
+  m_sharedMaterial: {fileID: -9148816244447948099, guid: d93a7952c4dfc9b4f8fc088cdf18b410, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -866,8 +866,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Win Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d93a7952c4dfc9b4f8fc088cdf18b410, type: 2}
+  m_sharedMaterial: {fileID: -9148816244447948099, guid: d93a7952c4dfc9b4f8fc088cdf18b410, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1351,7 +1351,7 @@ SpriteRenderer:
   m_Size: {x: 4.22, y: 5.1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
 --- !u!1 &573372500
 GameObject:
@@ -1508,8 +1508,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Obstacle2D
   state: 0
-  manager: {fileID: 0}
-  knowledgeMessage: 
+  manager: {fileID: 672877601}
+  knowledgeMessage: "\u0E02\u0E2D\u0E07\u0E40\u0E25\u0E48\u0E19\u0E2B\u0E23\u0E37\u0E2D\u0E27\u0E31\u0E15\u0E16\u0E38\u0E02\u0E19\u0E32\u0E14\u0E40\u0E25\u0E47\u0E01\u0E17\u0E35\u0E48\u0E27\u0E32\u0E07\u0E1A\u0E19\u0E1E\u0E37\u0E49\u0E19\u0E40\u0E1B\u0E47\u0E19\u0E2D\u0E31\u0E19\u0E15\u0E23\u0E32\u0E22\u0E15\u0E48\u0E2D\u0E1C\u0E39\u0E49\u0E2A\u0E39\u0E07\u0E2D\u0E32\u0E22\u0E38
+    \u0E40\u0E19\u0E37\u0E48\u0E2D\u0E07\u0E08\u0E32\u0E01\u0E2D\u0E32\u0E08\u0E17\u0E33\u0E43\u0E2B\u0E49\u0E40\u0E01\u0E34\u0E14\u0E01\u0E32\u0E23\u0E2A\u0E30\u0E14\u0E38\u0E14
+    \u0E2A\u0E39\u0E0D\u0E40\u0E2A\u0E35\u0E22\u0E01\u0E32\u0E23\u0E17\u0E23\u0E07\u0E15\u0E31\u0E27
+    \u0E41\u0E25\u0E30\u0E40\u0E01\u0E34\u0E14\u0E01\u0E32\u0E23\u0E2B\u0E01\u0E25\u0E49\u0E21\u0E42\u0E14\u0E22\u0E44\u0E21\u0E48\u0E04\u0E32\u0E14\u0E04\u0E34\u0E14
+    \u0E01\u0E32\u0E23\u0E08\u0E31\u0E14\u0E40\u0E01\u0E47\u0E1A\u0E2A\u0E34\u0E48\u0E07\u0E02\u0E2D\u0E07\u0E43\u0E2B\u0E49\u0E40\u0E1B\u0E47\u0E19\u0E23\u0E30\u0E40\u0E1A\u0E35\u0E22\u0E1A\u0E0A\u0E48\u0E27\u0E22\u0E25\u0E14\u0E04\u0E27\u0E32\u0E21\u0E40\u0E2A\u0E35\u0E48\u0E22\u0E07\u0E15\u0E48\u0E2D\u0E01\u0E32\u0E23\u0E40\u0E01\u0E34\u0E14\u0E2D\u0E38\u0E1A\u0E31\u0E15\u0E34\u0E40\u0E2B\u0E15\u0E38\u0E20\u0E32\u0E22\u0E43\u0E19\u0E1A\u0E49\u0E32\u0E19
+    (\u0E22\u0E38\u0E1E\u0E32\u0E1E\u0E23\u202F\u0E2B\u0E07\u0E29\u0E4C\u0E0A\u0E39\u0E40\u0E27\u0E0A,
+    2566)"
   hazardVisuals:
   - {fileID: 781231841}
   fixedVisuals:
@@ -1636,7 +1642,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b55285d9353c774c83ee844627e4e17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InstabilityManager
-  totalHazards: 2
+  totalHazards: 4
   progressText: {fileID: 232717697}
   knowledgePopup: {fileID: 507885483}
   winPanel: {fileID: 2087306484}
@@ -1707,7 +1713,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Obstacle2D
   state: 0
   manager: {fileID: 672877601}
-  knowledgeMessage: Oh wow nigga
+  knowledgeMessage: "\u0E1E\u0E23\u0E21\u0E17\u0E35\u0E48\u0E44\u0E21\u0E48\u0E22\u0E36\u0E14\u0E15\u0E34\u0E14\u0E1E\u0E37\u0E49\u0E19\u0E40\u0E1B\u0E47\u0E19\u0E1B\u0E31\u0E08\u0E08\u0E31\u0E22\u0E40\u0E2A\u0E35\u0E48\u0E22\u0E07\u0E2A\u0E33\u0E04\u0E31\u0E0D\u0E15\u0E48\u0E2D\u0E01\u0E32\u0E23\u0E2B\u0E01\u0E25\u0E49\u0E21\u0E43\u0E19\u0E1C\u0E39\u0E49\u0E2A\u0E39\u0E07\u0E2D\u0E32\u0E22\u0E38
+    \u0E40\u0E19\u0E37\u0E48\u0E2D\u0E07\u0E08\u0E32\u0E01\u0E01\u0E48\u0E2D\u0E43\u0E2B\u0E49\u0E40\u0E01\u0E34\u0E14\u0E01\u0E32\u0E23\u0E2A\u0E30\u0E14\u0E38\u0E14\u0E41\u0E25\u0E30\u0E01\u0E32\u0E23\u0E2A\u0E39\u0E0D\u0E40\u0E2A\u0E35\u0E22\u0E01\u0E32\u0E23\u0E17\u0E23\u0E07\u0E15\u0E31\u0E27
+    \u0E42\u0E14\u0E22\u0E40\u0E09\u0E1E\u0E32\u0E30\u0E43\u0E19\u0E1C\u0E39\u0E49\u0E2A\u0E39\u0E07\u0E2D\u0E32\u0E22\u0E38\u0E17\u0E35\u0E48\u0E21\u0E35\u0E04\u0E27\u0E32\u0E21\u0E2A\u0E32\u0E21\u0E32\u0E23\u0E16\u0E43\u0E19\u0E01\u0E32\u0E23\u0E17\u0E23\u0E07\u0E15\u0E31\u0E27\u0E25\u0E14\u0E25\u0E07
+    \u0E0B\u0E36\u0E48\u0E07\u0E40\u0E1B\u0E47\u0E19\u0E1C\u0E25\u0E08\u0E32\u0E01\u0E01\u0E32\u0E23\u0E40\u0E1B\u0E25\u0E35\u0E48\u0E22\u0E19\u0E41\u0E1B\u0E25\u0E07\u0E14\u0E49\u0E32\u0E19\u0E0A\u0E35\u0E27\u0E20\u0E32\u0E1E\u0E15\u0E32\u0E21\u0E01\u0E23\u0E30\u0E1A\u0E27\u0E19\u0E01\u0E32\u0E23\u0E2A\u0E39\u0E07\u0E2D\u0E32\u0E22\u0E38
+    (aging process)\u202F\u0E2A\u0E48\u0E07\u0E1C\u0E25\u0E43\u0E2B\u0E49\u0E23\u0E30\u0E1A\u0E1A\u0E1B\u0E23\u0E30\u0E2A\u0E32\u0E17\u0E41\u0E25\u0E30\u0E01\u0E25\u0E49\u0E32\u0E21\u0E40\u0E19\u0E37\u0E49\u0E2D\u0E17\u0E33\u0E07\u0E32\u0E19\u0E40\u0E2A\u0E37\u0E48\u0E2D\u0E21\u0E16\u0E2D\u0E22
+    \u0E23\u0E48\u0E32\u0E07\u0E01\u0E32\u0E22\u0E2A\u0E39\u0E0D\u0E40\u0E2A\u0E35\u0E22\u0E01\u0E32\u0E23\u0E04\u0E27\u0E1A\u0E04\u0E38\u0E21\u0E01\u0E32\u0E23\u0E17\u0E23\u0E07\u0E15\u0E31\u0E27
+    \u0E41\u0E25\u0E30\u0E40\u0E01\u0E34\u0E14\u0E04\u0E27\u0E32\u0E21\u0E1C\u0E34\u0E14\u0E1B\u0E01\u0E15\u0E34\u0E02\u0E2D\u0E07\u0E01\u0E32\u0E23\u0E40\u0E04\u0E25\u0E37\u0E48\u0E2D\u0E19\u0E44\u0E2B\u0E27
+    (\u0E22\u0E38\u0E1E\u0E32\u0E1E\u0E23\u202F\u0E2B\u0E07\u0E29\u0E4C\u0E0A\u0E39\u0E40\u0E27\u0E0A,
+    2566)"
   hazardVisuals:
   - {fileID: 1040176876}
   fixedVisuals:
@@ -1819,8 +1833,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Button
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d93a7952c4dfc9b4f8fc088cdf18b410, type: 2}
+  m_sharedMaterial: {fileID: -9148816244447948099, guid: d93a7952c4dfc9b4f8fc088cdf18b410, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1999,6 +2013,7 @@ GameObject:
   - component: {fileID: 779467481}
   - component: {fileID: 779467483}
   - component: {fileID: 779467482}
+  - component: {fileID: 779467484}
   m_Layer: 0
   m_Name: Obstacle_StairRail
   m_TagString: Untagged
@@ -2128,6 +2143,32 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &779467484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 779467480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84f0486b1398aaa4182140dc7f0f37b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Obstacle2D
+  state: 0
+  manager: {fileID: 672877601}
+  knowledgeMessage: "\u0E23\u0E32\u0E27\u0E08\u0E31\u0E1A\u0E0A\u0E48\u0E27\u0E22\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E04\u0E27\u0E32\u0E21\u0E21\u0E31\u0E48\u0E19\u0E04\u0E07\u0E43\u0E19\u0E01\u0E32\u0E23\u0E17\u0E23\u0E07\u0E15\u0E31\u0E27
+    (Stability)\u202F\u0E41\u0E25\u0E30\u0E25\u0E14\u0E41\u0E23\u0E07\u0E01\u0E23\u0E30\u0E41\u0E17\u0E01\u0E02\u0E13\u0E30\u0E02\u0E36\u0E49\u0E19-\u0E25\u0E07\u0E1A\u0E31\u0E19\u0E44\u0E14
+    \u0E0B\u0E36\u0E48\u0E07\u0E0A\u0E48\u0E27\u0E22\u0E25\u0E14\u0E04\u0E27\u0E32\u0E21\u0E40\u0E2A\u0E35\u0E48\u0E22\u0E07\u0E01\u0E32\u0E23\u0E2B\u0E01\u0E25\u0E49\u0E21\u0E43\u0E19\u0E1C\u0E39\u0E49\u0E2A\u0E39\u0E07\u0E2D\u0E32\u0E22\u0E38
+    \u0E01\u0E32\u0E23\u0E44\u0E21\u0E48\u0E21\u0E35\u0E23\u0E32\u0E27\u0E22\u0E36\u0E14\u0E08\u0E31\u0E1A\u0E1A\u0E23\u0E34\u0E40\u0E27\u0E13\u0E1A\u0E31\u0E19\u0E44\u0E14
+    \u0E43\u0E19\u0E1C\u0E39\u0E49\u0E2A\u0E39\u0E07\u0E2D\u0E32\u0E22\u0E38\u0E1A\u0E32\u0E07\u0E23\u0E32\u0E22\u0E17\u0E35\u0E48\u0E21\u0E35\u0E2D\u0E32\u0E01\u0E32\u0E23\u0E2A\u0E31\u0E48\u0E19
+    \u0E2B\u0E23\u0E37\u0E2D\u0E01\u0E49\u0E32\u0E27\u0E40\u0E17\u0E49\u0E32\u0E1E\u0E25\u0E32\u0E14\u0E44\u0E16\u0E25\u0E02\u0E13\u0E30\u0E40\u0E14\u0E34\u0E19\u0E02\u0E36\u0E49\u0E19-\u0E25\u0E07\u0E1A\u0E31\u0E19\u0E44\u0E14
+    \u0E17\u0E33\u0E43\u0E2B\u0E49\u0E40\u0E01\u0E34\u0E14\u0E01\u0E32\u0E23\u0E1E\u0E25\u0E31\u0E14\u0E15\u0E01\u0E2B\u0E01\u0E25\u0E49\u0E21\u0E44\u0E14\u0E49
+    (\u0E22\u0E38\u0E1E\u0E32\u0E1E\u0E23\u202F\u0E2B\u0E07\u0E29\u0E4C\u0E0A\u0E39\u0E40\u0E27\u0E0A,
+    2566)"
+  hazardVisuals: []
+  fixedVisuals: []
+  outlineVisuals: []
 --- !u!1 &781231841
 GameObject:
   m_ObjectHideFlags: 0
@@ -2472,7 +2513,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Obstacle2D
   state: 0
   manager: {fileID: 672877601}
-  knowledgeMessage: another nigga?
+  knowledgeMessage: "\u0E1E\u0E37\u0E49\u0E19\u0E25\u0E37\u0E48\u0E19\u0E40\u0E1B\u0E47\u0E19\u0E2A\u0E32\u0E40\u0E2B\u0E15\u0E38\u0E2A\u0E33\u0E04\u0E31\u0E0D\u0E02\u0E2D\u0E07\u0E01\u0E32\u0E23\u0E2B\u0E01\u0E25\u0E49\u0E21\u0E43\u0E19\u0E1C\u0E39\u0E49\u0E2A\u0E39\u0E07\u0E2D\u0E32\u0E22\u0E38\u202F\u0E01\u0E32\u0E23\u0E17\u0E33\u0E43\u0E2B\u0E49\u0E1E\u0E37\u0E49\u0E19\u0E41\u0E2B\u0E49\u0E07\u0E41\u0E25\u0E30\u0E40\u0E23\u0E35\u0E22\u0E1A\u0E0A\u0E48\u0E27\u0E22\u0E25\u0E14\u0E04\u0E27\u0E32\u0E21\u0E40\u0E2A\u0E35\u0E48\u0E22\u0E07\u0E15\u0E48\u0E2D\u0E01\u0E32\u0E23\u0E40\u0E01\u0E34\u0E14\u0E2D\u0E38\u0E1A\u0E31\u0E15\u0E34\u0E40\u0E2B\u0E15\u0E38\u0E44\u0E14\u0E49\u0E2D\u0E22\u0E48\u0E32\u0E07\u0E21\u0E35\u0E1B\u0E23\u0E30\u0E2A\u0E34\u0E17\u0E18\u0E34\u0E20\u0E32\u0E1E
+    \u0E17\u0E31\u0E49\u0E07\u0E19\u0E35\u0E49\u0E1C\u0E39\u0E49\u0E2A\u0E39\u0E07\u0E2D\u0E32\u0E22\u0E38\u0E21\u0E35\u0E01\u0E32\u0E23\u0E40\u0E1B\u0E25\u0E35\u0E48\u0E22\u0E19\u0E41\u0E1B\u0E25\u0E07\u0E02\u0E2D\u0E07\u0E23\u0E30\u0E1A\u0E1A\u0E01\u0E25\u0E49\u0E32\u0E21\u0E40\u0E19\u0E37\u0E49\u0E2D
+    \u0E01\u0E23\u0E30\u0E14\u0E39\u0E01 \u0E41\u0E25\u0E30\u0E02\u0E49\u0E2D\u0E15\u0E48\u0E2D
+    \u0E44\u0E14\u0E49\u0E41\u0E01\u0E48 \u0E01\u0E33\u0E25\u0E31\u0E07\u0E01\u0E25\u0E49\u0E32\u0E21\u0E40\u0E19\u0E37\u0E49\u0E2D\u0E25\u0E14\u0E25\u0E07
+    \u0E04\u0E27\u0E32\u0E21\u0E2B\u0E19\u0E32\u0E41\u0E19\u0E48\u0E19\u0E02\u0E2D\u0E07\u0E01\u0E23\u0E30\u0E14\u0E39\u0E01\u0E25\u0E14\u0E25\u0E07
+    \u0E01\u0E25\u0E49\u0E32\u0E21\u0E40\u0E19\u0E37\u0E49\u0E2D\u0E23\u0E2D\u0E1A\u0E02\u0E49\u0E2D\u0E40\u0E02\u0E48\u0E32\u0E2D\u0E48\u0E2D\u0E19\u0E41\u0E23\u0E07
+    \u0E41\u0E25\u0E30\u0E01\u0E32\u0E23\u0E2B\u0E25\u0E48\u0E2D\u0E25\u0E37\u0E48\u0E19\u0E02\u0E2D\u0E07\u0E02\u0E49\u0E2D\u0E15\u0E48\u0E2D\u0E25\u0E14\u0E25\u0E07
+    \u0E2A\u0E48\u0E07\u0E1C\u0E25\u0E43\u0E2B\u0E49\u0E01\u0E32\u0E23\u0E40\u0E14\u0E34\u0E19\u0E41\u0E25\u0E30\u0E01\u0E32\u0E23\u0E17\u0E23\u0E07\u0E15\u0E31\u0E27\u0E1C\u0E34\u0E14\u0E1B\u0E01\u0E15\u0E34
+    \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E42\u0E2D\u0E01\u0E32\u0E2A\u0E40\u0E01\u0E34\u0E14\u0E01\u0E32\u0E23\u0E2B\u0E01\u0E25\u0E49\u0E21
+    (\u0E22\u0E38\u0E1E\u0E32\u0E1E\u0E23\u202F\u0E2B\u0E07\u0E29\u0E4C\u0E0A\u0E39\u0E40\u0E27\u0E0A,
+    2566)"
   hazardVisuals:
   - {fileID: 1744927114}
   fixedVisuals:
@@ -2764,7 +2815,7 @@ SpriteRenderer:
   m_Size: {x: 1.37, y: 1.63}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1129427124
 GameObject:
@@ -2825,8 +2876,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Button
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d93a7952c4dfc9b4f8fc088cdf18b410, type: 2}
+  m_sharedMaterial: {fileID: -9148816244447948099, guid: d93a7952c4dfc9b4f8fc088cdf18b410, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3165,8 +3216,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: KnowLedge Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d93a7952c4dfc9b4f8fc088cdf18b410, type: 2}
+  m_sharedMaterial: {fileID: -9148816244447948099, guid: d93a7952c4dfc9b4f8fc088cdf18b410, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3336,6 +3387,7 @@ GameObject:
   - component: {fileID: 1531555197}
   - component: {fileID: 1531555199}
   - component: {fileID: 1531555198}
+  - component: {fileID: 1531555200}
   m_Layer: 0
   m_Name: Obstacle_Cable
   m_TagString: Untagged
@@ -3465,6 +3517,25 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1531555200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1531555196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84f0486b1398aaa4182140dc7f0f37b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Obstacle2D
+  state: 0
+  manager: {fileID: 672877601}
+  knowledgeMessage: "\u0E2A\u0E32\u0E22\u0E44\u0E1F\u0E17\u0E35\u0E48\u0E1E\u0E32\u0E14\u0E1C\u0E48\u0E32\u0E19\u0E1E\u0E37\u0E49\u0E19\u0E40\u0E1B\u0E47\u0E19\u0E2A\u0E34\u0E48\u0E07\u0E01\u0E35\u0E14\u0E02\u0E27\u0E32\u0E07\u0E17\u0E35\u0E48\u0E2D\u0E32\u0E08\u0E17\u0E33\u0E43\u0E2B\u0E49\u0E1C\u0E39\u0E49\u0E2A\u0E39\u0E07\u0E2D\u0E32\u0E22\u0E38\u0E2A\u0E30\u0E14\u0E38\u0E14\u0E25\u0E49\u0E21\u0E44\u0E14\u0E49
+    \u0E01\u0E32\u0E23\u0E08\u0E31\u0E14\u0E40\u0E01\u0E47\u0E1A\u0E2A\u0E32\u0E22\u0E44\u0E1F\u0E43\u0E2B\u0E49\u0E0A\u0E34\u0E14\u0E1C\u0E19\u0E31\u0E07\u0E0A\u0E48\u0E27\u0E22\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E04\u0E27\u0E32\u0E21\u0E1B\u0E25\u0E2D\u0E14\u0E20\u0E31\u0E22\u0E43\u0E19\u0E01\u0E32\u0E23\u0E40\u0E14\u0E34\u0E19"
+  hazardVisuals: []
+  fixedVisuals: []
+  outlineVisuals: []
 --- !u!1 &1562363928
 GameObject:
   m_ObjectHideFlags: 0
@@ -4354,8 +4425,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Obstacle2D
   state: 0
-  manager: {fileID: 0}
-  knowledgeMessage: 
+  manager: {fileID: 672877601}
+  knowledgeMessage: "\u0E41\u0E2A\u0E07\u0E2A\u0E27\u0E48\u0E32\u0E07\u0E17\u0E35\u0E48\u0E40\u0E1E\u0E35\u0E22\u0E07\u0E1E\u0E2D\u0E0A\u0E48\u0E27\u0E22\u0E43\u0E2B\u0E49\u0E1C\u0E39\u0E49\u0E2A\u0E39\u0E07\u0E2D\u0E32\u0E22\u0E38\u0E21\u0E2D\u0E07\u0E40\u0E2B\u0E47\u0E19\u0E23\u0E30\u0E14\u0E31\u0E1A\u0E1E\u0E37\u0E49\u0E19\u0E41\u0E25\u0E30\u0E02\u0E31\u0E49\u0E19\u0E1A\u0E31\u0E19\u0E44\u0E14\u0E0A\u0E31\u0E14\u0E40\u0E08\u0E19
+    \u0E25\u0E14\u0E04\u0E27\u0E32\u0E21\u0E40\u0E2A\u0E35\u0E48\u0E22\u0E07\u0E15\u0E48\u0E2D\u0E01\u0E32\u0E23\u0E40\u0E2A\u0E35\u0E22\u0E2A\u0E21\u0E14\u0E38\u0E25\u0E41\u0E25\u0E30\u0E01\u0E32\u0E23\u0E2B\u0E01\u0E25\u0E49\u0E21
+    \u0E41\u0E2A\u0E07\u0E2A\u0E27\u0E48\u0E32\u0E07\u0E44\u0E21\u0E48\u0E40\u0E1E\u0E35\u0E22\u0E07\u0E1E\u0E2D\u0E2B\u0E23\u0E37\u0E2D\u0E41\u0E2A\u0E07\u0E2A\u0E27\u0E48\u0E32\u0E07\u0E08\u0E49\u0E32\u0E40\u0E01\u0E34\u0E19\u0E44\u0E1B
+    \u0E17\u0E33\u0E43\u0E2B\u0E49\u0E01\u0E25\u0E49\u0E32\u0E21\u0E40\u0E19\u0E37\u0E49\u0E2D\u0E14\u0E27\u0E07\u0E15\u0E32\u0E15\u0E49\u0E2D\u0E07\u0E17\u0E33\u0E07\u0E32\u0E19\u0E2B\u0E19\u0E31\u0E01\u0E40\u0E19\u0E37\u0E48\u0E2D\u0E07\u0E08\u0E32\u0E01\u0E04\u0E27\u0E32\u0E21\u0E2A\u0E32\u0E21\u0E32\u0E23\u0E16\u0E43\u0E19\u0E01\u0E32\u0E23\u0E21\u0E2D\u0E07\u0E40\u0E2B\u0E47\u0E19\u0E02\u0E2D\u0E07\u0E1C\u0E39\u0E49\u0E2A\u0E39\u0E07\u0E2D\u0E32\u0E22\u0E38\u0E25\u0E14\u0E25\u0E07
+    \u0E42\u0E14\u0E22\u0E40\u0E09\u0E1E\u0E32\u0E30\u0E43\u0E19\u0E40\u0E27\u0E25\u0E32\u0E01\u0E25\u0E32\u0E07\u0E04\u0E37\u0E19
+    \u0E17\u0E33\u0E43\u0E2B\u0E49\u0E21\u0E2D\u0E07\u0E40\u0E2B\u0E47\u0E19\u0E44\u0E21\u0E48\u0E0A\u0E31\u0E14
+    \u0E2D\u0E32\u0E08\u0E2B\u0E01\u0E25\u0E49\u0E21\u0E08\u0E32\u0E01\u0E01\u0E32\u0E23\u0E40\u0E14\u0E34\u0E19\u0E2A\u0E30\u0E14\u0E38\u0E14\u0E2B\u0E23\u0E37\u0E2D\u0E40\u0E14\u0E34\u0E19\u0E0A\u0E19\u0E2A\u0E34\u0E48\u0E07\u0E02\u0E2D\u0E07
+    \u0E17\u0E33\u0E43\u0E2B\u0E49\u0E40\u0E01\u0E34\u0E14\u0E01\u0E32\u0E23\u0E1E\u0E25\u0E31\u0E14\u0E15\u0E01\u0E2B\u0E01\u0E25\u0E49\u0E21
+    (\u0E22\u0E38\u0E1E\u0E32\u0E1E\u0E23\u202F\u0E2B\u0E07\u0E29\u0E4C\u0E0A\u0E39\u0E40\u0E27\u0E0A,
+    2566)"
   hazardVisuals:
   - {fileID: 1344156927}
   - {fileID: 1855334594}
@@ -4558,7 +4638,7 @@ SpriteRenderer:
   m_Size: {x: 4.22, y: 5.1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
 --- !u!114 &98548001509831830
 MonoBehaviour:
