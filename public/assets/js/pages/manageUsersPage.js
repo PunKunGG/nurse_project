@@ -18,9 +18,9 @@ let allUsers = [];
 
 // Initialize page
 async function init() {
-  // Check if user is teacher/admin
+  // Check if user is admin only
   const profile = await getMyProfile();
-  if (!profile || (profile.role !== "teacher" && profile.role !== "admin")) {
+  if (!profile || profile.role !== "admin") {
     window.location.href = "dashboard.html";
     return;
   }
@@ -89,6 +89,7 @@ function renderUsers(users) {
         >
           <option value="student" ${user.role === "student" ? "selected" : ""}>Student</option>
           <option value="teacher" ${user.role === "teacher" ? "selected" : ""}>Teacher</option>
+          <option value="admin" ${user.role === "admin" ? "selected" : ""}>Admin</option>
         </select>
       </td>
     </tr>
@@ -149,9 +150,8 @@ function updateStats() {
   const students = allUsers.filter(
     (u) => u.role === "student" || !u.role,
   ).length;
-  const teachers = allUsers.filter(
-    (u) => u.role === "teacher" || u.role === "admin",
-  ).length;
+  const teachers = allUsers.filter((u) => u.role === "teacher").length;
+  const admins = allUsers.filter((u) => u.role === "admin").length;
 
   totalCount.textContent = allUsers.length;
   studentCount.textContent = students;

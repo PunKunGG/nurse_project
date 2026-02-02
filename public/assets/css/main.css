@@ -435,6 +435,28 @@ body.dark .brand {
   margin-bottom: 12px;
 }
 
+/* Admin Card - Purple accent */
+.admin-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 16px;
+  margin-top: 12px;
+  border-left: 3px solid #a855f7;
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition),
+    border-color var(--transition),
+    background var(--transition);
+}
+
+.admin-title {
+  font-weight: 900;
+  margin-bottom: 12px;
+  color: #a855f7;
+}
+
 .sidebar-footer {
   margin-top: 16px;
 }
