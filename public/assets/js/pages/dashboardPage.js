@@ -4,6 +4,7 @@ const me = document.getElementById("me");
 const meSub = document.getElementById("me_sub");
 const logoutBtn = document.getElementById("btn_logout");
 const teacherTools = document.getElementById("teacher_tools");
+const adminTools = document.getElementById("admin_tools");
 
 // slider elements
 const slidesEl = document.getElementById("slides");
@@ -35,6 +36,10 @@ async function initProfile() {
 
     if (profile.role === "teacher" || profile.role === "admin") {
       teacherTools.style.display = "block";
+    }
+
+    if (profile.role === "admin") {
+      adminTools.style.display = "block";
     }
   } catch (e) {
     me.innerHTML = `โหลดโปรไฟล์ไม่สำเร็จ`;

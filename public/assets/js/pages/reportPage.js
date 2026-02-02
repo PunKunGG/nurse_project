@@ -9,6 +9,7 @@ import { getSession } from "../auth.js";
 // State
 let allAttempts = [];
 let currentFilter = "all";
+let searchQuery = "";
 
 // DOM Elements
 const reportBody = document.getElementById("reportBody");
@@ -126,6 +127,16 @@ function renderAttempts() {
     filtered = allAttempts.filter((a) => a.test_type === currentFilter);
   }
 
+  // Apply search filter
+  if (searchQuery.trim() !== "") {
+    const query = searchQuery.toLowerCase().trim();
+    filtered = filtered.filter(
+      (a) =>
+        a.full_name.toLowerCase().includes(query) ||
+        a.student_id.toLowerCase().includes(query),
+    );
+  }
+
   if (filtered.length === 0) {
     reportBody.innerHTML = `
       <tr>
@@ -168,6 +179,14 @@ function filterAttempts(type) {
     btn.classList.toggle("active", btn.dataset.type === type);
   });
 
+  renderAttempts();
+}
+
+/**
+ * Search students by name or student ID
+ */
+function searchStudents(query) {
+  searchQuery = query;
   renderAttempts();
 }
 
@@ -300,6 +319,7 @@ function showToast(message, type = "info") {
 
 // Export functions to window
 window.filterAttempts = filterAttempts;
+window.searchStudents = searchStudents;
 window.exportCSV = exportCSV;
 window.openResetModal = openResetModal;
 window.closeResetModal = closeResetModal;

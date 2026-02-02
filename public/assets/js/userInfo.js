@@ -12,6 +12,7 @@ const meEl = document.getElementById("me");
 const meSubEl = document.getElementById("me_sub");
 const logoutBtn = document.getElementById("btn_logout");
 const teacherTools = document.getElementById("teacher_tools");
+const adminTools = document.getElementById("admin_tools");
 
 // Track if we've already initialized
 let initialized = false;
@@ -41,12 +42,17 @@ async function loadUserProfile(user) {
         meSubEl.textContent = `${profile.student_id || ""} | ${profile.role || "student"}`;
       }
 
-      // Show teacher tools if applicable
+      // Show teacher tools if teacher or admin
       if (
         teacherTools &&
         (profile.role === "teacher" || profile.role === "admin")
       ) {
         teacherTools.style.display = "block";
+      }
+
+      // Show admin tools only for admin
+      if (adminTools && profile.role === "admin") {
+        adminTools.style.display = "block";
       }
     } else {
       // Fallback to user metadata
