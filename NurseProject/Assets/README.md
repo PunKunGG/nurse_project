@@ -162,6 +162,64 @@ update0.45 (Inanition)
     Sprite For UI
     -เอา Sprite ใส่ให้หมดในหน้านี้เด้อตามชื่อใน hierarchy เลย
 
+
+update0.5 (Incontinence)
+
+-ระบบหลักเสร็จแล้วนะคิดว่า ถ้าอยากปรับอะไรปรับเลย
+
+วิธีการกรอก Case ของผู้ป่วยนะ
+
+กรอกข้อมูลทีละ Element (0 - 4):
+
+Case Name: ตั้งชื่อเล่นให้จำง่าย (เช่น "ยายแมว Stress UI", "ลุงดำ Urge UI")
+
+Patient Info: Copy ข้อมูลผู้ป่วยทั้งหมด (อายุ เพศ อาการ...) มาวางในช่องนี้
+
+Correct Diagnosis Index: ใส่ตัวเลขลำดับปุ่มคำตอบที่ถูก (0-6)
+
+0=Stress, 1=Urge, 2=Overflow, 3=Functional, 4=Mix(S+U), 5=Mix(U+F), 6=Mix(S+F)
+
+Correct Intervention Indices:
+
+นี่คือเฉลยการพยาบาล
+
+กด Size ใส่จำนวนข้อที่ถูก (เช่น เคสนี้มีข้อถูก 3 ข้อ ก็ใส่ 3)
+
+ใส่ Index ของปุ่ม ที่ถูก (0-9) ลงไป
+
+(Tip: คุณต้องจดไว้ก่อนว่า ปุ่มที่ 1-10 ใน Scene ของคุณคือปุ่มอะไรบ้าง)
+
+ตัวอย่างการกรอกข้อมูล (สมมติ)
+Element 0 (เคส Stress UI):
+
+Patient Info: "หญิง 60 ปี ไอจามแล้วปัสสาวะเล็ด..."
+
+Correct Diagnosis Index: 0 (เพราะปุ่ม 0 คือ Stress UI)
+
+Correct Intervention Indices:
+
+Size: 2
+
+Element 0: 0 (สมมติปุ่ม 0 คือ บริหารอุ้งเชิงกราน)
+
+Element 1: 2 (สมมติปุ่ม 2 คือ ลดน้ำหนัก)
+
+Element 1 (เคส Urge UI):
+
+Patient Info: "ชาย 70 ปี ปวดฉี่แล้วราดเลย ไปไม่ทัน..."
+
+Correct Diagnosis Index: 1 (เพราะปุ่ม 1 คือ Urge UI)
+
+Correct Intervention Indices:
+
+Size: 3
+
+Element 0: 0 (บริหารอุ้งเชิงกราน)
+
+Element 1: 1 (ฝึกกระเพาะปัสสาวะ)
+
+Element 2: 5 (หลีกเลี่ยงคาเฟอีน)
+
 ---
 
 ## Unity Version
