@@ -47,6 +47,11 @@
           <a class="btn w-full active" href="report.html">ดูผลคะแนนรวม</a>
         </div>
 
+        <div id="admin_tools" class="admin-card" style="display: none">
+          <div class="admin-title">Admin Tools</div>
+          <a class="btn w-full" href="manage_users.html">จัดการสิทธิ์ผู้ใช้</a>
+        </div>
+
         <div class="sidebar-footer">
           <button id="btn_logout" class="btn btn-ghost w-full" type="button">
             ออกจากระบบ
@@ -102,6 +107,17 @@
           </div>
         </div>
 
+        <!-- Search Box -->
+        <div class="search-box">
+          <input
+            type="text"
+            id="searchInput"
+            class="search-input"
+            placeholder="ค้นหาชื่อ หรือ รหัสนักศึกษา..."
+            oninput="searchStudents(this.value)"
+          />
+        </div>
+
         <!-- Filter Tabs -->
         <div class="filter-tabs">
           <button
@@ -140,11 +156,12 @@
                   <th style="width: 100px">คะแนน</th>
                   <th style="width: 100px">สถานะ</th>
                   <th>วันที่ทำ</th>
+                  <th style="width: 80px">จัดการ</th>
                 </tr>
               </thead>
               <tbody id="reportBody">
                 <tr>
-                  <td colspan="7" class="loading-cell">
+                  <td colspan="8" class="loading-cell">
                     <div class="loading-spinner"></div>
                     กำลังโหลดข้อมูล...
                   </td>
@@ -159,6 +176,38 @@
         </footer>
       </section>
     </main>
+
+    <!-- Reset Confirmation Modal -->
+    <div class="modal-overlay" id="resetModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>รีเซ็ต Post-test</h3>
+          <button class="modal-close" onclick="closeResetModal()">
+            &times;
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>ยืนยันการรีเซ็ต Post-test ของ:</p>
+          <div class="reset-info">
+            <strong id="resetStudentName">-</strong><br />
+            <small id="resetStudentId">รหัส: -</small>
+          </div>
+          <p class="warning-text">นักศึกษาจะสามารถทำ Post-test ใหม่ได้</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-ghost" onclick="closeResetModal()">
+            ยกเลิก
+          </button>
+          <button
+            class="btn btn-danger"
+            id="confirmResetBtn"
+            onclick="confirmReset()"
+          >
+            รีเซ็ต
+          </button>
+        </div>
+      </div>
+    </div>
 
     <!-- Scripts -->
     <script type="module" src="assets/js/pages/reportPage.js"></script>

@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>จัดการสิทธิ์ผู้ใช้ - Nurse Learning</title>
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/manage_users.css" />
+  </head>
+
+  <body>
+    <main class="app">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-badge">
+            <img src="assets/img/logo.png" alt="Logo" width="40" height="40" />
+          </div>
+          <div>
+            <div class="brand-title">Faculty of Nursing</div>
+            <div class="brand-sub">Khon Kaen University</div>
+          </div>
+        </div>
+
+        <div class="user-card">
+          <div class="user-avatar">👤</div>
+          <div class="user-meta">
+            <div id="me" class="user-name">กำลังโหลดข้อมูลผู้ใช้…</div>
+            <div id="me_sub" class="user-sub"></div>
+          </div>
+        </div>
+
+        <nav class="menu">
+          <a class="menu-item" href="dashboard.html">Dashboard</a>
+          <a class="menu-item" href="pretest.html">Pre-test</a>
+          <a class="menu-item" href="game.html">Play Game</a>
+          <a class="menu-item" href="posttest.html">Post-test</a>
+          <a class="menu-item" href="certificate.html">Certificate</a>
+          <a class="menu-item" href="creators.html">Creators</a>
+        </nav>
+
+        <div id="teacher_tools" class="teacher-card" style="display: none">
+          <div class="teacher-title">Teacher Tools</div>
+          <a class="btn w-full" href="manage_questions.html">จัดการข้อสอบ</a>
+          <a class="btn btn-ghost w-full" href="report.html">ดูผลคะแนนรวม</a>
+        </div>
+
+        <div id="admin_tools" class="admin-card" style="display: none">
+          <div class="admin-title">Admin Tools</div>
+          <a class="btn w-full active" href="manage_users.html"
+            >จัดการสิทธิ์ผู้ใช้</a
+          >
+        </div>
+
+        <div class="sidebar-footer">
+          <button id="btn_logout" class="btn btn-ghost w-full" type="button">
+            ออกจากระบบ
+          </button>
+        </div>
+      </aside>
+
+      <!-- CONTENT -->
+      <section class="content">
+        <header class="content-header">
+          <div class="header-row">
+            <div>
+              <h1>จัดการสิทธิ์ผู้ใช้</h1>
+              <p class="muted">
+                เปลี่ยนสิทธิ์ผู้ใช้ระหว่าง Student และ Teacher
+              </p>
+            </div>
+          </div>
+        </header>
+
+        <!-- Search Box -->
+        <div class="search-box">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="ค้นหาด้วยชื่อ, รหัสนักศึกษา หรืออีเมล..."
+            class="search-input"
+          />
+        </div>
+
+        <!-- Users Table -->
+        <div class="panel">
+          <div class="table-container">
+            <table class="users-table" id="usersTable">
+              <thead>
+                <tr>
+                  <th style="width: 50px">#</th>
+                  <th>ชื่อ-นามสกุล</th>
+                  <th>รหัสนักศึกษา</th>
+                  <th style="width: 150px">สิทธิ์ปัจจุบัน</th>
+                  <th style="width: 180px">เปลี่ยนสิทธิ์</th>
+                </tr>
+              </thead>
+              <tbody id="usersBody">
+                <tr>
+                  <td colspan="5" class="loading-cell">
+                    <div class="loading-spinner"></div>
+                    กำลังโหลดข้อมูล...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-value" id="totalCount">0</div>
+            <div class="stat-label">ผู้ใช้ทั้งหมด</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="studentCount">0</div>
+            <div class="stat-label">Students</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="teacherCount">0</div>
+            <div class="stat-label">Teachers</div>
+          </div>
+        </div>
+
+        <footer class="content-footer muted">
+          © Faculty of Nursing, Khon Kaen University
+        </footer>
+      </section>
+    </main>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Scripts -->
+    <script type="module" src="assets/js/pages/manageUsersPage.js"></script>
+    <script src="assets/js/theme.js"></script>
+    <script src="assets/js/mobile-menu.js"></script>
+    <script type="module" src="assets/js/userInfo.js"></script>
+  </body>
+</html>

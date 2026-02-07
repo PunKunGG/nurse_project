@@ -125,6 +125,89 @@ let userAnswers = {};
 let timerInterval = null;
 let timeRemaining = 180; // 3 minutes in seconds
 
+// Check if user already attempted Post-test
+async function checkIfAlreadyAttempted() {
+  try {
+    const { supabase } = await import("../supabaseClient.js");
+    const { getSession } = await import("../auth.js");
+
+    const session = await getSession();
+    if (!session) return null;
+
+    // Check for existing post-test attempt
+    const { data: attempt, error } = await supabase
+      .from("attempts")
+      .select("*")
+      .eq("user_id", session.user.id)
+      .eq("test_type", "post")
+      .order("submitted_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (error) throw error;
+    return attempt;
+  } catch (e) {
+    console.error("Error checking attempt:", e);
+    return null;
+  }
+}
+
+// Show already attempted UI
+function showAlreadyAttempted(attempt) {
+  const passed = attempt.passed;
+  const percentage = attempt.score_percent;
+  const correct = Math.round((percentage / 100) * questions.length);
+
+  // Update results UI
+  const scoreEl = document.getElementById("resultScore");
+  scoreEl.textContent = percentage + "%";
+  scoreEl.className = "result-score " + (passed ? "passed" : "failed");
+
+  document.getElementById("correctCount").textContent = correct;
+  document.getElementById("incorrectCount").textContent =
+    questions.length - correct;
+
+  const noticeEl = document.getElementById("certificateNotice");
+  const certBtn = document.getElementById("certBtn");
+
+  if (passed) {
+    document.getElementById("resultIcon").textContent = "🎉";
+    document.getElementById("resultText").textContent =
+      "ยอดเยี่ยม! คุณผ่านเกณฑ์";
+    noticeEl.textContent = "คุณสามารถรับเกียรติบัตรได้แล้ว!";
+    noticeEl.className = "certificate-notice";
+    certBtn.style.display = "inline-flex";
+  } else {
+    document.getElementById("resultIcon").textContent = "📝";
+    document.getElementById("resultText").textContent =
+      "คุณได้ทำแบบทดสอบไปแล้ว";
+    noticeEl.innerHTML = `
+      <div style="color: var(--warning);">
+        คะแนนยังไม่ถึงเกณฑ์ (ต้องได้มากกว่า 60%)<br>
+        <small>หากต้องการทำใหม่ กรุณาติดต่ออาจารย์เพื่อรีเซ็ตข้อมูล</small>
+      </div>
+    `;
+    noticeEl.className = "certificate-notice failed";
+    certBtn.style.display = "none";
+  }
+
+  // Hide intro and quiz, show results directly
+  document.getElementById("quizIntro").style.display = "none";
+  document.getElementById("quizContainer").classList.remove("active");
+  document.getElementById("quizResults").classList.add("active");
+}
+
+// Initialize page - check for previous attempts
+async function initPosttest() {
+  const existingAttempt = await checkIfAlreadyAttempted();
+  if (existingAttempt) {
+    showAlreadyAttempted(existingAttempt);
+  }
+}
+
+// Run init on page load
+initPosttest();
+
 function startQuiz() {
   document.getElementById("quizIntro").style.display = "none";
   document.getElementById("quizContainer").classList.add("active");
