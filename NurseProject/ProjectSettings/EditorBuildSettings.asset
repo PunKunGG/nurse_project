@@ -6,16 +6,16 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scene/MainMenu.unity
+    path: Assets/Scenes/MainMenu.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 1
-    path: Assets/Scene/Instability.unity
+    path: Assets/Scenes/Instability.unity
     guid: 9ed06dfa6761c374fb831e60774296d4
   - enabled: 1
-    path: Assets/Scene/Immobility.unity
+    path: Assets/Scenes/Immobility.unity
     guid: ee91cbfb9d6455f4491e04e73db63301
   - enabled: 1
-    path: Assets/Scene/Insomnia (NF).unity
+    path: Assets/Scenes/Insomnia (NF).unity
     guid: 3761c7a3a5c79d546b8229da7683add8
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

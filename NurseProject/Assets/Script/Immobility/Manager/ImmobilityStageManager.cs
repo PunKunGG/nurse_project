@@ -27,7 +27,7 @@ public class ImmobilityStageManager : MonoBehaviour
     [SerializeField] private GameObject titlePanel; // New Title Panel
     [SerializeField] private ImmobilitySummaryQuiz summaryQuiz; // Reference to the new quiz
 
-    [Header("Patient Position GameObjects (Animator-based)")]
+    [Header("Patient Position GameObjects")]
     [SerializeField] private GameObject restPositionGO;
     [SerializeField] private GameObject lateralPositionGO;
     [SerializeField] private GameObject inspectPositionGO;
@@ -36,7 +36,7 @@ public class ImmobilityStageManager : MonoBehaviour
     [Tooltip("Index 0=Grade1, 1=Grade2, 2=Grade3, 3=Grade4")]
     [SerializeField] private GameObject[] woundVariants;
 
-    [Header("Chosen Exam Trigger (Runtime)")]
+    [Header("Chosen Exam Trigger")]
     [SerializeField] private GameObject examTriggerGO; // runtime-selected wound GO
 
     [Header("Roll behavior")]
