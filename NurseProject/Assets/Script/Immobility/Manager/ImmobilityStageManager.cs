@@ -61,6 +61,8 @@ public class ImmobilityStageManager : MonoBehaviour
         if (panelCongrats) panelCongrats.SetActive(false);
         if (panelTurnOver) panelTurnOver.SetActive(false);
 
+        if (patientWithPillowGO) patientWithPillowGO.SetActive(false);
+
         // Turn off pillow flow
         if (pillow) pillow.SetActive(false);
         if (pillowDropZone) pillowDropZone.SetActive(false);
@@ -234,12 +236,26 @@ public class ImmobilityStageManager : MonoBehaviour
     }
 
 
+    [Header("Post-Pillow Visual")]
+    [SerializeField] private GameObject patientWithPillowGO;
+    [SerializeField] private float postPillowDelaySeconds = 3.0f;
+
     public void OnPillowPlacedCorrect()
     {
         if (state != StageState.PillowPlacement) return;
 
-        // SKIP TurnOverQuestion -> Go straight to SummaryQuiz
-        StartSummaryQuiz();
+        // Visual feedback: Show patient with pillow
+        if (restPositionGO) restPositionGO.SetActive(false);
+        if (patientWithPillowGO) patientWithPillowGO.SetActive(true);
+
+        // Hide the draggable pillow so it doesn't double up visuals
+        if (pillow) pillow.SetActive(false);
+        if (pillowDropZone) pillowDropZone.SetActive(false); // Hide trigger too
+
+        Debug.Log($"Pillow placed correctly. Waiting {postPillowDelaySeconds}s before summary.");
+
+        // Delay 
+        Invoke(nameof(StartSummaryQuiz), postPillowDelaySeconds);
     }
 
     // Deprecated / Unused now
