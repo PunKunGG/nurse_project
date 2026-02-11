@@ -2604,7 +2604,7 @@ GameObject:
   - component: {fileID: 589781216}
   - component: {fileID: 589781215}
   m_Layer: 0
-  m_Name: hospital_bed (1)_0
+  m_Name: hospital_bed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2657,7 +2657,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2458656332489281594, guid: 729b2f5d4ab8b7f4f85e6f043417bb14, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -10745,7 +10745,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_MaskInteraction: 0
   m_Sprite: {fileID: -4476389331230757396, guid: d2f967f9034f85c42b54fb20d2eadf6f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
