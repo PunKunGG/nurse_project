@@ -87,6 +87,9 @@ public class InsomniaQuizManager : MonoBehaviour
     // ฟังก์ชันผูกกับปุ่มใน Unity (Btn 1, Btn 2)
     public void OnAnswerSelected(int choice)
     {
+        // Guard clause: prevent out of range errors (e.g. double clicks or empty list)
+        if (currentQuestionIndex >= selectedQuestions.Count) return;
+
         if (choice == selectedQuestions[currentQuestionIndex].correctAnswer)
         {
             score++;

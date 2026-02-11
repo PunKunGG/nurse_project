@@ -18,6 +18,21 @@ public class GradeQuestionUI : MonoBehaviour
 
     private int correctOption; // runtime 1..4
 
+    [Header("Wound Data")]
+    [SerializeField] private WoundGradeInfo[] woundData; // Index 0 = Grade 1, etc.
+
+    [Header("UI Elements")]
+    [SerializeField] private Image magnifiedImageDisplay;
+    [SerializeField] private TextMeshProUGUI descriptionText;
+
+    [System.Serializable]
+    public struct WoundGradeInfo
+    {
+        public Sprite magnifiedImage;
+        [TextArea]
+        public string description;
+    }
+
     private void Awake()
     {
         if (btn1) btn1.onClick.AddListener(() => Choose(1));
@@ -42,6 +57,35 @@ public class GradeQuestionUI : MonoBehaviour
         if (correctOption < 1 || correctOption > 4)
         {
             Debug.LogWarning($"GradeQuestionUI: invalid wound grade = {correctOption}.", this);
+        }
+
+        UpdateWoundInfoUI(correctOption);
+    }
+
+    private void UpdateWoundInfoUI(int grade)
+    {
+        int dataIndex = grade - 1; // 0-based index for array
+
+        if (woundData != null && dataIndex >= 0 && dataIndex < woundData.Length)
+        {
+            var info = woundData[dataIndex];
+
+            if (magnifiedImageDisplay)
+            {
+                magnifiedImageDisplay.sprite = info.magnifiedImage;
+                magnifiedImageDisplay.gameObject.SetActive(info.magnifiedImage != null);
+            }
+
+            if (descriptionText)
+            {
+                descriptionText.text = info.description;
+            }
+        }
+        else
+        {
+            // Clear or hide if data is missing
+            if (magnifiedImageDisplay) magnifiedImageDisplay.gameObject.SetActive(false);
+            if (descriptionText) descriptionText.text = "";
         }
     }
 

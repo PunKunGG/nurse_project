@@ -27,7 +27,7 @@ public class ImmobilityStageManager : MonoBehaviour
     [SerializeField] private GameObject titlePanel; // New Title Panel
     [SerializeField] private ImmobilitySummaryQuiz summaryQuiz; // Reference to the new quiz
 
-    [Header("Patient Position GameObjects (Animator-based)")]
+    [Header("Patient Position GameObjects")]
     [SerializeField] private GameObject restPositionGO;
     [SerializeField] private GameObject lateralPositionGO;
     [SerializeField] private GameObject inspectPositionGO;
@@ -36,7 +36,7 @@ public class ImmobilityStageManager : MonoBehaviour
     [Tooltip("Index 0=Grade1, 1=Grade2, 2=Grade3, 3=Grade4")]
     [SerializeField] private GameObject[] woundVariants;
 
-    [Header("Chosen Exam Trigger (Runtime)")]
+    [Header("Chosen Exam Trigger")]
     [SerializeField] private GameObject examTriggerGO; // runtime-selected wound GO
 
     [Header("Roll behavior")]
@@ -60,6 +60,8 @@ public class ImmobilityStageManager : MonoBehaviour
         if (panelGradeQuestion) panelGradeQuestion.SetActive(false);
         if (panelCongrats) panelCongrats.SetActive(false);
         if (panelTurnOver) panelTurnOver.SetActive(false);
+
+        if (patientWithPillowGO) patientWithPillowGO.SetActive(false);
 
         // Turn off pillow flow
         if (pillow) pillow.SetActive(false);
@@ -234,12 +236,26 @@ public class ImmobilityStageManager : MonoBehaviour
     }
 
 
+    [Header("Post-Pillow Visual")]
+    [SerializeField] private GameObject patientWithPillowGO;
+    [SerializeField] private float postPillowDelaySeconds = 3.0f;
+
     public void OnPillowPlacedCorrect()
     {
         if (state != StageState.PillowPlacement) return;
 
-        // SKIP TurnOverQuestion -> Go straight to SummaryQuiz
-        StartSummaryQuiz();
+        // Visual feedback: Show patient with pillow
+        if (restPositionGO) restPositionGO.SetActive(false);
+        if (patientWithPillowGO) patientWithPillowGO.SetActive(true);
+
+        // Hide the draggable pillow so it doesn't double up visuals
+        if (pillow) pillow.SetActive(false);
+        if (pillowDropZone) pillowDropZone.SetActive(false); // Hide trigger too
+
+        Debug.Log($"Pillow placed correctly. Waiting {postPillowDelaySeconds}s before summary.");
+
+        // Delay 
+        Invoke(nameof(StartSummaryQuiz), postPillowDelaySeconds);
     }
 
     // Deprecated / Unused now
