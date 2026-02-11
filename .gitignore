@@ -1,5 +1,8 @@
-# Unity WebGL build (decompress output - regeneratable via update-game.ps1)
-public/unity/Build/
+# Unity WebGL decompressed files (regeneratable via update-game.ps1)
+# Only ignore decompressed versions, keep .br files for Vercel
+public/unity/Build/build.data
+public/unity/Build/build.framework.js
+public/unity/Build/build.wasm
 
 # OS files
 .DS_Store
