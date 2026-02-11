@@ -1,5 +1,4 @@
 {
   "framework": null,
-  "buildCommand": "node decompress-unity.js",
-  "rewrites": [{ "source": "/(.*)", "destination": "/public/$1" }]
+  "buildCommand": "node ../decompress-unity.js"
 }
