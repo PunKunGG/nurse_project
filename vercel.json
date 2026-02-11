@@ -1,26 +1,4 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/public/$1" }],
-  "headers": [
-    {
-      "source": "/unity/Build/(.*)\\.js\\.br",
-      "headers": [
-        { "key": "Content-Encoding", "value": "br" },
-        { "key": "Content-Type", "value": "application/javascript" }
-      ]
-    },
-    {
-      "source": "/unity/Build/(.*)\\.wasm\\.br",
-      "headers": [
-        { "key": "Content-Encoding", "value": "br" },
-        { "key": "Content-Type", "value": "application/wasm" }
-      ]
-    },
-    {
-      "source": "/unity/Build/(.*)\\.data\\.br",
-      "headers": [
-        { "key": "Content-Encoding", "value": "br" },
-        { "key": "Content-Type", "value": "application/octet-stream" }
-      ]
-    }
-  ]
+  "buildCommand": "npm run build",
+  "outputDirectory": "public"
 }
