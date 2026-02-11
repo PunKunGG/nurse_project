@@ -1,0 +1,16 @@
+# Unity WebGL build (decompress output - regeneratable via update-game.ps1)
+public/unity/Build/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Node
+node_modules/
+
+# Editor
+.vscode/
+.idea/
