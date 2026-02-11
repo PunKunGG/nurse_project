@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Insomnia (NF).unity
     guid: 3761c7a3a5c79d546b8229da7683add8
+  - enabled: 1
+    path: Assets/Scenes/Intellectual Impairment (NF).unity
+    guid: 87f438b659de47747aa8fd5d74314da2
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
