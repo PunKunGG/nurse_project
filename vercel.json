@@ -1,4 +1,5 @@
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": "public"
+  "framework": null,
+  "buildCommand": "node decompress-unity.js",
+  "rewrites": [{ "source": "/(.*)", "destination": "/public/$1" }]
 }
