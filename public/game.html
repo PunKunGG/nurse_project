@@ -74,16 +74,52 @@
       </aside>
 
       <!-- CONTENT -->
+      <!-- CONTENT -->
       <section class="content">
         <header class="content-header">
           <h1>PLAY GAME</h1>
           <p class="muted">เล่นเกมเพื่อเรียนรู้</p>
         </header>
 
-        <div class="card">
-          <h3>กำลังพัฒนา</h3>
-          <p>หน้าเกมกำลังอยู่ในระหว่างการพัฒนา</p>
-          <a class="btn btn-ghost" href="dashboard.html">กลับหน้าแดชบอร์ด</a>
+        <div class="card" style="text-align: center; padding: 20px">
+          <div id="unity-container" style="margin: 0 auto">
+            <canvas
+              id="unity-canvas"
+              width="960"
+              height="600"
+              tabindex="-1"
+              style="max-width: 100%; height: auto"
+            ></canvas>
+            <div id="unity-loading-bar" style="display: none">
+              <div
+                id="unity-progress-bar-empty"
+                style="
+                  width: 100%;
+                  height: 8px;
+                  background: #333;
+                  border-radius: 4px;
+                "
+              >
+                <div
+                  id="unity-progress-bar-full"
+                  style="
+                    width: 0%;
+                    height: 100%;
+                    background: #4caf50;
+                    border-radius: 4px;
+                  "
+                ></div>
+              </div>
+            </div>
+            <div id="unity-warning"></div>
+          </div>
+          <button
+            id="unity-fullscreen-button"
+            class="btn"
+            style="margin-top: 12px"
+          >
+            Fullscreen
+          </button>
         </div>
 
         <footer class="content-footer muted">
@@ -96,5 +132,40 @@
     <!-- User Info & Auth -->
     <script type="module" src="assets/js/userInfo.js"></script>
     <script type="module" src="assets/js/menuLock.js"></script>
+    <script>
+      var canvas = document.querySelector("#unity-canvas");
+      var buildUrl = "unity/Build";
+      var loaderUrl = buildUrl + "/build.loader.js";
+      var config = {
+        dataUrl: buildUrl + "/build.data",
+        frameworkUrl: buildUrl + "/build.framework.js",
+        codeUrl: buildUrl + "/build.wasm",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "DefaultCompany",
+        productName: "NurseProject",
+        productVersion: "1.0",
+      };
+
+      document.querySelector("#unity-loading-bar").style.display = "block";
+
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+          document.querySelector("#unity-progress-bar-full").style.width =
+            100 * progress + "%";
+        })
+          .then((unityInstance) => {
+            document.querySelector("#unity-loading-bar").style.display = "none";
+            document.querySelector("#unity-fullscreen-button").onclick = () => {
+              unityInstance.SetFullscreen(1);
+            };
+          })
+          .catch((message) => {
+            alert(message);
+          });
+      };
+      document.body.appendChild(script);
+    </script>
   </body>
 </html>
