@@ -6,7 +6,7 @@ using TMPro; // ถ้าใช้ TextMeshPro
 public class SymptomQuizUI : MonoBehaviour
 {
     [Header("Managers")]
-    public EnvironmentStageManager stageManager; // ลาก Manager มาใส่
+    public IntellectualImpairmentStageManager stageManager; // ลาก Manager มาใส่
 
     [Header("Question UI")]
     public TextMeshProUGUI questionText; // ใส่ "อาการของผู้ป่วยบ่งบอกถึงภาวะใด"
@@ -63,7 +63,7 @@ public class SymptomQuizUI : MonoBehaviour
         // รอ 0.5 วินาที
         yield return new WaitForSeconds(0.5f);
 
-        // ซ่อนปุ่มนั้นไปเลย (หายไป)
-        btn.gameObject.SetActive(false);
+        // ปิดการกดปุ่ม (แต่ไม่ให้ปุ่มหายไป)
+        btn.interactable = false;
     }
 }

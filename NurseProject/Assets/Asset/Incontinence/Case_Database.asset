@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9140a7c753fe1354695d8feaae19be78, type: 3}
+  m_Name: Case_Database
+  m_EditorClassIdentifier: Assembly-CSharp::IncontinenceCaseDatabase
+  cases:
+  - {fileID: 11400000, guid: 2386e9a4775df8e4d9f91c4e03cd8bc7, type: 2}
+  - {fileID: 11400000, guid: 9079dbeb8a8e0f64dac0d6a665469bd8, type: 2}
+  - {fileID: 11400000, guid: ab2489d1e384acf468f380997e243551, type: 2}
+  - {fileID: 11400000, guid: f3e1564fe39f54544bbe4331034da91d, type: 2}
+  - {fileID: 11400000, guid: 55788baee3d77554bbd17035cc367233, type: 2}
+  - {fileID: 11400000, guid: 11639cf0fa0cc6d4e9e874c1a3316a77, type: 2}
+  - {fileID: 11400000, guid: 076e8c2c88530f346836eb4e123ae2af, type: 2}
+  - {fileID: 11400000, guid: 8686ec802231d7a4b8fc6358e3a4a206, type: 2}
+  - {fileID: 11400000, guid: f870b8d7a24ac4f4d9fbb362f675037f, type: 2}
+  - {fileID: 11400000, guid: e91817ab9b454b545b8f0555f2706885, type: 2}
