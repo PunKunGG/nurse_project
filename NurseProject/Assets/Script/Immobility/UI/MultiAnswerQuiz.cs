@@ -80,7 +80,8 @@ public class MultiAnswerQuiz : MonoBehaviour
         // แจ้ง Manager ว่าจบส่วนนี้แล้ว (ไปหน้า Result)
         if (stageManager)
         {
-            stageManager.OnTurnOverAnsweredCorrect();
+            // stageManager.OnTurnOverAnsweredCorrect();
+            Debug.Log("Multi quiz completed, but OnTurnOverAnsweredCorrect was removed from Manager.");
         }
     }
 

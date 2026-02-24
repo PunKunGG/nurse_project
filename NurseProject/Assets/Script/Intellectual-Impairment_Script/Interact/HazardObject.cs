@@ -4,6 +4,7 @@ using UnityEngine;
 public class HazardObject : MonoBehaviour
 {
     [Header("Settings")]
+    public bool useFadeEffect = false; // Toggle to enable/disable fade out
     public Sprite fixedSprite; // รูปตอนแก้ไขแล้ว (เช่น ไฟปิด)
     
     [Header("Visuals (Multiple)")]
@@ -21,12 +22,12 @@ public class HazardObject : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private bool isFixed = false;
     private bool isHovered = false;
-    private EnvironmentStageManager manager;
+    private IntellectualImpairmentStageManager manager;
 
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        manager = FindFirstObjectByType<EnvironmentStageManager>();
+        manager = FindFirstObjectByType<IntellectualImpairmentStageManager>();
         
         // บอก Manager ว่า "ฉันคือ 1 ปัญหาที่ต้องแก้"
         if(manager) manager.totalHazards++;
@@ -66,10 +67,19 @@ public class HazardObject : MonoBehaviour
         // เปลี่ยนรูป (Legacy support)
         if (fixedSprite && spriteRenderer != null) spriteRenderer.sprite = fixedSprite;
         
-        // แจ้ง Manager
         if (manager) manager.OnHazardFixed();
         
-        UpdateVisuals();
+        if (useFadeEffect)
+        {
+            // Ensure Fixed Visuals (e.g. checkmark) are visible briefly so they can fade out too
+            SetActiveAll(fixedVisuals, true);
+            StartFadeOutSequence(); // New Fade Logic
+        }
+        else
+        {
+            UpdateVisuals(); // Instant update
+        }
+        
         ShowFeedback();
     }
     
@@ -125,9 +135,91 @@ public class HazardObject : MonoBehaviour
         bool showOutline = isHovered && canInteract;
 
         // Apply multiple visuals
-        SetActiveAll(hazardVisuals, !isFixed);
-        SetActiveAll(fixedVisuals, isFixed);
-        SetActiveAll(outlineVisuals, showOutline);
+        
+        // MODE 1: FADE OUT ENABLED (and IS fixed)
+        // We DO NOT disable visuals here. We let the FadeOut coroutine handle it.
+        if (useFadeEffect && isFixed)
+        {
+            // Do nothing, let coroutine running from FixHazard take care of it.
+        }
+        // MODE 2: NORMAL (Not fixed OR Fade disabled)
+        else
+        {
+            if (!isFixed) 
+            {
+                SetActiveAll(hazardVisuals, true);
+                SetActiveAll(fixedVisuals, false); // Normally hidden when not fixed
+                SetActiveAll(outlineVisuals, showOutline);
+            }
+            else
+            {
+                // Fixed, and Instant Mode (or just fixed state update)
+                SetActiveAll(hazardVisuals, false);
+                SetActiveAll(fixedVisuals, true);
+                SetActiveAll(outlineVisuals, showOutline);
+            }
+        }
+    }
+    
+    private void StartFadeOutSequence()
+    {
+        // Fade out ALL groups
+        FadeGroup(hazardVisuals);
+        FadeGroup(fixedVisuals);
+        FadeGroup(outlineVisuals);
+    }
+
+    private void FadeGroup(GameObject[] group)
+    {
+        if (group != null)
+        {
+            foreach (var obj in group)
+            {
+                if(obj != null) 
+                {
+                    // Ensure it's active so the coroutine runs (it halts on inactive objects)
+                    obj.SetActive(true); 
+                    StartCoroutine(FadeOutObject(obj));
+                }
+            }
+        }
+    }
+
+    private System.Collections.IEnumerator FadeOutObject(GameObject obj)
+    {
+        float duration = 1.0f;
+        float time = 0;
+        
+        SpriteRenderer sr = obj.GetComponent<SpriteRenderer>();
+        CanvasGroup cg = obj.GetComponent<CanvasGroup>();
+        
+        // Setup initial alpha
+        Color startColor = sr ? sr.color : Color.white;
+        float startAlpha = cg ? cg.alpha : (sr ? startColor.a : 1f);
+        
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            float t = time / duration;
+            float newAlpha = Mathf.Lerp(startAlpha, 0f, t);
+
+            if (sr) 
+            {
+                sr.color = new Color(startColor.r, startColor.g, startColor.b, newAlpha);
+            }
+            if (cg)
+            {
+                cg.alpha = newAlpha;
+            }
+            
+            yield return null;
+        }
+
+        // Finalize
+        if (sr) sr.color = new Color(startColor.r, startColor.g, startColor.b, 0f);
+        if (cg) cg.alpha = 0f;
+        
+        obj.SetActive(false);
     }
 
     private static void SetActiveAll(GameObject[] gos, bool active)

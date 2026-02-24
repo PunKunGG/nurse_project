@@ -10,7 +10,7 @@ public class ImmobilitySummaryQuiz : MonoBehaviour
     [SerializeField] private Button[] answerButtons; // 10 buttons
     // [SerializeField] private Button submitButton; // Removed
     // [SerializeField] private Button closeButton;  // Removed
-    [SerializeField] private TextMeshProUGUI scoreText;
+
 
     [Header("Visual Settings")]
     [SerializeField] private Color normalColor = Color.white;
@@ -52,7 +52,7 @@ public class ImmobilitySummaryQuiz : MonoBehaviour
     public void Show()
     {
         if (panelRoot) panelRoot.SetActive(true);
-        if (scoreText) scoreText.text = "Select all correct complications.";
+
         
         correctFoundCount = 0;
 
@@ -109,7 +109,7 @@ public class ImmobilitySummaryQuiz : MonoBehaviour
 
     private void CheckCompletion()
     {
-        if (scoreText) scoreText.text = $"Found: {correctFoundCount} / {correctIndices.Length}";
+
 
         if (correctFoundCount >= correctIndices.Length)
         {

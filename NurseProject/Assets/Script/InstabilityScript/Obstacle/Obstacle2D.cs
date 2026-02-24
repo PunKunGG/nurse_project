@@ -9,7 +9,7 @@ public class Obstacle2D : MonoBehaviour
     [SerializeField] private State state = State.Unfixed;
 
     [Header("References")]
-    [SerializeField] private InstabilityManager manager;
+    [SerializeField] private InstabilityStageManager manager;
 
     [Header("Knowledge Message")]
     [TextArea(2, 6)]
@@ -44,6 +44,7 @@ public class Obstacle2D : MonoBehaviour
     private void TryFix()
     {
         if (state == State.Fixed) return;
+        if (manager != null && manager.IsUIBlockingInput) return;
 
         state = State.Fixed;
         ApplyVisuals();

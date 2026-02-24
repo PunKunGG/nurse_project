@@ -37,38 +37,65 @@ public class UniversalResultUI : MonoBehaviour
     }
 
     // ฟังก์ชันพระเอก: สั่งเปิดหน้าต่าง (Manager อื่นๆ จะเรียกใช้ตัวนี้)
-    public void ShowResult(bool isSuccess)
+    // ฟังก์ชันพระเอก: สั่งเปิดหน้าต่าง (แบบ Universal ของจริง)
+    public void ShowResult(bool isSuccess, string title, string message, string btnTxt, System.Action onNextAction = null)
     {
+        Debug.Log($"[UniversalResultUI] ShowResult called — {(isSuccess ? "WIN ✔" : "LOSE ✘")} | Title: {title}");
+
         panelRoot.SetActive(true);
 
+        // Ensure button is wired up and interactable (ป้องกัน Start() ไม่ทัน)
+        if (actionButton)
+        {
+            actionButton.onClick.RemoveAllListeners();
+            actionButton.onClick.AddListener(OnBtnClicked);
+            actionButton.interactable = true;
+        }
+
+        // 1. Setup Image & Color
         if (isSuccess)
         {
-            // --- กรณีผ่าน ---
             statusIcon.sprite = passSprite;
-            titleText.text = "<color=green>ภารกิจสำเร็จ!</color>";
-            msgText.text = "ยินดีด้วย คุณมีความรู้ความเข้าใจที่ถูกต้อง";
-            buttonText.text = "ไปด่านต่อไป >>";
-            
-            // ตั้งค่าปุ่มให้ไปฉากต่อไป
-            onButtonClickAction = () => {
-                Debug.Log("Loading Next Scene: " + nextSceneName);
-                if(!string.IsNullOrEmpty(nextSceneName))
-                    SceneManager.LoadScene(nextSceneName);
-            };
+            // titleText.color = Color.green; // Optional: Force color
         }
         else
         {
-            // --- กรณีไม่ผ่าน ---
             statusIcon.sprite = failSprite;
-            titleText.text = "<color=red>ภารกิจล้มเหลว</color>";
-            msgText.text = "ไม่ต้องเสียใจ ลองทบทวนเนื้อหาแล้วทำใหม่นะ";
-            buttonText.text = "ลองอีกครั้ง";
+            // titleText.color = Color.red; // Optional: Force color
+        }
 
-            // ตั้งค่าปุ่มให้ Reload ฉากเดิม
-            onButtonClickAction = () => {
-                Debug.Log("Reloading Current Scene...");
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            };
+        // 2. Setup Text
+        titleText.text = title;
+        msgText.text = message;
+        buttonText.text = btnTxt;
+
+        // 3. Setup Action
+        if (onNextAction != null)
+        {
+            // ถ้าส่ง Action มาให้ใช้ Action นั้น
+            onButtonClickAction = onNextAction;
+        }
+        else
+        {
+            // ถ้าไม่ส่งมา ให้ใช้ Default Logic (Load Next / Reload)
+            if (isSuccess)
+            {
+                onButtonClickAction = () => {
+                    // Report completion to ProgressManager
+                    ProgressManager.CompleteCurrentStage(SceneManager.GetActiveScene().name);
+                    
+                    // Instead of loading the specific next scene directly, go to the Progress Scene
+                    Debug.Log("Loading Progress Scene...");
+                    SceneManager.LoadScene("ProgressScene");
+                };
+            }
+            else
+            {
+                onButtonClickAction = () => {
+                    Debug.Log("Reloading Current Scene...");
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                };
+            }
         }
     }
 
