@@ -10,22 +10,33 @@ Write-Host "=== Updating Unity WebGL Build ===" -ForegroundColor Cyan
 # 1. ลบ Build เก่า
 if (Test-Path "$dest\Build") {
     Remove-Item -Recurse -Force "$dest\Build"
-    Write-Host "[1/4] Removed old Build folder" -ForegroundColor Yellow
+    Write-Host "[1/5] Removed old Build folder" -ForegroundColor Yellow
 }
 
 # 2. คัดลอก Build ใหม่
 Copy-Item -Recurse "$source\Build" "$dest\Build"
-Write-Host "[2/4] Copied new Build folder" -ForegroundColor Green
+Write-Host "[2/5] Copied new Build folder" -ForegroundColor Green
 
 # 3. คัดลอก TemplateData ใหม่
 if (Test-Path "$dest\TemplateData") {
     Remove-Item -Recurse -Force "$dest\TemplateData"
 }
 Copy-Item -Recurse "$source\TemplateData" "$dest\TemplateData"
-Write-Host "[3/4] Copied new TemplateData folder" -ForegroundColor Green
+Write-Host "[3/5] Copied new TemplateData folder" -ForegroundColor Green
 
-# 4. Decompress .br files
-Write-Host "[4/4] Decompressing Brotli files..." -ForegroundColor Yellow
+# 4. คัดลอก StreamingAssets (วิดีโอ mp4 ฯลฯ)
+if (Test-Path "$source\StreamingAssets") {
+    if (Test-Path "$dest\StreamingAssets") {
+        Remove-Item -Recurse -Force "$dest\StreamingAssets"
+    }
+    Copy-Item -Recurse "$source\StreamingAssets" "$dest\StreamingAssets"
+    Write-Host "[4/5] Copied StreamingAssets folder" -ForegroundColor Green
+} else {
+    Write-Host "[4/5] No StreamingAssets found, skipping" -ForegroundColor DarkGray
+}
+
+# 5. Decompress .br files
+Write-Host "[5/5] Decompressing Brotli files..." -ForegroundColor Yellow
 
 $buildDir = (Resolve-Path "$dest\Build").Path -replace '\\','/'
 

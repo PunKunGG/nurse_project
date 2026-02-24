@@ -132,6 +132,15 @@
     <!-- User Info & Auth -->
     <script type="module" src="assets/js/userInfo.js"></script>
     <script type="module" src="assets/js/menuLock.js"></script>
+    <!-- Mark game as visited for certificate timeline -->
+    <script type="module">
+      import { supabase } from "./assets/js/supabaseClient.js";
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        if (session) {
+          localStorage.setItem("game_visited_" + session.user.id, "true");
+        }
+      });
+    </script>
     <script>
       var canvas = document.querySelector("#unity-canvas");
       var buildUrl = "unity/Build";
@@ -140,7 +149,7 @@
         dataUrl: buildUrl + "/build.data",
         frameworkUrl: buildUrl + "/build.framework.js",
         codeUrl: buildUrl + "/build.wasm",
-        streamingAssetsUrl: "StreamingAssets",
+        streamingAssetsUrl: "unity/StreamingAssets",
         companyName: "DefaultCompany",
         productName: "NurseProject",
         productVersion: "1.0",
