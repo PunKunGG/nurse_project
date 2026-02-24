@@ -59,24 +59,14 @@ if (hasDonePretest && step2Icon && step2Text) {
   step2Text.className = "timeline-text done";
 }
 
-// TODO: Check game progress (step 3) - รอเพื่อนทำระบบเกมก่อน
-// เมื่อมี table game_progress แล้ว uncomment โค้ดด้านล่างนี้
-// let hasDoneGame = false;
-// try {
-//   const { data: gameProgress, error: gameErr } = await supabase
-//     .from("game_progress")
-//     .select("id")
-//     .eq("user_id", session.user.id)
-//     .limit(1);
-//   hasDoneGame = !gameErr && gameProgress && gameProgress.length > 0;
-//   if (hasDoneGame && step3Icon && step3Text) {
-//     step3Icon.className = "timeline-icon done";
-//     step3Icon.textContent = "✓";
-//     step3Text.className = "timeline-text done";
-//   }
-// } catch (e) {
-//   console.log("Could not check game progress:", e);
-// }
+// Check game progress (step 3) - ดูว่าเคยเข้าหน้าเกมหรือยัง
+const hasDoneGame =
+  localStorage.getItem("game_visited_" + session.user.id) === "true";
+if (hasDoneGame && step3Icon && step3Text) {
+  step3Icon.className = "timeline-icon done";
+  step3Icon.textContent = "✓";
+  step3Text.className = "timeline-text done";
+}
 
 // Check attempts for post-test
 const { data: attempts, error: aErr } = await supabase
