@@ -473,6 +473,61 @@
           </div>
         </div>
 
+        <!-- Verify Certificate Section -->
+        <div
+          class="verify-section"
+          style="
+            margin-top: 32px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 32px;
+          "
+        >
+          <h3 style="margin: 0 0 4px 0; font-size: 1.25rem">
+            ตรวจสอบเกียรติบัตร
+          </h3>
+          <p style="color: var(--muted); margin: 0 0 20px 0; font-size: 0.9rem">
+            กรอกรหัสเกียรติบัตร (Certificate Code) เพื่อตรวจสอบความถูกต้อง
+          </p>
+
+          <div
+            style="
+              display: flex;
+              gap: 12px;
+              align-items: center;
+              flex-wrap: wrap;
+            "
+          >
+            <input
+              id="verifyCode"
+              placeholder="เช่น 1A2B3C4D"
+              style="
+                padding: 10px 16px;
+                border-radius: var(--radius-sm);
+                border: 1px solid var(--border);
+                background: var(--bg2);
+                color: var(--text);
+                width: 260px;
+                font-size: 0.95rem;
+              "
+            />
+            <button id="verifyBtn" class="btn" type="button">ตรวจสอบ</button>
+          </div>
+
+          <div
+            id="verifyResult"
+            style="
+              margin-top: 16px;
+              padding: 16px;
+              background: var(--bg2);
+              border-radius: var(--radius-sm);
+              font-size: 0.9rem;
+              display: none;
+            "
+          ></div>
+        </div>
+
         <footer class="content-footer muted">
           © Faculty of Nursing, Khon Kaen University
         </footer>
