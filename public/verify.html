@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="th">
   <head>
     <meta charset="utf-8" />
@@ -55,14 +55,14 @@
           }
 
           if (!data || data.length === 0 || !data[0].valid) {
-            out.innerHTML = `❌ <b>ไม่พบข้อมูลใบนี้</b> (code: ${code})`;
+            out.innerHTML = `<b>ไม่พบข้อมูลใบนี้</b> (code: ${code})`;
             return;
           }
 
           const c = data[0];
           const issued = new Date(c.issued_at).toLocaleDateString("th-TH");
           out.innerHTML = `
-          ✅ <b>ใบนี้เป็นของจริง</b><br>
+          <b>ใบนี้เป็นของจริง</b><br>
           ชื่อ: <b>${c.full_name}</b><br>
           รหัส: ${c.student_id}<br>
           Module: ${c.module_id}<br>

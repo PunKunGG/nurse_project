@@ -265,3 +265,52 @@ downloadBtn.addEventListener("click", async () => {
     downloadBtn.disabled = false;
   }
 });
+
+// ── Verify Certificate Section ──
+const verifyInput = document.getElementById("verifyCode");
+const verifyBtn = document.getElementById("verifyBtn");
+const verifyResult = document.getElementById("verifyResult");
+
+// Auto-fill from ?code= query param
+const urlParams = new URL(location.href).searchParams;
+const qCode = urlParams.get("code");
+if (qCode && verifyInput) verifyInput.value = qCode;
+
+if (verifyBtn) {
+  verifyBtn.addEventListener("click", async () => {
+    const code = verifyInput.value.trim().toUpperCase();
+    if (!code) return;
+
+    verifyResult.style.display = "block";
+    verifyResult.innerHTML = `<span style="color:var(--muted);">กำลังตรวจสอบ…</span>`;
+
+    const { data, error } = await supabase.rpc("verify_certificate", {
+      p_code: code,
+    });
+
+    if (error) {
+      verifyResult.innerHTML = `<span style="color:#fca5a5;">❌ ตรวจสอบไม่สำเร็จ: ${error.message}</span>`;
+      return;
+    }
+
+    if (!data || data.length === 0 || !data[0].valid) {
+      verifyResult.innerHTML = `<b>❌ ไม่พบข้อมูลใบนี้</b> (code: ${code})`;
+      return;
+    }
+
+    const c = data[0];
+    const issued = new Date(c.issued_at).toLocaleDateString("th-TH");
+    verifyResult.innerHTML = `
+      <div style="color:var(--success); font-weight:700; margin-bottom:8px;">ใบนี้เป็นของจริง</div>
+      <div>ชื่อ: <b>${c.full_name}</b></div>
+      <div>รหัส: ${c.student_id}</div>
+      <div>Module: ${c.module_id}</div>
+      <div>Post-test: ${c.score_percent}%</div>
+      <div>ออกให้ ณ วันที่: ${issued}</div>
+      <div style="margin-top:8px; color:var(--muted); font-size:0.85rem;">Certificate Code: ${c.cert_code}</div>
+    `;
+  });
+
+  // Auto-verify if ?code= was present
+  if (qCode) verifyBtn.click();
+}
