@@ -7,7 +7,7 @@
 const questions = [
   {
     id: 1,
-    text: "ชายอายุ 72 ปี มีประวัติเป็นเบาหวานและความดันโลหิตสูง รับประทานยาลดความดัน ก่อนลุกจากเตียงมีอาการหน้ามืด เดินเซ และล้มในห้องน้ำ พยาบาลควรประเมินสาเหตุสำคัญของการหกล้มเป็นอันดับแรกจากข้อใด",
+    text: "ผู้สูงอายุ เพศชาย 72 ปี มีประวัติเป็นโรคเบาหวานและโรคความดันโลหิตสูง รับประทานยาลดความดันโลหิต หลังลุกจากเตียงมีอาการหน้ามืด เดินเซ และล้มในห้องน้ำ พยาบาลควรนึกถึงสาเหตุใดเป็นอันดับแรก",
     options: [
       { key: "ก", text: "ภาวะขาดสารอาหาร" },
       { key: "ข", text: "ผลข้างเคียงของยาและภาวะความดันตกเมื่อลุกเปลี่ยนท่า" },
@@ -18,7 +18,7 @@ const questions = [
   },
   {
     id: 2,
-    text: "ชายอายุ 72 ปี มีประวัติเป็นเบาหวานและความดันโลหิตสูง รับประทานยาลดความดัน ก่อนลุกจากเตียงมีอาการหน้ามืด เดินเซ และล้มในห้องน้ำ หากต้องการป้องกันการหกล้มในระยะสั้น การพยาบาลใดเหมาะสมที่สุด",
+    text: "ผู้สูงอายุ เพศชาย 72 ปี มีประวัติเป็นโรคเบาหวานและโรคความดันโลหิตสูง รับประทานยาลดความดันโลหิต หลังลุกจากเตียงมีอาการหน้ามืด เดินเซ และล้มในห้องน้ำ ควรให้คำแนะนำอย่างไรสำหรับผู้สูงอายุรายนี้เพื่อป้องกันการหกล้ม",
     options: [
       { key: "ก", text: "จำกัดการเดินของผู้ป่วย" },
       { key: "ข", text: "จัดสภาพแวดล้อมให้ปลอดภัยและแนะนำลุกเปลี่ยนท่าช้า ๆ" },
@@ -29,7 +29,7 @@ const questions = [
   },
   {
     id: 3,
-    text: "หญิงอายุ 80 ปี นอนติดเตียงมา 2 สัปดาห์จากภาวะหลอดเลือดสมอง พบว่าผิวหนังบริเวณก้นกบเริ่มแดง ไม่ซีดเมื่อกด สาเหตุหลักของปัญหานี้สัมพันธ์กับข้อใดมากที่สุด",
+    text: "ผู้สูงอายุ เพศหญิง 80 ปี นอนติดเตียงจากภาวะโรคหลอดเลือดสมองเป็นเวลา 2 สัปดาห์ จากนั้นพบว่าผิวหนังบริเวณก้นกบเริ่มแดง ไม่ซีดเมื่อกด สาเหตุหลักของปัญหานี้สัมพันธ์กับ Big’s I ข้อใดมากที่สุด",
     options: [
       { key: "ก", text: "Instability" },
       { key: "ข", text: "Incontinence" },
@@ -40,7 +40,7 @@ const questions = [
   },
   {
     id: 4,
-    text: "ผู้ป่วยสูงอายุลืมเวลา สถานที่ และบุคคลใกล้ชิด จัดอยู่ในภาวะใด",
+    text: "ผู้ป่วยสูงอายุลืมเวลา สถานที่ และบุคคลใกล้ชิด อาการดังกล่าวจัดอยู่ใน Big’s I ข้อใด ",
     options: [
       { key: "ก", text: "Insomnia" },
       { key: "ข", text: "Inanition" },
@@ -51,7 +51,7 @@ const questions = [
   },
   {
     id: 5,
-    text: "ชายอายุ 75 ปี ปัสสาวะเล็ดเมื่อไอหรือหัวเราะ ไม่มีอาการปวดแสบขัด ข้อใดเป็นชนิดของภาวะกลั้นปัสสาวะไม่อยู่ที่เหมาะสมที่สุด",
+    text: "ผู้สูงอายุ เพศชาย 75 ปี ปัสสาวะเล็ดเมื่อไอหรือหัวเราะ ไม่มีอาการปวดแสบขัด อาการดังกล่าวเป็นภาวะกลั้นปัสสาวะไม่อยู่ชนิดใด ",
     options: [
       { key: "ก", text: "Urge incontinence" },
       { key: "ข", text: "Stress incontinence" },
@@ -62,7 +62,7 @@ const questions = [
   },
   {
     id: 6,
-    text: "ชายอายุ 75 ปี ปัสสาวะเล็ดเมื่อไอหรือหัวเราะ ไม่มีอาการปวดแสบขัด การพยาบาลใดเหมาะสมที่สุดสำหรับผู้ป่วยรายนี้",
+    text: "ผู้สูงอายุ เพศชาย 75 ปี ปัสสาวะเล็ดเมื่อไอหรือหัวเราะ ไม่มีอาการปวดแสบขัด การพยาบาลข้อใดเหมาะสมที่สุด ",
     options: [
       { key: "ก", text: "จำกัดการดื่มน้ำ" },
       { key: "ข", text: "ใส่สายสวนปัสสาวะถาวร" },
@@ -73,7 +73,7 @@ const questions = [
   },
   {
     id: 7,
-    text: "หญิงอายุ 82 ปี นอนโรงพยาบาล 10 วันจากปอดอักเสบ ปัจจุบันเดินเองไม่ได้ เบื่ออาหารนอนกลางวันบ่อย กลางคืนนอนไม่หลับ และเริ่มสับสนช่วงเย็น ภาวะใดควรได้รับการจัดการเป็นลำดับแรก",
+    text: "ผู้สูงอายุ เพศหญิง 82 ปี นอนโรงพยาบาล 10 วันจากปอดอักเสบ ปัจจุบันเดินเองไม่ได้ เบื่ออาหารนอนกลางวันบ่อย กลางคืนนอนไม่หลับ และเริ่มสับสนช่วงเย็น ภาวะใดควรได้รับการจัดการเป็นลำดับแรก",
     options: [
       { key: "ก", text: "Insomnia" },
       { key: "ข", text: "Intellectual impairment" },
@@ -84,7 +84,7 @@ const questions = [
   },
   {
     id: 8,
-    text: "ข้อใดเป็นลักษณะที่ช่วยแยก Delirium ออกจาก Intellectual impairment ได้ชัดเจนที่สุด",
+    text: "ข้อใดเป็นลักษณะที่ช่วยแยก Delirium จาก Intellectual impairment อื่นๆได้ชัดเจนที่สุด",
     options: [
       { key: "ก", text: "การมีอารมณ์แปรปรวน" },
       { key: "ข", text: "การเกิดอาการอย่างเฉียบพลันและเปลี่ยนแปลงเร็ว" },
@@ -95,7 +95,7 @@ const questions = [
   },
   {
     id: 9,
-    text: "ผู้ป่วยสูงอายุเบื่ออาหาร น้ำหนักลด อ่อนเพลีย ผมหายฝ้า ภาวะนี้ส่งผลต่อการฟื้นฟูสุขภาพอย่างไร",
+    text: "ผู้ป่วยสูงอายุเบื่ออาหาร น้ำหนักลด อ่อนเพลีย ภาวะนี้ส่งผลต่อการฟื้นฟูสุขภาพอย่างไร",
     options: [
       { key: "ก", text: "เพิ่มความสามารถในการเคลื่อนไหว" },
       { key: "ข", text: "เพิ่มการนอนหลับสึก" },
@@ -109,7 +109,7 @@ const questions = [
     text: "ผู้ป่วยสูงอายุบ่นนอนไม่หลับ หลับ ๆ ตื่น ๆ กลางคืน ง่วงกลางวัน การพยาบาลใดเหมาะสมที่สุด",
     options: [
       { key: "ก", text: "ให้ยานอนหลับทันที" },
-      { key: "ข", text: "แนะนำจิบกลางวันให้น้อยขึ้น" },
+      { key: "ข", text: "แนะนำงีบกลางวันให้น้อยลง" },
       {
         key: "ค",
         text: "ส่งเสริม sleep hygiene เช่น งดกาแฟ จัดสิ่งแวดล้อมก่อนนอน",
@@ -124,6 +124,10 @@ let currentQuestion = 0;
 let userAnswers = {};
 let timerInterval = null;
 let timeRemaining = 180; // 3 minutes in seconds
+
+const STORAGE_KEY_START = "posttest_start_ts";
+const STORAGE_KEY_ANSWERS = "posttest_answers";
+const STORAGE_KEY_QUESTION = "posttest_current_q";
 
 // Check if user already attempted Post-test
 async function checkIfAlreadyAttempted() {
@@ -208,14 +212,58 @@ async function initPosttest() {
 // Run init on page load
 initPosttest();
 
+// Resume quiz if user refreshed mid-test
+(function resumeIfNeeded() {
+  const startTs = sessionStorage.getItem(STORAGE_KEY_START);
+  if (!startTs) return; // no quiz in progress
+
+  // Restore saved answers
+  const savedAnswers = sessionStorage.getItem(STORAGE_KEY_ANSWERS);
+  if (savedAnswers) {
+    try {
+      userAnswers = JSON.parse(savedAnswers);
+    } catch (_) {
+      /* ignore */
+    }
+  }
+
+  // Restore current question index
+  const savedQ = sessionStorage.getItem(STORAGE_KEY_QUESTION);
+  if (savedQ !== null) {
+    currentQuestion = parseInt(savedQ, 10) || 0;
+  }
+
+  // Jump straight into the quiz (skip intro)
+  startQuiz();
+})();
+
 function startQuiz() {
   document.getElementById("quizIntro").style.display = "none";
   document.getElementById("quizContainer").classList.add("active");
+
+  // Save start timestamp so refresh won't reset the timer
+  if (!sessionStorage.getItem(STORAGE_KEY_START)) {
+    sessionStorage.setItem(STORAGE_KEY_START, Date.now().toString());
+  }
+
   renderQuestion();
   startTimer();
 }
 
 function startTimer() {
+  // Calculate remaining time from saved start timestamp
+  const startTs = parseInt(sessionStorage.getItem(STORAGE_KEY_START), 10);
+  if (startTs) {
+    const elapsed = Math.floor((Date.now() - startTs) / 1000);
+    timeRemaining = Math.max(180 - elapsed, 0);
+  }
+
+  // If already out of time, auto-submit immediately
+  if (timeRemaining <= 0) {
+    submitQuiz();
+    return;
+  }
+
   updateTimerDisplay();
   timerInterval = setInterval(() => {
     timeRemaining--;
@@ -308,12 +356,15 @@ function updateNavigation() {
 
 function selectAnswer(questionId, answer) {
   userAnswers[questionId] = answer;
+  // Persist answers so refresh won't lose them
+  sessionStorage.setItem(STORAGE_KEY_ANSWERS, JSON.stringify(userAnswers));
   updateNavigation(); // Enable next button after selecting
 }
 
 function nextQuestion() {
   if (currentQuestion < questions.length - 1) {
     currentQuestion++;
+    sessionStorage.setItem(STORAGE_KEY_QUESTION, currentQuestion.toString());
     renderQuestion();
   }
 }
@@ -321,6 +372,7 @@ function nextQuestion() {
 function prevQuestion() {
   if (currentQuestion > 0) {
     currentQuestion--;
+    sessionStorage.setItem(STORAGE_KEY_QUESTION, currentQuestion.toString());
     renderQuestion();
   }
 }
@@ -330,6 +382,11 @@ async function submitQuiz() {
   if (timerInterval) {
     clearInterval(timerInterval);
   }
+
+  // Clear session data — quiz is done
+  sessionStorage.removeItem(STORAGE_KEY_START);
+  sessionStorage.removeItem(STORAGE_KEY_ANSWERS);
+  sessionStorage.removeItem(STORAGE_KEY_QUESTION);
 
   // Calculate score
   let correct = 0;
