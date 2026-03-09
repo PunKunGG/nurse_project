@@ -5,7 +5,7 @@
  * Unlock Flow:
  * 1. Initial: Play Game, Post-Test, Certificate are locked (by default in HTML)
  * 2. After Pre-test: Unlock Play Game and Post-Test
- * 3. After Post-test pass (≥60%): Unlock Certificate
+ * 3. After Post-test pass (>60%): Unlock Certificate
  */
 
 import { supabase } from "./supabaseClient.js";
@@ -37,14 +37,14 @@ async function checkUserProgress() {
 
   const hasCompletedPretest = pretestAttempts && pretestAttempts.length > 0;
 
-  // Check Post-test pass (≥60%)
+  // Check Post-test pass (>60%)
   const { data: posttestAttempts } = await supabase
     .from("attempts")
     .select("score_percent")
     .eq("user_id", userId)
     .eq("module_id", MODULE_ID)
     .eq("test_type", "post")
-    .gte("score_percent", 60)
+    .gt("score_percent", 60)
     .limit(1);
 
   const hasPassedPosttest = posttestAttempts && posttestAttempts.length > 0;
