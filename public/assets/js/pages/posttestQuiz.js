@@ -143,6 +143,7 @@ async function checkIfAlreadyAttempted() {
       .from("attempts")
       .select("*")
       .eq("user_id", session.user.id)
+      .eq("module_id", "module-1")
       .eq("test_type", "post")
       .order("submitted_at", { ascending: false })
       .limit(1)
@@ -158,8 +159,9 @@ async function checkIfAlreadyAttempted() {
 
 // Show already attempted UI
 function showAlreadyAttempted(attempt) {
-  const passed = attempt.passed;
-  const percentage = attempt.score_percent;
+  const percentage = Number(attempt.score_percent || 0);
+  // Keep UI pass criteria aligned with certificate issuance rule.
+  const passed = percentage > 60;
   const correct = Math.round((percentage / 100) * questions.length);
 
   // Update results UI
@@ -397,7 +399,7 @@ async function submitQuiz() {
   });
 
   const percentage = Math.round((correct / questions.length) * 100);
-  const passed = percentage >= 60;
+  const passed = percentage > 60;
 
   // Update results UI
   const scoreEl = document.getElementById("resultScore");

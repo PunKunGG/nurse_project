@@ -36,7 +36,7 @@ async function loadUserProfile(user) {
     if (profile) {
       // Show profile data from Supabase
       if (meEl) {
-        meEl.innerHTML = `<b>${profile.full_name}</b>`;
+        meEl.textContent = profile.full_name || "-";
       }
       if (meSubEl) {
         meSubEl.textContent = `${profile.student_id || ""} | ${profile.role || "student"}`;

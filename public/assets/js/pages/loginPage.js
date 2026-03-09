@@ -7,7 +7,7 @@ if (!btnLogin || !mli) {
   console.error("Login elements not found");
 } else {
   btnLogin.addEventListener("click", async () => {
-    mli.innerHTML = "<small>กำลังเข้าสู่ระบบ…</small>";
+    mli.textContent = "กำลังเข้าสู่ระบบ...";
     try {
       const email = document.getElementById("li_email").value.trim();
       const pass = document.getElementById("li_pass").value;
@@ -15,7 +15,8 @@ if (!btnLogin || !mli) {
       await signIn(email, pass);
       window.location.href = "dashboard.html";
     } catch (e) {
-      mli.innerHTML = `<small style="color:#fca5a5;">ล็อกอินไม่สำเร็จ: ${e.message}</small>`;
+      mli.textContent = `ล็อกอินไม่สำเร็จ: ${e.message}`;
+      mli.style.color = "#fca5a5";
     }
   });
 }

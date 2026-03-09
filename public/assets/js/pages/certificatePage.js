@@ -91,7 +91,7 @@ if (aErr || !attempts || attempts.length === 0) {
   scoreDisplay.style.display = "none";
 } else {
   latestScore = Number(attempts[0].score_percent);
-  canDownload = latestScore >= 60;
+  canDownload = latestScore > 60;
 
   // Show score display
   scoreDisplay.style.display = "flex";
@@ -271,6 +271,12 @@ const verifyInput = document.getElementById("verifyCode");
 const verifyBtn = document.getElementById("verifyBtn");
 const verifyResult = document.getElementById("verifyResult");
 
+function escapeHtml(text) {
+  const div = document.createElement("div");
+  div.textContent = text == null ? "" : String(text);
+  return div.innerHTML;
+}
+
 // Auto-fill from ?code= query param
 const urlParams = new URL(location.href).searchParams;
 const qCode = urlParams.get("code");
@@ -289,12 +295,12 @@ if (verifyBtn) {
     });
 
     if (error) {
-      verifyResult.innerHTML = `<span style="color:#fca5a5;">❌ ตรวจสอบไม่สำเร็จ: ${error.message}</span>`;
+      verifyResult.innerHTML = `<span style="color:#fca5a5;">❌ ตรวจสอบไม่สำเร็จ: ${escapeHtml(error.message)}</span>`;
       return;
     }
 
     if (!data || data.length === 0 || !data[0].valid) {
-      verifyResult.innerHTML = `<b>❌ ไม่พบข้อมูลใบนี้</b> (code: ${code})`;
+      verifyResult.innerHTML = `<b>❌ ไม่พบข้อมูลใบนี้</b> (code: ${escapeHtml(code)})`;
       return;
     }
 
@@ -302,12 +308,12 @@ if (verifyBtn) {
     const issued = new Date(c.issued_at).toLocaleDateString("th-TH");
     verifyResult.innerHTML = `
       <div style="color:var(--success); font-weight:700; margin-bottom:8px;">ใบนี้เป็นของจริง</div>
-      <div>ชื่อ: <b>${c.full_name}</b></div>
-      <div>รหัส: ${c.student_id}</div>
-      <div>Module: ${c.module_id}</div>
-      <div>Post-test: ${c.score_percent}%</div>
+      <div>ชื่อ: <b>${escapeHtml(c.full_name)}</b></div>
+      <div>รหัส: ${escapeHtml(c.student_id)}</div>
+      <div>Module: ${escapeHtml(c.module_id)}</div>
+      <div>Post-test: ${escapeHtml(c.score_percent)}%</div>
       <div>ออกให้ ณ วันที่: ${issued}</div>
-      <div style="margin-top:8px; color:var(--muted); font-size:0.85rem;">Certificate Code: ${c.cert_code}</div>
+      <div style="margin-top:8px; color:var(--muted); font-size:0.85rem;">Certificate Code: ${escapeHtml(c.cert_code)}</div>
     `;
   });
 
