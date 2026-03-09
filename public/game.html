@@ -82,13 +82,21 @@
         </header>
 
         <div class="card" style="text-align: center; padding: 20px">
-          <div id="unity-container" style="margin: 0 auto">
+          <div
+            id="unity-container"
+            style="
+              margin: 0 auto;
+              width: 100%;
+              max-width: 960px;
+              overflow: hidden;
+            "
+          >
             <canvas
               id="unity-canvas"
-              width="960"
-              height="600"
+              width="1980"
+              height="1080"
               tabindex="-1"
-              style="max-width: 100%; height: auto"
+              style="width: 100%; height: auto; display: block"
             ></canvas>
             <div id="unity-loading-bar" style="display: none">
               <div
