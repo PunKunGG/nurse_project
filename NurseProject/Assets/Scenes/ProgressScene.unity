@@ -381,7 +381,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.86415094, g: 0.86415094, b: 0.86415094, a: 1}
+  m_Color: {r: 0.2905661, g: 0.2905661, b: 0.2905661, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1383,7 +1383,7 @@ MonoBehaviour:
   starEmptySprite: {fileID: 6177950274938577627, guid: 2f1480de4295b0b4cb80df60cbb8c9fa, type: 3}
   starFullSprite: {fileID: 21300000, guid: c03f2f887d3b65d488550f8a90d43e40, type: 3}
   continueButton: {fileID: 1780929615}
-  animationDelay: 0.5
+  animationDelay: 1.5
   iIconImage: {fileID: 213975024}
   iIconSuccessSprite: {fileID: 1309836299, guid: 917b62a0c0e7bdc4a8669116f5c98233, type: 3}
   congratulationMessageObj: {fileID: 1670744539}
@@ -1561,7 +1561,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 103}
-  m_SizeDelta: {x: 620, y: 550}
+  m_SizeDelta: {x: 620, y: 620}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2138105740
 MonoBehaviour:
@@ -1576,7 +1576,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

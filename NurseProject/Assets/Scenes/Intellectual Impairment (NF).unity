@@ -1293,7 +1293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b72c43ebf0b154d45ab1a1dbb2d85fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HazardObject
-  useFadeEffect: 0
+  useFadeEffect: 1
   fixedSprite: {fileID: 0}
   hazardVisuals:
   - {fileID: 493824089}
@@ -2527,7 +2527,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -6108174426992491433, guid: b5039e3e1de31de41aed66303c8fe70c, type: 3}
+  m_Sprite: {fileID: -5561500281580644548, guid: c99c2ec7ea2ca76489737bd9066bb5c5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -6663,9 +6663,9 @@ MonoBehaviour:
   useFadeEffect: 0
   fixedSprite: {fileID: -5561500281580644548, guid: c99c2ec7ea2ca76489737bd9066bb5c5, type: 3}
   hazardVisuals:
-  - {fileID: 939753245}
-  fixedVisuals:
   - {fileID: 1768678474}
+  fixedVisuals:
+  - {fileID: 939753245}
   outlineVisuals:
   - {fileID: 820057838}
   correctFeedbackObject: {fileID: 0}

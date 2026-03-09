@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using TMPro;
+using System.Collections.Generic;
 
 /// <summary>
 /// State Machine: CaseIntro → ChooseType → ChooseManagement → Completed
@@ -57,6 +58,9 @@ public class IncontinenceLevelController : MonoBehaviour
     private IncontinenceCaseData activeCase;
     private GameObject spawnedPatient;
 
+    private List<int> selectedCaseIndices = new List<int>();
+    private const int MAX_CASES_TO_PLAY = 3;
+
     // ============================================================
     //  LIFECYCLE
     // ============================================================
@@ -70,10 +74,41 @@ public class IncontinenceLevelController : MonoBehaviour
             continueButton.onClick.AddListener(OnContinueClicked);
         }
 
+        // Initialize Random Cases
+        InitializeRandomCases();
+
         // เริ่มเคสแรก (index 0)
         CurrentCaseIndex = 0;
         LoadCase(CurrentCaseIndex);
         GoToStage(Stage.CaseIntro);
+    }
+
+    private void InitializeRandomCases()
+    {
+        selectedCaseIndices.Clear();
+        if (caseDatabase == null || caseDatabase.Count == 0) return;
+
+        List<int> allIndices = new List<int>();
+        for (int i = 0; i < caseDatabase.Count; i++)
+        {
+            allIndices.Add(i);
+        }
+
+        // Shuffle
+        for (int i = 0; i < allIndices.Count; i++)
+        {
+            int temp = allIndices[i];
+            int randomIndex = Random.Range(i, allIndices.Count);
+            allIndices[i] = allIndices[randomIndex];
+            allIndices[randomIndex] = temp;
+        }
+
+        // Pick up to MAX_CASES_TO_PLAY
+        int casesToPlay = Mathf.Min(MAX_CASES_TO_PLAY, allIndices.Count);
+        for (int i = 0; i < casesToPlay; i++)
+        {
+            selectedCaseIndices.Add(allIndices[i]);
+        }
     }
 
     // ============================================================
@@ -88,15 +123,22 @@ public class IncontinenceLevelController : MonoBehaviour
             return;
         }
 
-        activeCase = caseDatabase.GetCase(index);
-
-        if (activeCase == null)
+        if (selectedCaseIndices.Count == 0 || index >= selectedCaseIndices.Count)
         {
-            Debug.LogError($"[IncontinenceLevelController] No case at index {index}!");
+            Debug.LogError($"[IncontinenceLevelController] Invalid case index {index} or no cases selected!");
             return;
         }
 
-        Debug.Log($"[IncontinenceLevelController] Loaded case {index + 1}/{caseDatabase.Count}: {activeCase.caseId} — {activeCase.title}");
+        int realCaseIndex = selectedCaseIndices[index];
+        activeCase = caseDatabase.GetCase(realCaseIndex);
+
+        if (activeCase == null)
+        {
+            Debug.LogError($"[IncontinenceLevelController] No case at index {realCaseIndex}!");
+            return;
+        }
+
+        Debug.Log($"[IncontinenceLevelController] Loaded randomized case {index + 1}/{selectedCaseIndices.Count}: {activeCase.caseId} — {activeCase.title}");
 
         // Spawn ตัวผู้ป่วยตามเคส
         SpawnPatient();
@@ -184,7 +226,7 @@ public class IncontinenceLevelController : MonoBehaviour
     private void SetupTypeStage()
     {
         if (activeCase == null) return;
-        if (typePanel)  typePanel.Setup(this, activeCase.correctType);
+        if (typePanel)  typePanel.Setup(this, activeCase.correctType, activeCase.typeQuestion);
     }
 
     /// <summary>เรียกโดย IncontinenceTypePanel เมื่อผู้เล่นตอบถูก</summary>
@@ -201,7 +243,7 @@ public class IncontinenceLevelController : MonoBehaviour
     private void SetupManagementStage()
     {
         if (activeCase == null) return;
-        if (managementPanel) managementPanel.Setup(this, activeCase.correctManagementOptions, activeCase.hintDialogue);
+        if (managementPanel) managementPanel.Setup(this, activeCase.correctManagementOptions, activeCase.hintDialogue, activeCase.managementQuestion);
     }
 
     /// <summary>เรียกโดย IncontinenceManagementPanel เมื่อผู้เล่นตอบถูกครบ</summary>
@@ -219,7 +261,7 @@ public class IncontinenceLevelController : MonoBehaviour
     {
         OnCaseCompleted?.Invoke();
 
-        bool isLastCase = (CurrentCaseIndex >= caseDatabase.Count - 1);
+        bool isLastCase = (CurrentCaseIndex >= selectedCaseIndices.Count - 1);
 
         if (resultUI)
         {
@@ -229,7 +271,7 @@ public class IncontinenceLevelController : MonoBehaviour
                 resultUI.ShowResult(
                     true,
                     "<color=green>ผ่านทุกเคสสำเร็จ!</color>",
-                    $"คุณผ่านครบทั้ง {caseDatabase.Count} เคสเรียบร้อยแล้ว",
+                    $"คุณผ่านครบทั้ง {selectedCaseIndices.Count} เคสเรียบร้อยแล้ว",
                     "จบด่าน >>"
                 );
             }
@@ -240,7 +282,7 @@ public class IncontinenceLevelController : MonoBehaviour
                 resultUI.ShowResult(
                     true,
                     "<color=green>ประเมินและวางแผนสำเร็จ!</color>",
-                    $"เคสที่ {CurrentCaseIndex + 1}/{caseDatabase.Count} สำเร็จ!",
+                    $"เคสที่ {CurrentCaseIndex + 1}/{selectedCaseIndices.Count} สำเร็จ!",
                     $"ไปเคสที่ {nextDisplay} >>",
                     () => AdvanceToNextCase()
                 );
@@ -257,7 +299,7 @@ public class IncontinenceLevelController : MonoBehaviour
     {
         CurrentCaseIndex++;
 
-        if (CurrentCaseIndex >= caseDatabase.Count)
+        if (CurrentCaseIndex >= selectedCaseIndices.Count)
         {
             Debug.Log("[IncontinenceLevelController] All cases completed!");
             return;
@@ -270,7 +312,7 @@ public class IncontinenceLevelController : MonoBehaviour
         LoadCase(CurrentCaseIndex);
         GoToStage(Stage.CaseIntro);
 
-        Debug.Log($"[IncontinenceLevelController] Advanced to case {CurrentCaseIndex + 1}/{caseDatabase.Count}");
+        Debug.Log($"[IncontinenceLevelController] Advanced to case {CurrentCaseIndex + 1}/{selectedCaseIndices.Count}");
     }
 
     // ============================================================
@@ -313,9 +355,10 @@ public class IncontinenceLevelController : MonoBehaviour
         GoToStage(Stage.CaseIntro);
     }
 
-    [ContextMenu("Restart All (From Case 1)")]
+    [ContextMenu("Restart All (New Random Cases)")]
     public void RestartAll()
     {
+        InitializeRandomCases();
         CurrentCaseIndex = 0;
         LoadCase(CurrentCaseIndex);
         GoToStage(Stage.CaseIntro);

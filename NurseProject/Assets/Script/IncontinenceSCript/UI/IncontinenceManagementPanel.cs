@@ -35,10 +35,11 @@ public class IncontinenceManagementPanel : MonoBehaviour
     private IncontinenceLevelController controller;
     private HashSet<ManagementOption> correctSet = new HashSet<ManagementOption>();
     private HashSet<ManagementOption> selectedSet = new HashSet<ManagementOption>();
+    private string currentQuestion;
     private bool submitted = false;
 
     /// <summary>ตั้งค่า panel สำหรับเคสใหม่</summary>
-    public void Setup(IncontinenceLevelController ctrl, List<ManagementOption> correctOptions, string[] hintDialogue)
+    public void Setup(IncontinenceLevelController ctrl, List<ManagementOption> correctOptions, string[] hintDialogue, string managementQuestion = "จากตัวเลือกต่อไปนี้ เลือกวิธีการพยาบาลและการฝึกที่เหมาะสมกับผู้ป่วย")
     {
         controller = ctrl;
         submitted = false;
@@ -49,8 +50,17 @@ public class IncontinenceManagementPanel : MonoBehaviour
         foreach (var opt in correctOptions) correctSet.Add(opt);
         selectedSet.Clear();
 
+        currentQuestion = string.IsNullOrEmpty(managementQuestion) ? "จากตัวเลือกต่อไปนี้ เลือกวิธีการพยาบาลและการฝึกที่เหมาะสมกับผู้ป่วย" : managementQuestion;
+
         // Reset UI
-        if (feedbackText) feedbackText.text = "";
+        if (feedbackText) 
+        {
+            feedbackText.text = currentQuestion;
+            if (feedbackText.transform.parent != null)
+            {
+                feedbackText.transform.parent.gameObject.SetActive(true);
+            }
+        }
         ResetAllButtons();
 
         // Bind hint button
@@ -106,8 +116,15 @@ public class IncontinenceManagementPanel : MonoBehaviour
             if (managementButtons[index]) managementButtons[index].image.color = selectedColor;
         }
 
-        // Clear feedback on new selection
-        if (feedbackText) feedbackText.text = "";
+        // Clear feedback on new selection, restore the question text
+        if (feedbackText) 
+        {
+            feedbackText.text = currentQuestion;
+            if (feedbackText.transform.parent != null)
+            {
+                feedbackText.transform.parent.gameObject.SetActive(true);
+            }
+        }
     }
 
     private void ShowHint()
@@ -136,7 +153,14 @@ public class IncontinenceManagementPanel : MonoBehaviour
 
             // แสดงสีเขียวเฉพาะที่เลือกถูก
             HighlightCorrectAnswers();
-            if (feedbackText) feedbackText.text = "ถูกต้องทั้งหมด!";
+            if (feedbackText) 
+            {
+                if (feedbackText.transform.parent != null)
+                {
+                    feedbackText.transform.parent.gameObject.SetActive(true);
+                }
+                feedbackText.text = "ถูกต้องทั้งหมด!";
+            }
 
             Debug.Log("[ManagementPanel] All correct!");
 
@@ -156,7 +180,15 @@ public class IncontinenceManagementPanel : MonoBehaviour
             string msg = "ยังไม่ถูกต้อง — ";
             if (missing > 0) msg += $"ยังขาดอีก {missing} ข้อ ";
             if (extra > 0)   msg += $"เลือกผิด {extra} ข้อ";
-            if (feedbackText) feedbackText.text = msg;
+            
+            if (feedbackText) 
+            {
+                if (feedbackText.transform.parent != null)
+                {
+                    feedbackText.transform.parent.gameObject.SetActive(true);
+                }
+                feedbackText.text = msg;
+            }
 
             Debug.Log($"[ManagementPanel] Wrong! Missing: {missing}, Extra: {extra}");
         }

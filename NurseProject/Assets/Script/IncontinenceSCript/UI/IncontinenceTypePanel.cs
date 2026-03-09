@@ -26,9 +26,10 @@ public class IncontinenceTypePanel : MonoBehaviour
     private IncontinenceType correctType;
     private bool answered = false;
     private Image feedbackBg; // parent Image ของ feedbackText
+    private string currentQuestion;
 
     /// <summary>ตั้งค่า panel สำหรับเคสใหม่</summary>
-    public void Setup(IncontinenceLevelController ctrl, IncontinenceType correct)
+    public void Setup(IncontinenceLevelController ctrl, IncontinenceType correct, string typeQuestion = "จากตัวเลือกต่อไปนี้ เลือกประเภทของ Urinary Incontinence")
     {
         controller = ctrl;
         correctType = correct;
@@ -38,8 +39,10 @@ public class IncontinenceTypePanel : MonoBehaviour
         if (feedbackBg == null && feedbackText)
             feedbackBg = feedbackText.transform.parent.GetComponent<Image>();
 
-        // Reset UI
-        SetFeedback("");
+        currentQuestion = string.IsNullOrEmpty(typeQuestion) ? "จากตัวเลือกต่อไปนี้ เลือกประเภทของ Urinary Incontinence" : typeQuestion;
+
+        // Reset UI (แสดงคำถามเป็นค่าขั้งต้นแทนที่จะเป็นค่าว่าง)
+        SetFeedback(currentQuestion);
         ResetButtonColors();
 
         // Bind buttons
@@ -80,6 +83,9 @@ public class IncontinenceTypePanel : MonoBehaviour
             if (typeButtons[index]) typeButtons[index].image.color = wrongColor;
             SetFeedback("ยังไม่ถูกต้อง ลองทบทวนลักษณะอาการอีกครั้ง");
 
+            // รีเซ็ตข้อความช่วยเหลือให้กลับมาเป็นคำถามหลังจากผ่านไป 2 วินาที (ถ้าให้กลับ)
+            // หรือแค่ทิ้งไว้สักพัก (ในที่นี้ ปล่อยให้มันค้างไว้ก่อน หรือจะคงไว้ แต่ feedback เป็น single choice อยู่แล้ว)
+
             Debug.Log($"[TypePanel] Wrong! Selected: {selected}, Correct: {correctType}");
         }
     }
@@ -93,7 +99,12 @@ public class IncontinenceTypePanel : MonoBehaviour
     private void SetFeedback(string msg)
     {
         if (feedbackText) feedbackText.text = msg;
-        if (feedbackBg)  feedbackBg.gameObject.SetActive(!string.IsNullOrEmpty(msg));
+        if (feedbackBg)
+        {
+            // ถ้ามีข้อความ, เปิด Background
+            // ถัาไม่มีอะไรเลย ก็ปิดไป
+            feedbackBg.gameObject.SetActive(!string.IsNullOrEmpty(msg));
+        }
     }
 
     private void ResetButtonColors()

@@ -32,7 +32,7 @@ public class DropZone2D : MonoBehaviour
             if (pillowDrag) pillowDrag.DisableDragging();
 
             // Notify
-            if (stageManager) stageManager.OnPillowPlacedCorrect();
+            if (stageManager) stageManager.OnPillowPlacedCorrect(gameObject);
 
         }
     }

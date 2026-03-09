@@ -45,15 +45,24 @@ public class ImmobilityStageManager : MonoBehaviour
     [Header("Roll behavior")]
     [SerializeField] private bool rerollEveryEnterInspect = false;
 
-    [Header("Pillow Objects")]
-    [SerializeField] private GameObject pillow;
-    [SerializeField] private GameObject pillowDropZone;
+    [Header("Pillow Objects (Chest & Ankle)")]
+    [SerializeField] private GameObject pillowChest;
+    [SerializeField] private GameObject pillowDropZoneChest;
+    [SerializeField] private GameObject pillowAnkle;
+    [SerializeField] private GameObject pillowDropZoneAnkle;
+
+    [Header("Knowledge Popup")]
+    [SerializeField] private GameObject knowledgePopupPanel;
+
+    private bool pillowChestPlaced = false;
+    private bool pillowAnklePlaced = false;
 
     [Header("Extra UI To Hide")]
     [SerializeField] private Image[] extraImagesToHide;
 
     [Header("Timing")]
     [SerializeField] private float gradeCorrectDelaySeconds = 2.0f; // Time to show correct answer before moving on
+    [SerializeField] private float knowledgePopupDelaySeconds = 1.0f; // Time before Knowledge Popup appears
 
     [Header("Visual Novel Intro")]
     [SerializeField] private VisualNovelIntro introNovel;
@@ -79,12 +88,20 @@ public class ImmobilityStageManager : MonoBehaviour
     {
         // Turn off UI
         if (panelGradeQuestion) panelGradeQuestion.SetActive(false);
-
-        if (patientWithPillowGO) patientWithPillowGO.SetActive(false);
+        if (summaryQuiz) summaryQuiz.gameObject.SetActive(false);
+        if (patientWithPillowChestGO) patientWithPillowChestGO.SetActive(false);
+        if (patientWithPillowAnkleGO) patientWithPillowAnkleGO.SetActive(false);
+        if (patientWithBothPillowsGO) patientWithBothPillowsGO.SetActive(false);
 
         // Turn off pillow flow
-        if (pillow) pillow.SetActive(false);
-        if (pillowDropZone) pillowDropZone.SetActive(false);
+        if (pillowChest) pillowChest.SetActive(false);
+        if (pillowDropZoneChest) pillowDropZoneChest.SetActive(false);
+        if (pillowAnkle) pillowAnkle.SetActive(false);
+        if (pillowDropZoneAnkle) pillowDropZoneAnkle.SetActive(false);
+        if (knowledgePopupPanel) knowledgePopupPanel.SetActive(false);
+        
+        pillowChestPlaced = false;
+        pillowAnklePlaced = false;
 
         // Setup Intro
         IsUIBlockingInput = true; // Block input while intro runs
@@ -260,12 +277,19 @@ public class ImmobilityStageManager : MonoBehaviour
         if (restPositionGO) restPositionGO.SetActive(false);
         if (lateralPositionGO) lateralPositionGO.SetActive(false);
         if (inspectPositionGO) inspectPositionGO.SetActive(false);
-        if (patientWithPillowGO) patientWithPillowGO.SetActive(false);
+        if (patientWithPillowChestGO) patientWithPillowChestGO.SetActive(false);
+        if (patientWithPillowAnkleGO) patientWithPillowAnkleGO.SetActive(false);
+        if (patientWithBothPillowsGO) patientWithBothPillowsGO.SetActive(false);
         if (bedGO) bedGO.SetActive(false);
         if (examTriggerGO) examTriggerGO.SetActive(false);
         if (titlePanel) titlePanel.SetActive(false);
-        if (pillow) pillow.SetActive(false);
-        if (pillowDropZone) pillowDropZone.SetActive(false);
+        if (pillowChest) pillowChest.SetActive(false);
+        if (pillowDropZoneChest) pillowDropZoneChest.SetActive(false);
+        if (pillowAnkle) pillowAnkle.SetActive(false);
+        if (pillowDropZoneAnkle) pillowDropZoneAnkle.SetActive(false);
+        if (knowledgePopupPanel) knowledgePopupPanel.SetActive(false);
+        if (panelGradeQuestion) panelGradeQuestion.SetActive(false);
+        if (summaryQuiz) summaryQuiz.gameObject.SetActive(false);
         HideAllWounds();
 
         // Hide extra user-defined images
@@ -329,16 +353,25 @@ public class ImmobilityStageManager : MonoBehaviour
         selectedWoundGrade = 0;
         HideAllWounds();
 
-        // === ENABLE PILLOW DRAG ===
-        if (pillow)
-        {
-            pillow.SetActive(true);
+        // === ENABLE BOTH PILLOW DRAGS ===
+        pillowChestPlaced = false;
+        pillowAnklePlaced = false;
 
-            var dragScript = pillow.GetComponent<Draggable2D>();
+        if (pillowChest)
+        {
+            pillowChest.SetActive(true);
+            var dragScript = pillowChest.GetComponent<Draggable2D>();
             if (dragScript) dragScript.isLocked = false;
         }
+        if (pillowDropZoneChest) pillowDropZoneChest.SetActive(true);
 
-        if (pillowDropZone) pillowDropZone.SetActive(true);
+        if (pillowAnkle)
+        {
+            pillowAnkle.SetActive(true);
+            var dragScript = pillowAnkle.GetComponent<Draggable2D>();
+            if (dragScript) dragScript.isLocked = false;
+        }
+        if (pillowDropZoneAnkle) pillowDropZoneAnkle.SetActive(true);
     }
 
     private void OnPillowIntroFinished()
@@ -352,24 +385,81 @@ public class ImmobilityStageManager : MonoBehaviour
 
 
     [Header("Post-Pillow Visual")]
-    [SerializeField] private GameObject patientWithPillowGO;
+    [SerializeField] private GameObject patientWithPillowChestGO;
+    [SerializeField] private GameObject patientWithPillowAnkleGO;
+    [SerializeField] private GameObject patientWithBothPillowsGO;
     [SerializeField] private float postPillowDelaySeconds = 3.0f;
 
-    public void OnPillowPlacedCorrect()
+    public void OnPillowPlacedCorrect(GameObject triggeredZone)
     {
         if (state != StageState.PillowPlacement) return;
 
-        // Visual feedback: Show patient with pillow
+        if (triggeredZone == pillowDropZoneChest)
+        {
+            pillowChestPlaced = true;
+            Debug.Log("Chest pillow placed correctly.");
+            if (pillowChest) pillowChest.SetActive(false);
+            if (pillowDropZoneChest) pillowDropZoneChest.SetActive(false);
+        }
+        else if (triggeredZone == pillowDropZoneAnkle)
+        {
+            pillowAnklePlaced = true;
+            Debug.Log("Ankle pillow placed correctly.");
+            if (pillowAnkle) pillowAnkle.SetActive(false);
+            if (pillowDropZoneAnkle) pillowDropZoneAnkle.SetActive(false);
+        }
+
+        UpdatePillowVisuals();
+
+        if (pillowChestPlaced && pillowAnklePlaced)
+        {
+            Debug.Log("Both pillows placed correctly. Waiting to show knowledge popup.");
+            IsUIBlockingInput = true; // Block clicking while waiting
+            StartCoroutine(ShowKnowledgePopupDelayed());
+        }
+    }
+
+    private System.Collections.IEnumerator ShowKnowledgePopupDelayed()
+    {
+        yield return new WaitForSeconds(knowledgePopupDelaySeconds);
+        IsUIBlockingInput = false;
+
+        if (knowledgePopupPanel) knowledgePopupPanel.SetActive(true);
+        else StartSummaryQuiz();
+    }
+
+    private void UpdatePillowVisuals()
+    {
         if (restPositionGO) restPositionGO.SetActive(false);
-        if (patientWithPillowGO) patientWithPillowGO.SetActive(true);
+        if (patientWithPillowChestGO) patientWithPillowChestGO.SetActive(false);
+        if (patientWithPillowAnkleGO) patientWithPillowAnkleGO.SetActive(false);
+        if (patientWithBothPillowsGO) patientWithBothPillowsGO.SetActive(false);
 
-        // Hide the draggable pillow so it doesn't double up visuals
-        if (pillow) pillow.SetActive(false);
-        if (pillowDropZone) pillowDropZone.SetActive(false); // Hide trigger too
+        if (pillowChestPlaced && pillowAnklePlaced)
+        {
+            if (patientWithBothPillowsGO) patientWithBothPillowsGO.SetActive(true);
+        }
+        else if (pillowChestPlaced)
+        {
+            if (patientWithPillowChestGO) patientWithPillowChestGO.SetActive(true);
+            else if (restPositionGO) restPositionGO.SetActive(true);
+        }
+        else if (pillowAnklePlaced)
+        {
+            if (patientWithPillowAnkleGO) patientWithPillowAnkleGO.SetActive(true);
+            else if (restPositionGO) restPositionGO.SetActive(true);
+        }
+        else
+        {
+            if (restPositionGO) restPositionGO.SetActive(true);
+        }
+    }
 
-        Debug.Log($"Pillow placed correctly. Waiting {postPillowDelaySeconds}s before summary.");
-
-        // Delay 
+    public void OnKnowledgePopupClosed()
+    {
+        if (knowledgePopupPanel) knowledgePopupPanel.SetActive(false);
+        
+        Debug.Log($"Knowledge popup closed. Waiting {postPillowDelaySeconds}s before summary.");
         Invoke(nameof(StartSummaryQuiz), postPillowDelaySeconds);
     }
 
@@ -387,6 +477,7 @@ public class ImmobilityStageManager : MonoBehaviour
 
         if (summaryQuiz)
         {
+            summaryQuiz.gameObject.SetActive(true);
             summaryQuiz.Show();
         }
         else

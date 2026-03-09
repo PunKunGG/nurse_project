@@ -51,6 +51,10 @@ public class IncontinenceCaseData : ScriptableObject
     [Header("เฉลย Stage 2: ประเภท Incontinence")]
     public IncontinenceType correctType;
 
+    [Header("โจทย์ / คำสั่งสำหรับหน้า Type และ Management")]
+    public string typeQuestion = "จากตัวเลือกต่อไปนี้ เลือกประเภทของ Urinary Incontinence";
+    public string managementQuestion = "จากตัวเลือกต่อไปนี้ เลือกวิธีการพยาบาลและการฝึกที่เหมาะสมกับผู้ป่วย";
+
     [Header("เฉลย Stage 3: การพยาบาลที่ถูกต้อง (เลือกหลายข้อ)")]
     public List<ManagementOption> correctManagementOptions = new List<ManagementOption>();
 

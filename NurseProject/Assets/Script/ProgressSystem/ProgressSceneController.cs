@@ -127,9 +127,53 @@ public class ProgressSceneController : MonoBehaviour
                 float iDuration = 0.5f;
                 Vector3 iStartScale = Vector3.zero; // or from its current scale if you prefer it not disappearing fully, but zero makes a good pop
                 Vector3 iEndScale = Vector3.one * 2f; // target 2x scale
-                
                 iIconImage.transform.localScale = iStartScale;
                 
+                // Keep track of the original color to modify alpha for shine
+                Color originalColor = iIconImage.color;
+                
+                // 1) Spin Stars sequentially (1 -> 6), accelerating
+                float starSequenceDuration = 2.0f; // Total time stars spin before I appears
+                float currentTime = 0f;
+                float[] starAngles = new float[starImages.Length];
+
+                while (currentTime < starSequenceDuration)
+                {
+                    currentTime += Time.deltaTime;
+                    
+                    // Speed accelerates over time from slow to normal
+                    float speedT = Mathf.Clamp01(currentTime / 1.5f);
+                    float currentSpeed = Mathf.Lerp(50f, 720f, speedT); // 50 deg/s up to 720 deg/s
+                    
+                    for (int i = 0; i < starImages.Length; i++)
+                    {
+                        if (starImages[i] != null)
+                        {
+                            // Each star starts with a slight delay (0.2s between each)
+                            float startDelay = i * 0.2f;
+                            if (currentTime > startDelay)
+                            {
+                                starAngles[i] += currentSpeed * Time.deltaTime;
+                                starImages[i].transform.localRotation = Quaternion.Euler(0, 0, starAngles[i]);
+                            }
+                        }
+                    }
+                    
+                    yield return null;
+                }
+                
+                // Snap stars back to normal rotation
+                foreach (var star in starImages)
+                {
+                    if (star != null)
+                    {
+                        star.transform.localRotation = Quaternion.identity;
+                    }
+                }
+
+                // 2) 'I' appears (Scale up)
+                iDuration = 0.5f;
+                iTime = 0;
                 while (iTime < iDuration)
                 {
                     iTime += Time.deltaTime;
@@ -141,6 +185,20 @@ public class ProgressSceneController : MonoBehaviour
                     yield return null;
                 }
                 iIconImage.transform.localScale = iEndScale;
+
+                // 3) 'I' shines
+                float shineDuration = 1.0f;
+                float shineTime = 0;
+                while (shineTime < shineDuration)
+                {
+                    shineTime += Time.deltaTime;
+                    float t = Mathf.Clamp01(shineTime / shineDuration);
+                    float shinePulse = Mathf.PingPong(t * 2f, 1f);
+                    iIconImage.color = Color.Lerp(originalColor, new Color(2f, 2f, 2f, 1f), shinePulse);
+                    yield return null;
+                }
+                
+                iIconImage.color = originalColor;
             }
             
             yield return new WaitForSeconds(0.5f);
