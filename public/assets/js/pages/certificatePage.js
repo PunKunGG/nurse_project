@@ -91,7 +91,7 @@ if (aErr || !attempts || attempts.length === 0) {
   scoreDisplay.style.display = "none";
 } else {
   latestScore = Number(attempts[0].score_percent);
-  canDownload = latestScore >= 60;
+  canDownload = latestScore > 60;
 
   // Show score display
   scoreDisplay.style.display = "flex";
