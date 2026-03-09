@@ -31,7 +31,7 @@ async function initProfile() {
       return true;
     }
 
-    me.innerHTML = `<b>${profile.full_name}</b>`;
+    me.textContent = profile.full_name || "-";
     meSub.textContent = `${profile.student_id}  |  role: ${profile.role}`;
 
     if (profile.role === "teacher" || profile.role === "admin") {
@@ -42,7 +42,7 @@ async function initProfile() {
       adminTools.style.display = "block";
     }
   } catch (e) {
-    me.innerHTML = `โหลดโปรไฟล์ไม่สำเร็จ`;
+    me.textContent = "โหลดโปรไฟล์ไม่สำเร็จ";
     meSub.textContent = e.message;
   }
 
