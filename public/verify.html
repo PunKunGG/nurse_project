@@ -34,6 +34,12 @@
         const out = document.getElementById("out");
         const input = document.getElementById("code");
 
+        function esc(v) {
+          const div = document.createElement("div");
+          div.textContent = v == null ? "" : String(v);
+          return div.innerHTML;
+        }
+
         // รองรับเปิดจาก QR แบบ ?code=XXXX
         const url = new URL(location.href);
         const q = url.searchParams.get("code");
@@ -50,12 +56,12 @@
           });
 
           if (error) {
-            out.innerHTML = `<small style="color:#fca5a5;">ตรวจสอบไม่สำเร็จ: ${error.message}</small>`;
+            out.innerHTML = `<small style="color:#fca5a5;">ตรวจสอบไม่สำเร็จ: ${esc(error.message)}</small>`;
             return;
           }
 
           if (!data || data.length === 0 || !data[0].valid) {
-            out.innerHTML = `<b>ไม่พบข้อมูลใบนี้</b> (code: ${code})`;
+            out.innerHTML = `<b>ไม่พบข้อมูลใบนี้</b> (code: ${esc(code)})`;
             return;
           }
 
@@ -63,12 +69,12 @@
           const issued = new Date(c.issued_at).toLocaleDateString("th-TH");
           out.innerHTML = `
           <b>ใบนี้เป็นของจริง</b><br>
-          ชื่อ: <b>${c.full_name}</b><br>
-          รหัส: ${c.student_id}<br>
-          Module: ${c.module_id}<br>
-          Post-test: ${c.score_percent}%<br>
+          ชื่อ: <b>${esc(c.full_name)}</b><br>
+          รหัส: ${esc(c.student_id)}<br>
+          Module: ${esc(c.module_id)}<br>
+          Post-test: ${esc(c.score_percent)}%<br>
           ออกให้ ณ วันที่: ${issued}<br>
-          <small>Certificate Code: ${c.cert_code}</small>
+          <small>Certificate Code: ${esc(c.cert_code)}</small>
         `;
         });
 

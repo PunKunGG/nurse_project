@@ -4,8 +4,8 @@ const form = document.getElementById("form");
 const msg = document.getElementById("msg");
 
 function setMsg(text, color = "") {
-  const style = color ? `style="color:${color};"` : "";
-  msg.innerHTML = `<small ${style}>${text}</small>`;
+  msg.textContent = text;
+  msg.style.color = color || "";
 }
 
 form.addEventListener("submit", async (e) => {
@@ -43,7 +43,7 @@ form.addEventListener("submit", async (e) => {
         // ถ้าคุณใช้ GitHub Pages / path ย่อย ให้แก้ url นี้เป็น URL จริงตอน deploy
         emailRedirectTo: `${location.origin}${location.pathname.replace(
           /\/[^/]*$/,
-          "/"
+          "/",
         )}login.html`,
         data: {
           full_name: fullName,
@@ -62,7 +62,7 @@ form.addEventListener("submit", async (e) => {
     if (needsConfirm) {
       setMsg(
         "สมัครสำเร็จ ✅ กรุณาเช็คอีเมลเพื่อยืนยันบัญชี แล้วค่อยกลับมาล็อกอิน",
-        "#86efac"
+        "#86efac",
       );
       // ไม่ redirect ทันที ให้ผู้ใช้ได้อ่านข้อความ
       return;

@@ -16,6 +16,18 @@ const toast = document.getElementById("toast");
 
 let allUsers = [];
 
+function escapeHtml(text) {
+  const div = document.createElement("div");
+  div.textContent = text == null ? "" : String(text);
+  return div.innerHTML;
+}
+
+function normalizeRole(role) {
+  return role === "admin" || role === "teacher" || role === "student"
+    ? role
+    : "student";
+}
+
 // Initialize page
 async function init() {
   // Check if user is admin only
@@ -49,7 +61,7 @@ async function loadUsers() {
     usersBody.innerHTML = `
       <tr>
         <td colspan="5" class="error-cell">
-          เกิดข้อผิดพลาดในการโหลดข้อมูล: ${error.message}
+          เกิดข้อผิดพลาดในการโหลดข้อมูล: ${escapeHtml(error.message)}
         </td>
       </tr>
     `;
@@ -70,32 +82,43 @@ function renderUsers(users) {
   }
 
   usersBody.innerHTML = users
-    .map(
-      (user, index) => `
+    .map((user, index) => {
+      const safeRole = normalizeRole(user.role);
+      const safeName = escapeHtml(user.full_name || "-");
+      const safeStudentId = escapeHtml(user.student_id || "-");
+      const safeUserId = escapeHtml(user.user_id || "");
+
+      return `
     <tr>
       <td>${index + 1}</td>
-      <td>${user.full_name || "-"}</td>
-      <td>${user.student_id || "-"}</td>
+      <td>${safeName}</td>
+      <td>${safeStudentId}</td>
       <td>
-        <span class="role-badge role-${user.role || "student"}">
-          ${user.role === "teacher" ? "👨‍🏫 Teacher" : user.role === "admin" ? "👑 Admin" : "👤 Student"}
+        <span class="role-badge role-${safeRole}">
+          ${safeRole === "teacher" ? "👨‍🏫 Teacher" : safeRole === "admin" ? "👑 Admin" : "👤 Student"}
         </span>
       </td>
       <td>
         <select 
           class="role-select" 
-          data-user-id="${user.user_id}"
-          onchange="window.updateUserRole('${user.user_id}', this.value)"
+          data-user-id="${safeUserId}"
         >
-          <option value="student" ${user.role === "student" ? "selected" : ""}>Student</option>
-          <option value="teacher" ${user.role === "teacher" ? "selected" : ""}>Teacher</option>
-          <option value="admin" ${user.role === "admin" ? "selected" : ""}>Admin</option>
+          <option value="student" ${safeRole === "student" ? "selected" : ""}>Student</option>
+          <option value="teacher" ${safeRole === "teacher" ? "selected" : ""}>Teacher</option>
+          <option value="admin" ${safeRole === "admin" ? "selected" : ""}>Admin</option>
         </select>
       </td>
     </tr>
-  `,
-    )
+  `;
+    })
     .join("");
+
+  usersBody.querySelectorAll(".role-select").forEach((selectEl) => {
+    selectEl.addEventListener("change", (event) => {
+      const target = event.currentTarget;
+      window.updateUserRole(target.dataset.userId, target.value);
+    });
+  });
 }
 
 // Filter users by search input
