@@ -484,6 +484,10 @@ body.dark .brand {
   align-items: start;
 }
 
+.dashboard-sections {
+  grid-template-columns: 1fr;
+}
+
 /* Panels */
 .panel {
   padding: 20px;
@@ -512,7 +516,7 @@ body.dark .brand {
 .quick-menu-grid {
   margin-top: 14px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 14px;
 }
 
@@ -543,9 +547,9 @@ body.dark .brand {
   font-size: 30px;
   line-height: 1;
   color: #fff;
-  background: linear-gradient(160deg, #3b82f6, #2563eb);
+  background: linear-gradient(160deg, #7fb6ff, #60a5fa);
   box-shadow:
-    0 8px 16px rgba(37, 99, 235, 0.28),
+    0 8px 16px rgba(96, 165, 250, 0.22),
     inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
@@ -761,6 +765,10 @@ body.dark .slider .nav {
 
   .grid-2 {
     grid-template-columns: 1fr;
+  }
+
+  .quick-menu-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   .slide {

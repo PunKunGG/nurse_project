@@ -78,6 +78,25 @@
 
         <button id="btn_login" class="btn" type="button">เข้าสู่ระบบ</button>
         <p id="msg_login" style="margin-top: 10px"><small></small></p>
+        <button
+          id="btn_forgot_pass"
+          type="button"
+          style="
+            margin-top: 6px;
+            background: none;
+            border: none;
+            color: #2563eb;
+            cursor: pointer;
+            padding: 0;
+            font-family: var(--font);
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-decoration: underline;
+          "
+        >
+          ลืมรหัสผ่าน?
+        </button>
+        <p id="msg_reset" style="margin-top: 8px"><small></small></p>
 
         <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 14px 0" />
 
@@ -90,9 +109,28 @@
       </section>
 
       <script type="module">
-        import { signIn } from "./assets/js/auth.js";
+        import { signIn, requestPasswordReset } from "./assets/js/auth.js";
 
         const mli = document.getElementById("msg_login");
+        const mReset = document.getElementById("msg_reset");
+        let loginMsgTimer = null;
+        let resetMsgTimer = null;
+
+        function showTimedMessage(target, html, timerName) {
+          target.innerHTML = html;
+
+          if (timerName === "login") {
+            clearTimeout(loginMsgTimer);
+            loginMsgTimer = setTimeout(() => {
+              target.innerHTML = "<small></small>";
+            }, 5000);
+          } else {
+            clearTimeout(resetMsgTimer);
+            resetMsgTimer = setTimeout(() => {
+              target.innerHTML = "<small></small>";
+            }, 5000);
+          }
+        }
 
         // Toggle password visibility
         document
@@ -120,14 +158,56 @@
 
               await signIn(email, pass);
 
-              mli.innerHTML =
-                "<small style='color:#22c55e;'>เข้าสู่ระบบสำเร็จ! กำลังเปลี่ยนหน้า…</small>";
+              showTimedMessage(
+                mli,
+                "<small style='color:#22c55e;'>เข้าสู่ระบบสำเร็จ! กำลังเปลี่ยนหน้า…</small>",
+                "login",
+              );
 
               setTimeout(() => {
                 window.location.href = "dashboard.html";
               }, 500);
             } catch (e) {
-              mli.innerHTML = `<small style="color:#ef4444;">ล็อกอินไม่สำเร็จ: ${e.message}</small>`;
+              showTimedMessage(
+                mli,
+                `<small style="color:#ef4444;">ล็อกอินไม่สำเร็จ: ${e.message}</small>`,
+                "login",
+              );
+            }
+          });
+
+        // ลืมรหัสผ่าน: ส่งอีเมลรีเซ็ตไปยังอีเมลที่กรอก
+        document
+          .getElementById("btn_forgot_pass")
+          .addEventListener("click", async () => {
+            const email = document.getElementById("li_email").value.trim();
+
+            if (!email) {
+              mReset.innerHTML =
+                "<small style='color:#ef4444;'>กรุณากรอกอีเมลก่อนกดลืมรหัสผ่าน</small>";
+              return;
+            }
+
+            mReset.innerHTML = "<small>กำลังส่งอีเมลรีเซ็ตรหัสผ่าน…</small>";
+            try {
+              const redirectTo = new URL(
+                "reset_password.html",
+                window.location.href,
+              ).toString();
+
+              await requestPasswordReset(email, redirectTo);
+
+              showTimedMessage(
+                mReset,
+                "<small style='color:#22c55e;'>ส่งลิงก์รีเซ็ตรหัสผ่านแล้ว กรุณาตรวจสอบอีเมลของคุณ</small>",
+                "reset",
+              );
+            } catch (e) {
+              showTimedMessage(
+                mReset,
+                `<small style="color:#ef4444;">ส่งอีเมลไม่สำเร็จ: ${e.message}</small>`,
+                "reset",
+              );
             }
           });
 
