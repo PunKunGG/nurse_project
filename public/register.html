@@ -40,6 +40,8 @@
             id="studentId"
             required
             placeholder="663380xxx-x"
+            pattern="[0-9]{9}-[0-9]"
+            title="กรุณากรอกรหัสนักศึกษาเป็นตัวเลข 9 หลัก ตามด้วยขีด และเลข 1 หลัก เช่น 663380123-4"
             style="
               padding: 12px;
               border-radius: 12px;
@@ -164,6 +166,13 @@
           const studentId = document.getElementById("studentId").value.trim();
           const email = document.getElementById("email").value.trim();
           const password = document.getElementById("password").value;
+          const studentIdRegex = /^[0-9]{9}-[0-9]$/;
+
+          if (!studentIdRegex.test(studentId)) {
+            msg.innerHTML =
+              "<small style='color:#ef4444;'>รหัสนักศึกษาต้องเป็นตัวเลข 9 หลัก ตามด้วยขีดและเลข 1 หลัก เช่น 663380123-4</small>";
+            return;
+          }
 
           try {
             const result = await signUp(email, password, fullName, studentId);

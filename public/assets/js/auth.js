@@ -68,6 +68,34 @@ export async function signIn(email, password) {
   return data;
 }
 
+export async function requestPasswordReset(email, redirectTo) {
+  const normalizedEmail = email.trim().toLowerCase();
+
+  if (!isKKUEmail(normalizedEmail)) {
+    throw new Error(
+      "กรุณาใช้อีเมลมหาวิทยาลัย (@kkumail.com หรือ @kku.ac.th) เท่านั้น",
+    );
+  }
+
+  const { error } = await supabase.auth.resetPasswordForEmail(normalizedEmail, {
+    redirectTo,
+  });
+
+  if (error) throw error;
+}
+
+export async function updatePassword(newPassword) {
+  if (!newPassword || newPassword.length < 6) {
+    throw new Error("รหัสผ่านใหม่ต้องมีอย่างน้อย 6 ตัวอักษร");
+  }
+
+  const { error } = await supabase.auth.updateUser({
+    password: newPassword,
+  });
+
+  if (error) throw error;
+}
+
 export async function signOut() {
   const { error } = await supabase.auth.signOut();
   if (error) throw error;
