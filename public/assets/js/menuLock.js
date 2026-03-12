@@ -71,7 +71,9 @@ function handleLockedClick(e) {
  * Called immediately when script loads
  */
 function initLockedMenuItems() {
-  const lockedItems = document.querySelectorAll(".menu-item.locked");
+  const lockedItems = document.querySelectorAll(
+    ".menu-item.locked, .quick-item.locked",
+  );
   lockedItems.forEach((item) => {
     // Store and remove href to prevent navigation
     if (item.href) {
@@ -81,6 +83,15 @@ function initLockedMenuItems() {
     item.setAttribute("aria-disabled", "true");
     item.addEventListener("click", handleLockedClick);
   });
+}
+
+/**
+ * Unlock all menu items that share the same data-menu-id
+ * @param {string} menuId
+ */
+function unlockMenuItemsById(menuId) {
+  const items = document.querySelectorAll(`[data-menu-id="${menuId}"]`);
+  items.forEach((item) => unlockMenuItem(item));
 }
 
 /**
@@ -145,23 +156,15 @@ export async function applyMenuLocks() {
       await checkUserProgress();
 
     // Get menu items by data-menu-id
-    const gameMenuItem = document.querySelector('[data-menu-id="game"]');
-    const posttestMenuItem = document.querySelector(
-      '[data-menu-id="posttest"]',
-    );
-    const certificateMenuItem = document.querySelector(
-      '[data-menu-id="certificate"]',
-    );
-
     // Unlock Play Game and Post-Test if pre-test completed
     if (hasCompletedPretest) {
-      unlockMenuItem(gameMenuItem);
-      unlockMenuItem(posttestMenuItem);
+      unlockMenuItemsById("game");
+      unlockMenuItemsById("posttest");
     }
 
     // Unlock Certificate if post-test passed
     if (hasPassedPosttest) {
-      unlockMenuItem(certificateMenuItem);
+      unlockMenuItemsById("certificate");
     }
 
     console.log("[MenuLock] Progress:", {
