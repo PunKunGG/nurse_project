@@ -199,6 +199,32 @@ function exportCSV() {
     return;
   }
 
+  const typeOrder = { pre: 0, post: 1 };
+  const sortedForExport = [...allAttempts].sort((a, b) => {
+    // Group by student first (student_id, then name)
+    const studentIdCompare = (a.student_id || "").localeCompare(
+      b.student_id || "",
+      "th",
+      { numeric: true, sensitivity: "base" },
+    );
+    if (studentIdCompare !== 0) return studentIdCompare;
+
+    const nameCompare = (a.full_name || "").localeCompare(
+      b.full_name || "",
+      "th",
+      { sensitivity: "base" },
+    );
+    if (nameCompare !== 0) return nameCompare;
+
+    // Within each student: Pre-test first, then Post-test
+    const typeCompare =
+      (typeOrder[a.test_type] ?? 99) - (typeOrder[b.test_type] ?? 99);
+    if (typeCompare !== 0) return typeCompare;
+
+    // Finally sort by submission time (oldest -> newest)
+    return new Date(a.submitted_at || 0) - new Date(b.submitted_at || 0);
+  });
+
   const headers = [
     "ลำดับ",
     "ชื่อ-นามสกุล",
@@ -208,7 +234,7 @@ function exportCSV() {
     "สถานะ",
     "วันที่ทำ",
   ];
-  const rows = allAttempts.map((a, index) => [
+  const rows = sortedForExport.map((a, index) => [
     index + 1,
     a.full_name,
     a.student_id,
