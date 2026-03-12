@@ -57,6 +57,8 @@ public class InsomniaStageManager : MonoBehaviour
     private int score = 0;
     private bool waitingForFeedback = false;
 
+    private readonly Vector2[] btnPositions = { new Vector2(450, -400), new Vector2(-450, -400) };
+
     void Start()
     {
         SetupButtons();
@@ -109,6 +111,8 @@ public class InsomniaStageManager : MonoBehaviour
 
     void DisplayQuestion()
     {
+        RandomizeButtonPositions();
+
         if (currentQuestionIndex < selectedQuestions.Count)
         {
             InsomniaQuestionData q = selectedQuestions[currentQuestionIndex];
@@ -202,6 +206,28 @@ public class InsomniaStageManager : MonoBehaviour
     {
         if (btn1 && btn1.image) btn1.image.color = defaultColor;
         if (btn2 && btn2.image) btn2.image.color = defaultColor;
+    }
+
+    private void RandomizeButtonPositions()
+    {
+        if (btn1 == null || btn2 == null) return;
+
+        RectTransform rt1 = btn1.GetComponent<RectTransform>();
+        RectTransform rt2 = btn2.GetComponent<RectTransform>();
+
+        if (rt1 == null || rt2 == null) return;
+
+        // Shuffle index
+        if (Random.value > 0.5f)
+        {
+            rt1.anchoredPosition = btnPositions[0];
+            rt2.anchoredPosition = btnPositions[1];
+        }
+        else
+        {
+            rt1.anchoredPosition = btnPositions[1];
+            rt2.anchoredPosition = btnPositions[0];
+        }
     }
 
     void ShowResult()

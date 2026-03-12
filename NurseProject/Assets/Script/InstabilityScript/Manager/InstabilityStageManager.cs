@@ -56,13 +56,13 @@ public class InstabilityStageManager : MonoBehaviour
     /// <summary>
     /// Called by each obstacle when fixed.
     /// </summary>
-    public void OnObstacleFixed(string knowledgeMessage)
+    public void OnObstacleFixed(string itemName, string knowledgeMessage)
     {
         fixedCount = Mathf.Clamp(fixedCount + 1, 0, totalHazards);
         UpdateProgressUI();
 
         if (knowledgePopup != null && !string.IsNullOrWhiteSpace(knowledgeMessage))
-            knowledgePopup.Show(knowledgeMessage);
+            knowledgePopup.Show(itemName, knowledgeMessage);
 
         if (fixedCount >= totalHazards)
         {

@@ -11,16 +11,14 @@ public class KnowledgePopupUI : MonoBehaviour
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private RectTransform panel;
     [SerializeField] private TMP_Text knowledgeText;
+    [SerializeField] private TMP_Text itemNameText; // Added item name support
     [SerializeField] private Button closeButton;
+    [SerializeField] private Image iconImage;
 
     [Header("Animation")]
     [SerializeField] private float animDuration = 0.20f;
     [SerializeField] private float startScale = 0.85f;
 
-    [Header("Auto Close")]
-    [SerializeField] private float autoCloseSeconds = 2.5f;
-
-    private Coroutine autoCloseCo;
     private Coroutine animCo;
 
     public event Action OnClosed;
@@ -36,16 +34,18 @@ public class KnowledgePopupUI : MonoBehaviour
     /// <summary>
     /// Show popup with message. Resets the auto-close timer.
     /// </summary>
-    public void Show(string message)
+    public void Show(string itemName, string message)
     {
+        if (itemNameText != null)
+            itemNameText.text = string.IsNullOrWhiteSpace(itemName) ? "ความรู้" : itemName;
+
         if (knowledgeText != null)
             knowledgeText.text = string.IsNullOrWhiteSpace(message) ? " " : message;
 
         gameObject.SetActive(true);
 
-        // cancel any prior animations/timers
+        // cancel any prior animations
         if (animCo != null) StopCoroutine(animCo);
-        if (autoCloseCo != null) StopCoroutine(autoCloseCo);
 
         // make interactable immediately (modal behavior)
         if (canvasGroup != null)
@@ -56,16 +56,12 @@ public class KnowledgePopupUI : MonoBehaviour
 
         // animate in
         animCo = StartCoroutine(Animate(show: true));
-
-        // auto close
-        autoCloseCo = StartCoroutine(AutoClose());
     }
 
     public void Hide()
     {
         if (!gameObject.activeSelf) return;
 
-        if (autoCloseCo != null) StopCoroutine(autoCloseCo);
         if (animCo != null) StopCoroutine(animCo);
 
         animCo = StartCoroutine(Animate(show: false));
@@ -73,7 +69,6 @@ public class KnowledgePopupUI : MonoBehaviour
 
     public void HideInstant()
     {
-        if (autoCloseCo != null) StopCoroutine(autoCloseCo);
         if (animCo != null) StopCoroutine(animCo);
 
         if (canvasGroup != null)
@@ -89,11 +84,6 @@ public class KnowledgePopupUI : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private IEnumerator AutoClose()
-    {
-        yield return new WaitForSecondsRealtime(Mathf.Max(0.1f, autoCloseSeconds));
-        Hide();
-    }
 
     private IEnumerator Animate(bool show)
     {

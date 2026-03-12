@@ -18,6 +18,9 @@ public class HazardObject : MonoBehaviour
     [Header("Feedback")]
     [Tooltip("Existing Object in scene to enable (Correct Mark)")]
     public GameObject correctFeedbackObject;
+    public string itemName;
+    [TextArea(3, 10)]
+    public string knowledgeMessage;
 
     private SpriteRenderer spriteRenderer;
     private bool isFixed = false;
@@ -67,7 +70,14 @@ public class HazardObject : MonoBehaviour
         // เปลี่ยนรูป (Legacy support)
         if (fixedSprite && spriteRenderer != null) spriteRenderer.sprite = fixedSprite;
         
-        if (manager) manager.OnHazardFixed();
+        if (manager)
+        {
+            manager.OnHazardFixed();
+            if (manager.knowledgePopup != null)
+            {
+                manager.knowledgePopup.Show(itemName, knowledgeMessage);
+            }
+        }
         
         if (useFadeEffect)
         {

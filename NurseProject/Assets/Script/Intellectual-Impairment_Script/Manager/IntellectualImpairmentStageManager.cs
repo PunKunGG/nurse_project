@@ -16,9 +16,11 @@ public class IntellectualImpairmentStageManager : MonoBehaviour
     [Header("Phase 3: Gameplay & UI")]
     public GameObject environmentParent;
     public TextMeshProUGUI objectiveText; // ข้อความภารกิจบนหน้าจอ*
+    public TextMeshProUGUI objectiveCountText; // จำนวนภารกิจ (e.g., 1/3)
 
     [Header("Result System")] // แสดงผลลัพธ์ตอนจบด่าน
     public UniversalResultUI resultUI; // ลาก UniversalResultPanel มาใส่ตรงนี้
+    public KnowledgePopupUI knowledgePopup;
     
     [Header("Game Logic")]
     public int totalHazards = 0;     
@@ -40,6 +42,9 @@ public class IntellectualImpairmentStageManager : MonoBehaviour
         // เริ่มมา: ซ่อน Objective ก่อน (ซ่อนตัวแม่ที่เป็น Image ด้วย)
         if(objectiveText && objectiveText.transform.parent != null) 
             objectiveText.transform.parent.gameObject.SetActive(false);
+        
+        if(objectiveCountText && objectiveCountText.transform.parent != null && objectiveCountText.transform.parent != objectiveText.transform.parent)
+             objectiveCountText.transform.parent.gameObject.SetActive(false);
         
         // Auto-assign resultUI if missing
         if (!resultUI)
@@ -77,6 +82,9 @@ public class IntellectualImpairmentStageManager : MonoBehaviour
         // ซ่อน Objective Text ตอนเล่นวิดีโอซ้ำ
         if(objectiveText && objectiveText.transform.parent != null) 
             objectiveText.transform.parent.gameObject.SetActive(false);
+        
+        if(objectiveCountText && objectiveCountText.transform.parent != null && objectiveCountText.transform.parent != objectiveText.transform.parent)
+            objectiveCountText.transform.parent.gameObject.SetActive(false);
 
         if (cutsceneHandler) cutsceneHandler.PlayCutscene();
     }
@@ -143,6 +151,10 @@ public class IntellectualImpairmentStageManager : MonoBehaviour
         if(objectiveText && objectiveText.transform.parent != null) 
         {
             objectiveText.transform.parent.gameObject.SetActive(true);
+            
+            if(objectiveCountText && objectiveCountText.transform.parent != null)
+                objectiveCountText.transform.parent.gameObject.SetActive(true);
+
             UpdateObjectiveUI();
         }
     }
@@ -181,6 +193,9 @@ public class IntellectualImpairmentStageManager : MonoBehaviour
             // (Optional) ซ่อน Objective Text (และกรอบ) เพื่อความสวยงาม
             if(objectiveText && objectiveText.transform.parent != null) 
                 objectiveText.transform.parent.gameObject.SetActive(false);
+
+            if(objectiveCountText && objectiveCountText.transform.parent != null && objectiveCountText.transform.parent != objectiveText.transform.parent)
+                objectiveCountText.transform.parent.gameObject.SetActive(false);
         }
     }
 
@@ -197,8 +212,12 @@ public class IntellectualImpairmentStageManager : MonoBehaviour
     {
         if(objectiveText)
         {
-            // ตัวอย่างข้อความ: "จัดการสิ่งแวดล้อม: 1/3"
-            objectiveText.text = $"จากภาพ มีปัจจัยกระตุ้นใดบ้าง ที่ส่งผลให้ผู้ป่วยเกิดภาวะสับสนเฉียบพลัน: {fixedHazards}/{totalHazards}";
+            objectiveText.text = "จากภาพ มีปัจจัยกระตุ้นใดบ้าง ที่ส่งผลให้ผู้ป่วยเกิดภาวะสับสนเฉียบพลัน:";
+        }
+
+        if(objectiveCountText)
+        {
+            objectiveCountText.text = $"{fixedHazards}/{totalHazards}";
         }
     }
 }

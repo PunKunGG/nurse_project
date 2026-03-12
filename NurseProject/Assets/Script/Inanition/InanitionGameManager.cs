@@ -15,6 +15,7 @@ public class InanitionGameManager : MonoBehaviour
     public HeartsUI heartsUI;
     public TextMeshProUGUI progressText; // Text: "Correct: 0/5"
     public UniversalResultUI resultUI;   // For Win/Lose messages
+    public KnowledgePopupUI knowledgePopup;
 
     [Header("Visual Novel Intro")]
     [SerializeField] private VisualNovelIntro introNovel;
@@ -102,6 +103,11 @@ public class InanitionGameManager : MonoBehaviour
             // Mark visual
             hotspot.MarkAsFound();
             foundHotspots.Add(hotspot);
+
+            if (knowledgePopup != null)
+            {
+                knowledgePopup.Show(hotspot.itemName, hotspot.knowledgeMessage);
+            }
             
             // Score
             correctFoundCount++;

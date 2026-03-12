@@ -25,7 +25,11 @@ public class ImmobilityStageManager : MonoBehaviour
     [SerializeField] private GameObject panelGradeQuestion;
     [SerializeField] private GameObject titlePanel; // New Title Panel
     [SerializeField] private ImmobilitySummaryQuiz summaryQuiz; // Reference to the new quiz
+    [SerializeField] private GameObject instructionQuizPanel; // "Click at patient" prompt
     public UniversalResultUI resultUI; // Add UniversalResultUI
+
+    [Header("Indicators")]
+    [SerializeField] private GameObject inspectArrow; // Animated arrow pointing at patient ass
 
     [Header("Environment")]
     [SerializeField] private GameObject bedGO;
@@ -99,6 +103,8 @@ public class ImmobilityStageManager : MonoBehaviour
         if (pillowAnkle) pillowAnkle.SetActive(false);
         if (pillowDropZoneAnkle) pillowDropZoneAnkle.SetActive(false);
         if (knowledgePopupPanel) knowledgePopupPanel.SetActive(false);
+        if (instructionQuizPanel) instructionQuizPanel.SetActive(false);
+        if (inspectArrow) inspectArrow.SetActive(false);
         
         pillowChestPlaced = false;
         pillowAnklePlaced = false;
@@ -195,8 +201,25 @@ public class ImmobilityStageManager : MonoBehaviour
         if (introNovel != null)
             introNovel.OnIntroFinished.RemoveListener(OnInspectIntroFinished);
 
+        // Instead of unblocking сразу, show the instructional "quiz" panel
+        if (instructionQuizPanel)
+        {
+            instructionQuizPanel.SetActive(true);
+        }
+        
+        IsUIBlockingInput = false; // Allow clicking even if instruction is up
+
+        Debug.Log("Inspect intro finished. Showing instruction.");
+    }
+
+    /// <summary>
+    /// Called by the instructional quiz button to resume inspect.
+    /// </summary>
+    public void DismissInstructionQuiz()
+    {
+        if (instructionQuizPanel) instructionQuizPanel.SetActive(false);
         IsUIBlockingInput = false;
-        Debug.Log("Inspect intro finished, game unblocked for inspection.");
+        Debug.Log("Instruction quiz dismissed, game unblocked for inspection.");
     }
 
     private void ApplyPositionVisual(StageState target)
@@ -208,6 +231,8 @@ public class ImmobilityStageManager : MonoBehaviour
         if (restPositionGO)    restPositionGO.SetActive(rest);
         if (lateralPositionGO) lateralPositionGO.SetActive(lateral);
         if (inspectPositionGO) inspectPositionGO.SetActive(inspect);
+
+        if (inspectArrow) inspectArrow.SetActive(inspect);
 
         if (!inspect)
         {
@@ -225,6 +250,9 @@ public class ImmobilityStageManager : MonoBehaviour
     {
         if (IsUIBlockingInput) { Debug.Log("[StageManager] Blocked by UI"); return; }
         if (state != StageState.InspectReady) { Debug.Log($"[StageManager] Wrong state: {state}"); return; }
+
+        // Dismiss instruction if it's still up
+        if (instructionQuizPanel) instructionQuizPanel.SetActive(false);
 
         // Accept click from examTriggerGO itself OR any of its children
         if (examTriggerGO == null) { Debug.Log("[StageManager] examTriggerGO is null"); return; }
@@ -290,6 +318,8 @@ public class ImmobilityStageManager : MonoBehaviour
         if (knowledgePopupPanel) knowledgePopupPanel.SetActive(false);
         if (panelGradeQuestion) panelGradeQuestion.SetActive(false);
         if (summaryQuiz) summaryQuiz.gameObject.SetActive(false);
+        if (instructionQuizPanel) instructionQuizPanel.SetActive(false);
+        if (inspectArrow) inspectArrow.SetActive(false);
         HideAllWounds();
 
         // Hide extra user-defined images

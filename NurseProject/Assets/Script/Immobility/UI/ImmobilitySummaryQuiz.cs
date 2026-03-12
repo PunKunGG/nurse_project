@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using System.Collections.Generic;
 
 public class ImmobilitySummaryQuiz : MonoBehaviour
 {
@@ -18,8 +19,15 @@ public class ImmobilitySummaryQuiz : MonoBehaviour
     [SerializeField] private Color wrongColor = Color.red;
     [SerializeField] private float wrongFeedbackDuration = 1.0f;
 
-    [Header("Wiring")]
     [SerializeField] private ImmobilityStageManager stageManager;
+
+    private readonly Vector2[] availablePositions = new Vector2[]
+    {
+        new Vector2(-240, -47), new Vector2(40, -47), new Vector2(-540, -47), 
+        new Vector2(40, -250), new Vector2(340, -47), new Vector2(340, -250), 
+        new Vector2(640, -47), new Vector2(640, -250), new Vector2(-240, -250), 
+        new Vector2(-540, -250)
+    };
 
     // Based on user spec:
     // 0-indexed correct indices: 0, 1, 2, 5, 6, 7 (Total 6)
@@ -55,6 +63,8 @@ public class ImmobilitySummaryQuiz : MonoBehaviour
 
         
         correctFoundCount = 0;
+
+        RandomizeButtonPositions();
 
         // Reset state
         if (answerButtons != null)
@@ -124,6 +134,33 @@ public class ImmobilitySummaryQuiz : MonoBehaviour
         if (stageManager)
         {
             stageManager.CompleteStage();
+        }
+    }
+
+    private void RandomizeButtonPositions()
+    {
+        if (answerButtons == null || answerButtons.Length == 0) return;
+
+        // Create a copy of positions to shuffle
+        List<Vector2> shuffledPositions = new List<Vector2>(availablePositions);
+
+        // Simple Fisher-Yates shuffle
+        for (int i = 0; i < shuffledPositions.Count; i++)
+        {
+            int rnd = Random.Range(i, shuffledPositions.Count);
+            Vector2 temp = shuffledPositions[i];
+            shuffledPositions[i] = shuffledPositions[rnd];
+            shuffledPositions[rnd] = temp;
+        }
+
+        // Assign shuffled positions to buttons
+        for (int i = 0; i < answerButtons.Length && i < shuffledPositions.Count; i++)
+        {
+            if (answerButtons[i])
+            {
+                RectTransform rt = answerButtons[i].GetComponent<RectTransform>();
+                if (rt) rt.anchoredPosition = shuffledPositions[i];
+            }
         }
     }
 

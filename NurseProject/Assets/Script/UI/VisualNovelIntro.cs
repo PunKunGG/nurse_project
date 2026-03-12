@@ -12,6 +12,8 @@ public class VisualNovelIntro : MonoBehaviour
     public TextMeshProUGUI dialogueText;
     public Button nextButton;
     public TextMeshProUGUI nextButtonText;
+    public Button previousButton;
+    public TextMeshProUGUI previousButtonText;
 
     [Header("Content (Defaults)")]
     public Sprite defaultCharacterSprite;
@@ -33,6 +35,11 @@ public class VisualNovelIntro : MonoBehaviour
         if (nextButton != null)
         {
             nextButton.onClick.AddListener(OnNextClicked);
+        }
+
+        if (previousButton != null)
+        {
+            previousButton.onClick.AddListener(OnPreviousClicked);
         }
 
         // Auto start if active
@@ -89,6 +96,12 @@ public class VisualNovelIntro : MonoBehaviour
         {
             nextButtonText.text = (index == dialoguePages.Length - 1) ? "เริ่มเกม" : "หน้าถัดไป";
         }
+
+        // Handle previous button visibility
+        if (previousButton != null)
+        {
+            previousButton.gameObject.SetActive(index > 0);
+        }
     }
 
     private IEnumerator TypeText(string text)
@@ -121,6 +134,15 @@ public class VisualNovelIntro : MonoBehaviour
         {
             // Move to next page
             currentPage++;
+            DisplayPage(currentPage);
+        }
+    }
+
+    private void OnPreviousClicked()
+    {
+        if (currentPage > 0)
+        {
+            currentPage--;
             DisplayPage(currentPage);
         }
     }

@@ -13,6 +13,9 @@ public class InanitionHotspot : MonoBehaviour
     
     [Header("Data")]
     [TextArea] public string tooltipText; // Optional description
+    public string itemName;
+    [TextArea(3, 10)]
+    public string knowledgeMessage;
 
     private bool isFound = false;
     private InanitionGameManager manager;

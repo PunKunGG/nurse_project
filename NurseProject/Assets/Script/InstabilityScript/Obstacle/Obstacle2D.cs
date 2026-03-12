@@ -12,6 +12,7 @@ public class Obstacle2D : MonoBehaviour
     [SerializeField] private InstabilityStageManager manager;
 
     [Header("Knowledge Message")]
+    [SerializeField] private string itemName;
     [TextArea(2, 6)]
     [SerializeField] private string knowledgeMessage;
 
@@ -20,21 +21,7 @@ public class Obstacle2D : MonoBehaviour
     [SerializeField] private GameObject[] fixedVisuals;    // light OFF, switch flipped, etc.
     [SerializeField] private GameObject[] outlineVisuals;  // hover outline (switch + light)
 
-    private bool isHovered;
-
     private void Awake() => ApplyVisuals();
-
-    private void OnMouseEnter()
-    {
-        isHovered = true;
-        ApplyVisuals();
-    }
-
-    private void OnMouseExit()
-    {
-        isHovered = false;
-        ApplyVisuals();
-    }
 
     private void OnMouseDown() => TryFix();
 
@@ -55,7 +42,7 @@ public class Obstacle2D : MonoBehaviour
                 ? "[Knowledge message not set]"
                 : knowledgeMessage;
 
-            manager.OnObstacleFixed(msg);
+            manager.OnObstacleFixed(itemName, msg);
         }
         else
         {
@@ -70,8 +57,8 @@ public class Obstacle2D : MonoBehaviour
         SetActiveAll(hazardVisuals, !isFixed);
         SetActiveAll(fixedVisuals, isFixed);
 
-        // outline ONLY when hovered, never when fixed
-        SetActiveAll(outlineVisuals, isHovered && !isFixed);
+        // outline and floating removed per user request
+        SetActiveAll(outlineVisuals, false);
     }
 
     private static void SetActiveAll(GameObject[] gos, bool active)
