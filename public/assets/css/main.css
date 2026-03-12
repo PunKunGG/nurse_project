@@ -484,6 +484,10 @@ body.dark .brand {
   align-items: start;
 }
 
+.dashboard-sections {
+  grid-template-columns: 1fr;
+}
+
 /* Panels */
 .panel {
   padding: 20px;
@@ -502,6 +506,74 @@ body.dark .brand {
 
 .panel-foot {
   margin-top: 12px;
+}
+
+/* Dashboard Quick Menu */
+.quick-menu {
+  margin-top: 18px;
+}
+
+.quick-menu-grid {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.quick-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  padding: 8px 6px;
+  border-radius: var(--radius-sm);
+  transition:
+    transform var(--transition-fast),
+    background var(--transition-fast);
+}
+
+.quick-item:hover {
+  transform: translateY(-2px);
+  background: var(--bg2);
+}
+
+.quick-item.locked {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.quick-item.locked:hover {
+  transform: none;
+  background: transparent;
+}
+
+.quick-item.locked .quick-label::after {
+  content: " 🔒";
+  font-size: 0.9em;
+}
+
+.quick-icon {
+  width: 62px;
+  height: 62px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  font-size: 30px;
+  line-height: 1;
+  color: #fff;
+  background: linear-gradient(160deg, #7fb6ff, #60a5fa);
+  box-shadow:
+    0 8px 16px rgba(96, 165, 250, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.quick-label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-align: center;
+  line-height: 1.35;
 }
 
 .stack {
@@ -710,6 +782,10 @@ body.dark .slider .nav {
     grid-template-columns: 1fr;
   }
 
+  .quick-menu-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
   .slide {
     height: 280px;
   }
@@ -787,6 +863,16 @@ body.dark .slider .nav {
   .slide {
     height: 220px;
   }
+
+  .quick-menu-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .quick-icon {
+    width: 56px;
+    height: 56px;
+    font-size: 27px;
+  }
 }
 
 /* ============================================
@@ -843,6 +929,27 @@ body.dark .slider .nav {
 
   .slider .next {
     right: 8px;
+  }
+
+  .quick-menu-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .quick-item {
+    gap: 6px;
+    padding: 6px 4px;
+  }
+
+  .quick-icon {
+    width: 52px;
+    height: 52px;
+    font-size: 24px;
+    border-radius: 12px;
+  }
+
+  .quick-label {
+    font-size: 0.82rem;
   }
 }
 
