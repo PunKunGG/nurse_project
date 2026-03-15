@@ -3,14 +3,13 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>จัดการสิทธิ์ผู้ใช้ - Nurse Learning</title>
+    <title>รายชื่อผู้ได้รับเกียรติบัตร - Nurse Learning</title>
     <link rel="stylesheet" href="assets/css/main.css" />
-    <link rel="stylesheet" href="assets/css/manage_users.css" />
+    <link rel="stylesheet" href="assets/css/report.css" />
   </head>
 
   <body>
     <main class="app">
-      <!-- SIDEBAR -->
       <aside class="sidebar">
         <div class="brand">
           <div class="brand-badge">
@@ -41,18 +40,18 @@
 
         <div id="teacher_tools" class="teacher-card" style="display: none">
           <div class="teacher-title">Teacher Tools</div>
-          <a class="btn w-full" href="manage_questions.html">จัดการข้อสอบ</a>
+          <a class="btn btn-ghost w-full" href="manage_questions.html"
+            >จัดการข้อสอบ</a
+          >
           <a class="btn btn-ghost w-full" href="report.html">ดูผลคะแนนรวม</a>
-          <a class="btn btn-ghost w-full" href="certificates_report.html"
+          <a class="btn w-full active" href="certificates_report.html"
             >ดูผู้ได้เกียรติบัตร</a
           >
         </div>
 
         <div id="admin_tools" class="admin-card" style="display: none">
           <div class="admin-title">Admin Tools</div>
-          <a class="btn w-full active" href="manage_users.html"
-            >จัดการสิทธิ์ผู้ใช้</a
-          >
+          <a class="btn w-full" href="manage_users.html">จัดการสิทธิ์ผู้ใช้</a>
         </div>
 
         <div class="sidebar-footer">
@@ -62,46 +61,81 @@
         </div>
       </aside>
 
-      <!-- CONTENT -->
       <section class="content">
         <header class="content-header">
           <a class="btn btn-ghost" href="dashboard.html">กลับหน้าหลัก</a>
           <div class="header-row">
             <div>
-              <h1>จัดการสิทธิ์ผู้ใช้</h1>
+              <h1>รายชื่อผู้ได้รับเกียรติบัตร</h1>
               <p class="muted">
-                เปลี่ยนสิทธิ์ผู้ใช้ระหว่าง Student และ Teacher
+                แสดงนักศึกษาที่มีการออกเกียรติบัตรแล้ว พร้อมคะแนน Post-test
+                และรหัสตรวจสอบ
               </p>
             </div>
+            <button class="btn btn-ghost" onclick="exportCSV()">
+              Export CSV
+            </button>
           </div>
         </header>
 
-        <!-- Search Box -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">🏅</div>
+            <div class="stat-info">
+              <div class="stat-value" id="totalCertificates">0</div>
+              <div class="stat-label">เกียรติบัตรทั้งหมด</div>
+            </div>
+          </div>
+          <div class="stat-card success">
+            <div class="stat-icon">👥</div>
+            <div class="stat-info">
+              <div class="stat-value" id="uniqueRecipients">0</div>
+              <div class="stat-label">ผู้ได้รับเกียรติบัตร</div>
+            </div>
+          </div>
+          <div class="stat-card warning">
+            <div class="stat-icon">📈</div>
+            <div class="stat-info">
+              <div class="stat-value" id="avgCertificateScore">0%</div>
+              <div class="stat-label">คะแนนเฉลี่ย Post-test</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🗓️</div>
+            <div class="stat-info">
+              <div class="stat-value" id="latestIssuedDate">-</div>
+              <div class="stat-label">ออกล่าสุด</div>
+            </div>
+          </div>
+        </div>
+
         <div class="search-box">
           <input
             type="text"
             id="searchInput"
-            placeholder="ค้นหาด้วยชื่อ, รหัสนักศึกษา หรืออีเมล..."
             class="search-input"
+            placeholder="ค้นหาชื่อ, รหัสนักศึกษา หรือ Certificate Code..."
           />
         </div>
 
-        <!-- Users Table -->
         <div class="panel">
           <div class="table-container">
-            <table class="users-table" id="usersTable">
+            <table class="report-table" id="certificateTable">
               <thead>
                 <tr>
                   <th style="width: 50px">#</th>
                   <th>ชื่อ-นามสกุล</th>
                   <th>รหัสนักศึกษา</th>
-                  <th style="width: 150px">สิทธิ์ปัจจุบัน</th>
-                  <th style="width: 180px">เปลี่ยนสิทธิ์</th>
+                  <th style="width: 120px">Module</th>
+                  <th style="width: 120px">คะแนน</th>
+                  <th style="width: 180px">Certificate Code</th>
+                  <th style="width: 180px">วันที่ออก</th>
+                  <th style="width: 120px">สถานะ</th>
                 </tr>
               </thead>
-              <tbody id="usersBody">
+              <tbody id="certificateBody">
                 <tr>
-                  <td colspan="5" class="loading-cell">
+                  <td colspan="8" class="loading-cell">
                     <div class="loading-spinner"></div>
                     กำลังโหลดข้อมูล...
                   </td>
@@ -111,33 +145,16 @@
           </div>
         </div>
 
-        <!-- Stats -->
-        <div class="stats-row">
-          <div class="stat-card">
-            <div class="stat-value" id="totalCount">0</div>
-            <div class="stat-label">ผู้ใช้ทั้งหมด</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-value" id="studentCount">0</div>
-            <div class="stat-label">Students</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-value" id="teacherCount">0</div>
-            <div class="stat-label">Teachers</div>
-          </div>
-        </div>
-
         <footer class="content-footer muted">
           © Faculty of Nursing, Khon Kaen University
         </footer>
       </section>
     </main>
 
-    <!-- Toast Notification -->
-    <div class="toast" id="toast"></div>
-
-    <!-- Scripts -->
-    <script type="module" src="assets/js/pages/manageUsersPage.js"></script>
+    <script
+      type="module"
+      src="assets/js/pages/certificatesReportPage.js"
+    ></script>
     <script src="assets/js/theme.js"></script>
     <script src="assets/js/mobile-menu.js"></script>
     <script type="module" src="assets/js/userInfo.js"></script>
